@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}首页{% endblock %} · 舆眼</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <!-- 统一主题：与 dashboard_gen/舆眼-全站一体化预览.html 同一套设计令牌 -->
+    <link rel="stylesheet" href="/static/css/yuyan.css">
+</head>
+<body>
+
+<!-- ==================== 顶栏 ==================== -->
+<div class="top">
+    <div class="brand">舆眼<small>全站一体化舆情分析</small></div>
+    <span class="chip">本系统含 <b>AI</b> 生成内容</span>
+    <div class="sp"></div>
+    <span class="hint" id="gen"></span>
+    <span class="user-name">
+        当前用户：{% if session.get('user') %}{{ session['user'][1] }}{% else %}访客{% endif %}
+    </span>
+    <a class="chip" href="/user/logout">安全退出</a>
+</div>
+
+<!-- ==================== 侧栏 ==================== -->
+<aside class="side">
+    <div class="grp">总览</div>
+    <a class="it {{ 'on' if request.path.startswith('/page/home') else '' }}" href="/page/home">
+        <i class="d"></i><span>首页</span>
+    </a>
+
+    <div class="grp">舆情分析</div>
+    <a class="it {{ 'on' if request.path.startswith('/page/hotWord') else '' }}" href="/page/hotWord">
+        <i class="d"></i><span>微博热词统计</span>
+    </a>
+    <a class="it {{ 'on' if request.path.startswith('/page/articleData') and not request.path.startswith('/page/articleDataAnalysis') else '' }}"
+       href="/page/articleData">
+        <i class="d"></i><span>微博舆情分析</span>
+    </a>
+
+    <div class="grp">数据可视化</div>
+    <a class="it {{ 'on' if request.path.startswith('/page/articleDataAnalysis') else '' }}" href="/page/articleDataAnalysis">
+        <i class="d"></i><span>微博文章分析</span>
+    </a>
+    <a class="it {{ 'on' if request.path.startswith('/page/ipDataAnalysis') else '' }}" href="/page/ipDataAnalysis">
+        <i class="d"></i><span>微博IP分析</span>
+    </a>
+    <a class="it {{ 'on' if request.path.startswith('/page/commentDataAnalysis') else '' }}" href="/page/commentDataAnalysis">
+        <i class="d"></i><span>微博评论分析</span>
+    </a>
+    <a class="it {{ 'on' if request.path.startswith('/page/sentimentAnalysis') else '' }}" href="/page/sentimentAnalysis">
+        <i class="d"></i><span>微博情感分析</span>
+    </a>
+
+    <div class="grp">短视频分析</div>
+    <a class="it {{ 'on' if request.path.startswith('/video/page') and request.args.get('basin', 'yz') != 'hh' else '' }}"
+       href="/video/page?basin=yz">
+        <i class="d"></i><span>长江流域短视频</span>
+    </a>
+    <a class="it {{ 'on' if request.path.startswith('/video/page') and request.args.get('basin', 'yz') == 'hh' else '' }}"
+       href="/video/page?basin=hh">
+        <i class="d"></i><span>黄河流域短视频</span>
+    </a>
+
+    <div class="grp">词云图</div>
+    <a class="it {{ 'on' if request.path.startswith('/page/articleCloud') else '' }}" href="/page/articleCloud">
+        <i class="d"></i><span>微博内容词云图</span>
+    </a>
+    <a class="it {{ 'on' if request.path.startswith('/page/commentCloud') and not request.path.startswith('/page/commentUserCloud') else '' }}"
+       href="/page/commentCloud">
+        <i class="d"></i><span>微博评论词云图</span>
+    </a>
+    <a class="it {{ 'on' if request.path.startswith('/page/commentUserCloud') else '' }}" href="/page/commentUserCloud">
+        <i class="d"></i><span>微博评论用户词云图</span>
+    </a>
+</aside>
+
+<!-- ==================== 主区 ==================== -->
+<main class="main">
+    {# 页面自带 h4 标题，这里不再重复渲染，避免"首页/首页"出现两次 #}
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="foot">
+    <span>Copyright &copy; 2026 舆眼 · 齐鲁师范学院</span>
+    <span style="margin-left:14px">合规声明：本系统部分分析内容由 AI 大模型结合专业知识库自动生成，仅供学术科研与教学参考。</span>
+</footer>
+
+<!-- ===== 依赖脚本：只保留功能必需的，旧后台模板的装饰脚本已移除 ===== -->
+<script src="/static/js/backend-bundle.min.js"></script>
+<script src="/static/js/sweetalert.js"></script>
+<script src="/static/js/echarts.min.js"></script>
+<script src="/static/js/china.js"></script>
+<script>
+/* 图表统一底色：不改动各页面自己的 option，只把 echarts 默认主题换成舆眼配色。
+   若某处显式传了 theme，则仍以传入的为准。 */
+(function () {
+    if (!window.echarts) return;
+    var FG = '#a8b6cf', FG3 = '#7b8aa6', LINE = 'rgba(122,152,196,.22)';
+    echarts.registerTheme('yuyan', {
+        color: ['#4a9dff', '#3ddc97', '#ffb44d', '#a97bff', '#2fd6d0', '#ff7ab8', '#8ee06a', '#ff6b6b'],
+        backgroundColor: 'transparent',
+        textStyle: {color: FG, fontFamily: '"PingFang SC","Microsoft YaHei",Arial,sans-serif'},
+        title: {textStyle: {color: '#e8eefb'}},
+        legend: {textStyle: {color: FG}},
+        tooltip: {backgroundColor: 'rgba(14,23,41,.96)', borderColor: LINE, textStyle: {color: '#e8eefb'}},
+        categoryAxis: {
+            axisLine: {lineStyle: {color: LINE}},
+            axisLabel: {color: FG3}, axisTick: {show: false},
+            splitLine: {lineStyle: {color: 'rgba(122,152,196,.10)'}}
+        },
+        valueAxis: {
+            axisLine: {lineStyle: {color: LINE}},
+            axisLabel: {color: FG3}, axisTick: {show: false},
+            splitLine: {lineStyle: {color: 'rgba(122,152,196,.10)'}}
+        }
+    });
+    var _init = echarts.init;
+    echarts.init = function (dom, theme, opts) { return _init(dom, theme || 'yuyan', opts || {}); };
+})();
+</script>
+
+{% block echarts %}{% endblock %}
+</body>
+</html>

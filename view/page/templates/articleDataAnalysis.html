@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+{% block title %}微博文章分析{% endblock %}
+
+{% block content %}
+    <!-- ================= 内容可追溯悬浮框样式（精简无冲突版） ================= -->
+    <style>
+      /* 角标基础样式 */
+      .citation-ref {
+        background: #e3f2fd;
+        color: #0d47a1;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin: 0 2px;
+        display: inline-block;
+        cursor: help;
+        font-size: 14px;
+        position: relative;
+        transition: all 0.2s;
+      }
+      .citation-ref:hover {
+        background: #bbdefb;
+        transform: scale(1.1);
+      }
+
+      /* 悬浮框：使用 fixed 定位，避免父级干扰 */
+      .citation-tooltip {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        width: 380px;
+        background-color: #2c3e50;
+        color: #fff;
+        text-align: left;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        line-height: 1.6;
+        font-size: 13px;
+        max-height: 300px;
+        overflow-y: auto;
+        pointer-events: none; /* 防止遮挡下方元素 */
+      }
+
+      /* 小箭头（绝对定位在 tooltip 底部中央） */
+      .citation-tooltip::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -6px;
+        border-width: 6px;
+        border-style: solid;
+        border-color: #2c3e50 transparent transparent transparent;
+      }
+
+      .tooltip-title {
+        color: #64b5f6;
+        font-weight: bold;
+        margin-bottom: 8px;
+        border-bottom: 1px solid #455a64;
+        padding-bottom: 6px;
+      }
+
+      /* AI 生成区域基础排版 */
+      #case-result-container h3 {
+        color: #333;
+        margin-top: 20px;
+        border-left: 4px solid #667eea;
+        padding-left: 10px;
+      }
+      #case-result-container p {
+        margin-bottom: 12px;
+        text-align: justify;
+      }
+    </style>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 mb-4 mt-1">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <h4 class="font-weight-bold">微博文章分析</h4>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-body p-10">
+                        <div>
+                            <label>文章分类选择：</label>
+                            <select onchange="changeHotWord(event)" style="width: 150px">
+                                {% for arcType in arcTypeList %}
+                                    <option {{ 'selected' if defaultArcType==arcType else '' }}
+                                            value="{{ arcType }}">{{ arcType }}</option>
+                                {% endfor %}
+                            </select>
+                            <script>
+                                function changeHotWord(e) {
+                                    window.location.href = 'http://localhost:5000/page/articleDataAnalysis?arcType=' + e.target.value;
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">文章点赞分析</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="dzMain" style="width:100%;height:450px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">文章评论量分析</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="plMain" style="width:100%;height:450px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">文章转发量分析</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="zfmain" style="width:100%;height:450px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block echarts %}
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        // ================= 图表渲染（保持不变） =================
+        var barChart = document.getElementById('dzMain');
+        var myChart = echarts.init(barChart);
+        var colors = ['#66CC99', '#FFCC66', '#FF6666', '#6699CC'];
+        var option = {
+            title: { text: '点赞区间统计' },
+            tooltip: { trigger: 'item', formatter: '{a} <br/>{b}: {c} (个)' },
+            legend: {},
+            xAxis: { type: 'category', data: {{ xDzData|tojson }}, axisLabel: { color: '#333' } },
+            yAxis: { type: 'value', axisLabel: { color: '#333' } },
+            series: [{
+                name: '点赞数量', type: 'bar', data:{{ yDzData }},
+                itemStyle: { color: function (params) { return colors[params.dataIndex % colors.length]; } },
+                animation: true, animationDuration: 1000, animationEasing: 'elasticOut',
+                emphasis: { itemStyle: { color: '#3398DB' } }
+            }]
+        };
+        myChart.setOption(option);
+
+        var chartDom2 = document.getElementById('plMain');
+        var myChart2 = echarts.init(chartDom2);
+        var option2 = {
+            title: { text: '文章评论量区间占比' },
+            xAxis: { type: 'category', data: {{ xPlData |tojson }} },
+            yAxis: { type: 'value' },
+            series: [{
+                data: {{ yPlData }}, type: 'line', symbol: 'triangle', symbolSize: 20,
+                lineStyle: { color: '#5470C6', width: 4, type: 'dashed' },
+                itemStyle: { borderWidth: 3, borderColor: '#EE6666', color: 'yellow' }
+            }]
+        };
+        myChart2.setOption(option2);
+
+        var chartDom3 = document.getElementById('zfmain');
+        var myChart3 = echarts.init(chartDom3);
+        var option3 = {
+            title: { text: '转发量区间分析图' },
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            legend: {},
+            grid: { left: '3%', right: '4%', bottom: '3%', containLabels: true },
+            xAxis: { type: 'value', boundaryGap: [0, 0.01] },
+            yAxis: { type: 'category', data: {{ xZfData |tojson }} },
+            series: [{ name: '转发个数', type: 'bar', data: {{ yZfData }} }]
+        };
+        myChart3.setOption(option3);
+    </script>
+
+    <script>
+        // ================= 核心：可追溯引用系统（完美修复版） =================
+        const tooltipMap = {}; // 存储所有 tooltip DOM 元素
+
+        /**
+         * 初始化单个引用角标（创建 tooltip 并绑定事件）
+         */
+        function initCitationRef(refId, ref, element) {
+            if (tooltipMap[refId]) {
+                tooltipMap[refId].remove(); // 清理旧的
+                delete tooltipMap[refId];
+            }
+
+            // 🔑 修复 undefined：增加多重字段容错
+            const type = ref.type || ref.category || '核心摘要';
+            const title = ref.title || ref.source || ref.name || '学术文献未命名';
+            const content = ref.content || ref.snippet || ref.text || '理论依据暂未获取';
+
+            const tooltip = document.createElement('div');
+            tooltip.className = 'citation-tooltip';
+            tooltip.innerHTML = `
+                <div class="tooltip-title">📖 来源文献 [${type}]</div>
+                <div style="margin-bottom: 6px;"><strong>《${title}》</strong></div>
+                <div style="color: #cfd8dc;">${content}</div>
+            `;
+            document.body.appendChild(tooltip);
+            tooltipMap[refId] = tooltip;
+
+            // 鼠标进入：显示 tooltip + 精准计算位置
+            element.addEventListener('mouseenter', () => {
+                const rect = element.getBoundingClientRect();
+                // 先显示以获取真实高度
+                tooltip.style.display = 'block';
+                const tooltipHeight = tooltip.offsetHeight;
+
+                // 重新计算正确的位置（fixed 定位）
+                tooltip.style.left = `${rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2)}px`;
+                tooltip.style.top = `${rect.top - tooltipHeight - 12}px`;
+            });
+
+            // 鼠标离开：隐藏 tooltip
+            element.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+        }
+
+        /**
+         * 处理全文档中的 [1], [2] 角标，替换为带 tooltip 的 HTML
+         */
+        function processCitations(container, references) {
+            if (!references || references.length === 0) {
+                console.warn("未获取到参考文献数据，跳过角标处理");
+                return;
+            }
+
+            // 清理旧 tooltip
+            Object.values(tooltipMap).forEach(el => el.remove());
+            Object.keys(tooltipMap).forEach(k => delete tooltipMap[k]);
+
+            let html = container.innerHTML;
+
+            // 🔑 修复 ID 匹配问题：使用简单的 refId 作为后缀，不再使用 Date.now()
+            html = html.replace(/\[(\d+)\]/g, function(match, num) {
+                const refId = parseInt(num);
+                const ref = references.find(r => r.id === refId);
+
+                if (!ref) return match; // 未找到引用，保留原样
+
+                const spanId = `cite-ref-${refId}`; // 稳定的 ID
+                return `<span id="${spanId}" class="citation-ref">${match}</span>`;
+            });
+
+            container.innerHTML = html;
+
+            // 等 DOM 更新后，绑定事件
+            setTimeout(() => {
+                references.forEach(ref => {
+                    const el = document.getElementById(`cite-ref-${ref.id}`); // 精准查找
+                    if (el) {
+                        initCitationRef(ref.id, ref, el);
+                    } else {
+                        console.warn(`未找到角标元素: cite-ref-${ref.id}`);
+                    }
+                });
+            }, 50); // 稍微延迟确保 DOM 渲染完成
+        }
+
+    </script>
+{% endblock %}

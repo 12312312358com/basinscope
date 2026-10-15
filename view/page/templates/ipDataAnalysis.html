@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% block title %}IP位置分析{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 mb-4 mt-1">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <h4 class="font-weight-bold">IP位置分析</h4>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">微博作者IP位置分析图</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="wzMain" style="width:100%;height:750px">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">评论作者IP位置分析图</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="plMain" style="width:100%;height:750px">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block echarts %}
+    <script>
+
+        function formatValue(value) {
+            if (value) {
+                return value
+            } else {
+                return 0
+            }
+        }
+
+        var chartDom = document.getElementById('wzMain');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            title: {
+                text: '文章IP发布地址地图',
+                left: 'center',
+                textStyle: {
+                    color: '#333',
+                    fontWeight: "bold"
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    return params.name + '<br>微博发布个数：' + formatValue(params.value) + ' 个'
+                }
+            },
+            visualMap: {
+                min: 0,
+                max: 50,
+                text: ['高', '低'],
+                realtime: true,
+                calculable: true,
+                inRange: {
+                    color: ['orange', 'green']
+                }
+            },
+            series: [
+                {
+                    type: 'map',
+                    map: 'china',
+                    label: {
+                        normal: {
+                            show: true,
+                            color: "white",
+                            fontSize: "12"
+                        },
+                    },
+                    emphasis: {
+                        label: {
+                            show: true
+                        }
+                    },
+                    data:{{ articleCityDicList | tojson }},
+
+                    itemStyle: {
+                        normal: {
+                            areaColor: "skyblue",
+                            borderColor: "#fff"
+                        },
+                        emphasis: {
+                            areaColor: "#2B91B7"
+                        }
+                    },
+                    zoom: 1.4,
+                    roam: true
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+
+    </script>
+
+    <script>
+
+        function formatValue(value) {
+            if (value) {
+                return value
+            } else {
+                return 0
+            }
+        }
+
+        var chartDom = document.getElementById('plMain');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            title: {
+                text: '评论作者IP发布地址地图',
+                left: 'center',
+                textStyle: {
+                    color: '#333',
+                    fontWeight: "bold"
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    return params.name + '<br>评论发布个数：' + formatValue(params.value) + ' 个'
+                }
+            },
+            visualMap: {
+                min: 0,
+                max: 250,
+                text: ['高', '低'],
+                realtime: true,
+                calculable: true,
+                inRange: {
+                    color: ['orange', 'red']
+                }
+            },
+            series: [
+                {
+                    type: 'map',
+                    map: 'china',
+                    label: {
+                        normal: {
+                            show: true,
+                            color: "white",
+                            fontSize: "12"
+                        },
+                    },
+                    emphasis: {
+                        label: {
+                            show: true
+                        }
+                    },
+                    data:{{ commentCityDicList | tojson }},
+
+                    itemStyle: {
+                        normal: {
+                            areaColor: "skyblue",
+                            borderColor: "#fff"
+                        },
+                        emphasis: {
+                            areaColor: "#2B91B7"
+                        }
+                    },
+                    zoom: 1.4,
+                    roam: true
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+
+    </script>
+{% endblock %}

@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+{% block title %}舆情分析{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 mb-4 mt-1">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <h4 class="font-weight-bold">舆情分析</h4>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">热词情感趋势柱状图</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="hotBarMain" style="width:100%;height:450px">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">热词情感趋势树形图</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="hotTreeMapMain" style="width:100%;height:450px">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">文章内容与评论内容舆情趋势饼状图</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="contentPieMain" style="width:100%;height:450px;text-align:center">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">热词TOP15</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="hotData15Main" style="width:100%;height:450px;text-align:center">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block echarts %}
+    <script>
+        var chartDom = document.getElementById('hotBarMain');
+        var myChart = echarts.init(chartDom);
+        var option;
+        var colors = ['#66CC99', '#FFCC66', '#FF6666', '#6699CC'];
+
+        option = {
+            title: {
+                text: '热词情感分析柱状图',
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['情感个数']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
+            },
+            calculable: true,
+            xAxis: [
+                {
+                    type: 'category',
+                    // prettier-ignore
+                    data: {{ xHotBarData | tojson}}
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '情感个数',
+                    type: 'bar',
+                    data: {{ yHotBarData }},
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: 'Max'},
+                            {type: 'min', name: 'Min'}
+                        ]
+                    },
+                    itemStyle: {
+                        color: function (params) {
+                            return colors[params.dataIndex % colors.length];
+                        }
+                    },
+                    markLine: {
+                        data: [{type: 'average', name: 'Avg'}]
+                    }
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+
+    </script>
+
+    <script>
+        var chartDom = document.getElementById('hotTreeMapMain');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            series: [
+                {
+                    type: 'treemap',
+                    data: {{ hotTreeMapData |tojson }}
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+
+    </script>
+
+    <script>
+        var chartDom = document.getElementById('contentPieMain');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                data: ['正面', '负面', '中性']
+            },
+            series: [
+                {
+                    name: '评论内容舆情',
+                    type: 'pie',
+                    selectedMode: 'single',
+                    radius: [0, '30%'],
+                    label: {
+                        position: 'inner',
+                        fontSize: 14
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: {{ contentPieData1 |tojson }}
+                },
+                {
+                    name: '文章内容舆情',
+                    type: 'pie',
+                    radius: ['45%', '60%'],
+                    labelLine: {
+                        length: 30
+                    },
+                    label: {
+                        formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                        backgroundColor: '#F6F8FC',
+                        borderColor: '#8C8D8E',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        rich: {
+                            a: {
+                                color: '#6E7079',
+                                lineHeight: 22,
+                                align: 'center'
+                            },
+                            hr: {
+                                borderColor: '#8C8D8E',
+                                width: '100%',
+                                borderWidth: 1,
+                                height: 0
+                            },
+                            b: {
+                                color: '#4C5058',
+                                fontSize: 14,
+                                fontWeight: 'bold',
+                                lineHeight: 33
+                            },
+                            per: {
+                                color: '#fff',
+                                backgroundColor: '#4C5058',
+                                padding: [3, 4],
+                                borderRadius: 4
+                            }
+                        }
+                    },
+                    data:{{ contentPieData2 | tojson }}
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+
+    </script>
+
+    <script>
+        var chartDom = document.getElementById('hotData15Main');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            title: {
+                text: '热词TOP15'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {},
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+                type: 'category',
+                data: {{ xhotData15 | tojson }}
+            },
+            series: [
+                {
+                    name: '热词个数',
+                    type: 'bar',
+                    data: {{ yhotData15 }}
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+
+    </script>
+{% endblock %}

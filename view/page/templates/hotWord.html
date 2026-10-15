@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block title %}微博热词分析{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 mb-4 mt-1">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <h4 class="font-weight-bold">微博热词分析</h4>
+
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-body p-10">
+                        <div>
+                            <label>热词选择：</label>
+                            <select onchange="changeHotWord(event)">
+                                {% for hotword in hotwordList %}
+                                    <option {{ 'selected' if defaultHotWord==hotword else '' }}
+                                            value="{{ hotword }}">{{ hotword }}</option>
+                                {% endfor %}
+                            </select>
+                            <script>
+                                function changeHotWord(e) {
+                                    window.location.href = 'http://127.0.0.1:5000/page/hotWord?word=' + e.target.value
+                                }
+                            </script>
+                        </div>
+                        <div style="padding-top: 10px">
+                            出现次数：{{ hotwordNum }}次&nbsp;&nbsp;&nbsp;热词情感：{{ sentiments }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-body p-10">
+                        <div id="hotWordMain" style="width:100%;height:350px">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">评论热词查询</h4>
+                        </div>
+                        <div class="header-action">
+                            <i data-toggle="collapse" data-target="#datatable-1" aria-expanded="false">
+                                <svg width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                                </svg>
+                            </i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="collapse" id="datatable-1">
+                            <div class="table-responsive">
+                                <table id="datatable-1" class="table data-table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>评论ID</th>
+                                        <th>评论用户</th>
+                                        <th>用户IP</th>
+                                        <th>评论内容</th>
+                                        <th>评论时间</th>
+                                        <th class="text-right">
+                                            点赞个数
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for comment in commentList %}
+                                        <tr>
+                                            <td>{{ comment[0] }}</td>
+                                            <td>{{ comment[7] }}</td>
+                                            <td style="width:100px">{{ comment[3] }}</td>
+                                            <td>{{ comment[1] }}</td>
+                                            <td style="width:200px">{{ comment[2] }}</td>
+                                            <td class="text-center" style="width:100px">👍{{ comment[4] }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block echarts %}
+    <script>
+        var chartDom = document.getElementById('hotWordMain');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            title: {
+                text: '热词数量分布日期统计',
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['分布个数']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
+            },
+            calculable: true,
+            xAxis: [
+                {
+                    type: 'category',
+                    // prettier-ignore
+                    data: {{ xAxisHotWordData | tojson }}
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            dataZoom: [
+                {
+                    show: true,
+                    start: 0,
+                    end: 40
+                },
+                {
+                    type: 'inside',
+                    start: 0,
+                    end: 40
+                }
+            ],
+            series: [
+                {
+                    name: '分布个数',
+                    type: 'bar',
+                    data: {{ yAxisHotWordData | tojson }},
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: 'Max'},
+                            {type: 'min', name: 'Min'}
+                        ]
+                    },
+                    markLine: {
+                        data: [{type: 'average', name: 'Avg'}]
+                    }
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+    </script>
+{% endblock %}

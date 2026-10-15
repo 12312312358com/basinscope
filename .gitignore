@@ -1,0 +1,56 @@
+﻿# Environment and secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# IDE and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated data and runtime output
+logs/
+uploads/
+reports/
+chroma_db/
+dashboard_gen/*.html
+dashboard_gen/*.json
+video_features/*.jsonl
+video_features/*.json
+video_features/*.csv
+video_features/frames/
+spider/_raw/
+spider/_state/
+spider/*.csv
+spider/_packet_*.json
+spider/*.log
+
+# Models and large binaries
+models/
+local_models/
+*.bin
+*.pt
+*.pth
+*.onnx
+*.safetensors
+
+# Backups and experiments
+*.bak
+*.bak_*
+_trash_*/
+_patent_code_backup_*/
+
+# Third-party knowledge documents
+knowledge/*
+!knowledge/README.md
+

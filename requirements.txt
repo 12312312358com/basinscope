@@ -1,0 +1,56 @@
+﻿# Web application
+Flask==3.1.1
+Werkzeug==3.1.3
+Jinja2==3.1.6
+SQLAlchemy==2.0.41
+PyMySQL==1.1.1
+
+# Data processing and analytics
+numpy==2.4.6
+pandas==2.2.3
+scipy==1.15.3
+scikit-learn==1.6.1
+joblib==1.5.1
+jieba==0.42.1
+snownlp==0.12.3
+wordcloud==1.9.4
+matplotlib==3.10.3
+pillow==12.3.0
+charset-normalizer==3.4.9
+
+# Language and vision service clients
+openai==2.41.1
+python-dotenv==1.0.1
+httpx==0.28.1
+requests==2.34.2
+
+# Retrieval-augmented generation
+torch==2.13.0
+tqdm==4.70.0
+chromadb==1.5.9
+langchain-core==1.4.9
+langchain-community==0.4.2
+langchain-huggingface==1.2.2
+langchain-text-splitters==1.1.2
+langchain-classic==1.0.7
+sentence-transformers==5.6.0
+
+# Document parsing and OCR
+unstructured==0.24.1
+watchdog==6.0.0
+rapidocr-onnxruntime==1.2.3
+PyMuPDF==1.27.2.3
+pdfminer.six==20260107
+beautifulsoup4==4.15.0
+
+# Report generation
+python-docx==1.2.0
+pypdf==6.14.2
+python-pptx==1.0.2
+openpyxl==3.1.5
+requests-file==3.0.1
+
+# Platform collection and video analysis
+DrissionPage==4.1.1.4
+faster-whisper==1.2.1
+imageio-ffmpeg==0.6.0

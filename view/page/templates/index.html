@@ -1,0 +1,823 @@
+{% extends 'base.html' %}
+{% block title %}首页{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 mb-4 mt-1">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <h4 class="font-weight-bold">首页</h4>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="">
+                                        <p class="mb-2 text-secondary">微博文章总量</p>
+                                        <div class="d-flex flex-wrap justify-content-start align-items-center">
+                                            <h5 class="mb-0 font-weight-bold" id="totalArticle">无数据</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="">
+                                        <p class="mb-2 text-secondary">最高点赞微博-作者</p>
+                                        <div class="d-flex flex-wrap justify-content-start align-items-center">
+                                            <h5 class="mb-0 font-weight-bold" id="topAuthor">无数据</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="">
+                                        <p class="mb-2 text-secondary">微博点赞最多-城市</p>
+                                        <div class="d-flex flex-wrap justify-content-start align-items-center">
+                                            <h5 class="mb-0 font-weight-bold" id="topRegion">无数据</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                    <h4 class="font-weight-bold">最近七天微博发布量</h4>
+                                </div>
+                                <div id="article7fbl" style="width: 100%;height: 300px" class="custom-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-8">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-header card-header-border d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">微博点赞量Top6</h4>
+                        </div>
+                    </div>
+                    <div class="card-body-list">
+                        <ul class="list-style-3 mb-0" id="topArticleList"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- 这里改成了更符合横向柱状图的标题 -->
+                        <h4 class="font-weight-bold mb-3">账号领域构成（受控词表 Top 10）</h4>
+                        <div id="articleTypeZb" style="width:100%;height:450px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="font-weight-bold mb-3">评论用户名词云图</h4>
+                        <img style="width:100%" src="/static/comment_user_cloud.jpg" alt="评论用户词云图">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="font-weight-bold mb-3">评论用户时间占比环形饼状图</h4>
+                        <div id="commentUserZb" style="width:100%;height:450px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== 🌟 AI舆情分析聊天区域 ===================== -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card border-primary">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h4 class="font-weight-bold mb-0">🤖 学科垂类大模型：AI舆情分析助手</h4>
+                        <span class="badge" style="background-color: #ffc107; color: #212529; font-size: 13px; padding: 6px 12px; border-radius: 4px;">⚠️ AI生成内容标识</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info py-2 mb-3" style="font-size: 13px; border-left: 4px solid #17a2b8;">
+                            <strong>🔬 学术合规提示：</strong>本系统基于 RAG 技术深度接入新闻传播学教材与核心期刊论文，生成内容将自动标注引用来源，确保知识可追溯。支持<strong>上传图表截图</strong>进行多模态视觉分析。
+                        </div>
+
+                        <div id="chat-container" style="height: 450px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 15px; background-color: #f8f9fa;">
+                            <div class="ai-message mb-3">
+                                <div class="p-3 rounded ai-content" style="background-color: #e9ecef; max-width: 80%;">
+                                    <p>你好！我是基于新闻传播学专业知识库训练的垂类大模型。</p>
+                                    <p>我可以结合教材理论与本地流域舆情数据为您进行深度分析，<strong>还支持上传图表截图进行视觉解读。</strong></p>
+                                    <p><strong>您可以尝试提问：</strong></p>
+                                    <ul>
+                                        <li>📊 什么是沉默的螺旋？请结合本次舆情数据进行分析</li>
+                                        <li>📈 本次舆情的生命周期是怎样的？请引用相关论文说明</li>
+                                        <li>🖼️ <em>上传一张舆情数据截图，让我帮你分析趋势</em></li>
+                                        <li>🌊 <em>帮我分析黄河流域近期的舆情热点</em></li>
+                                    </ul>
+                                    <p><small>注：我的回答将自动附带权威知识源引用，供您核查追溯。</small></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 🌟 图片预览区 -->
+                        <div id="image-preview-area" class="mb-3" style="display: none;">
+                            <div class="d-flex align-items-center p-2" style="background-color: #e9ecef; border-radius: 8px; border: 1px dashed #adb5bd;">
+                                <img id="preview-img" src="" style="max-height: 80px; max-width: 150px; border-radius: 4px; margin-right: 10px;">
+                                <div>
+                                    <small class="text-muted d-block">📎 已附加图片，AI 将使用多模态视觉引擎进行分析</small>
+                                    <button class="btn btn-sm btn-outline-danger mt-1" onclick="clearImage()">✕ 移除图片</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 🌟 新增：文档预览区 -->
+                        <div id="file-preview-area" class="mb-3" style="display: none;">
+                            <div class="d-flex align-items-center p-2" style="background-color: #e9ecef; border-radius: 8px; border: 1px dashed #adb5bd;">
+                                <span style="font-size: 24px; margin-right: 10px;">📄</span>
+                                <div>
+                                    <small id="file-preview-name" class="text-muted d-block"></small>
+                                    <button class="btn btn-sm btn-outline-danger mt-1" onclick="clearFile()">✕ 移除文档</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 🌟 输入区 -->
+                        <div class="input-group mb-3">
+                            <input type="file" id="image-upload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                            <!-- 🌟 新增：文档上传按钮 -->
+                            <input type="file" id="file-upload" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.md,.csv" style="display: none;" onchange="handleFileUpload(event)">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('image-upload').click()" title="上传图表截图">
+                                    📎 上传图片
+                                </button>
+                            </div>
+                            <!-- 🌟 新增：文档上传按钮 -->
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('file-upload').click()" title="上传文档（PDF/Word/Excel等）">
+                                    📄 上传文档
+                                </button>
+                            </div>
+                            <input type="text" id="user-input" class="form-control" placeholder="请输入您的学术问题，或上传图片/文档让 AI 分析..." autocomplete="off">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" onclick="sendMessage()" id="send-btn">🚀 发送提问</button>
+                                <button class="btn btn-success" onclick="generateReport()">📊 生成完整学术报告</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🌟 CSS 样式 -->
+        <style>
+            .user-message { text-align: right; }
+            .user-message .p-3 {
+                background-color: #007bff; color: white; margin-left: auto;
+                display: inline-block; text-align: left; max-width: 80%; white-space: pre-wrap;
+            }
+            .ai-message .p-3 { background-color: #e9ecef; margin-right: auto; max-width: 80%; }
+            .ai-content h1 { font-size: 1.3em; margin-top: 14px; margin-bottom: 6px; color: #1a73e8; font-weight: bold; }
+            .ai-content h2 { font-size: 1.2em; margin-top: 12px; margin-bottom: 6px; color: #1a73e8; font-weight: bold; }
+            .ai-content h3 { font-size: 1.1em; margin-top: 10px; margin-bottom: 6px; color: #1a73e8; font-weight: bold; }
+            .ai-content h4 { font-size: 1.05em; margin-top: 10px; margin-bottom: 5px; font-weight: bold; color: #343a40; }
+            .ai-content ul, .ai-content ol { padding-left: 22px; margin-bottom: 8px; }
+            .ai-content li { margin-bottom: 3px; }
+            .ai-content strong { color: #d63384; }
+            .ai-content blockquote {
+                border-left: 4px solid #17a2b8; padding: 8px 12px; margin: 10px 0;
+                background: #f1f3f5; color: #495057; font-style: italic;
+            }
+            .ai-content table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 14px; }
+            .ai-content th, .ai-content td { border: 1px solid #dee2e6; padding: 8px 10px; text-align: left; }
+            .ai-content th { background-color: #f8f9fa; font-weight: bold; }
+            .ai-content code { background: #fff3cd; padding: 2px 5px; border-radius: 3px; font-size: 0.9em; }
+            .ai-content hr { border: none; border-top: 1px dashed #adb5bd; margin: 12px 0; }
+            .typing-cursor {
+                display: inline-block; width: 2px; height: 1em; background-color: #007bff;
+                animation: blink 0.8s infinite; vertical-align: text-bottom; margin-left: 2px;
+            }
+            @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+            .download-btn { margin-top: 10px; }
+            .btn-disabled { opacity: 0.6; cursor: not-allowed; pointer-events: none; }
+
+            /* 🌟 引用来源卡片样式 */
+            .rag-references-card {
+                margin-top: 15px;
+                padding: 12px 15px;
+                background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%);
+                border-radius: 8px;
+                border-left: 4px solid #1a73e8;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            }
+            .rag-references-card .ref-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            .rag-references-card .ref-header .ref-icon {
+                font-size: 16px;
+                margin-right: 6px;
+            }
+            .rag-references-card .ref-header .ref-title {
+                color: #1a73e8;
+                font-size: 14px;
+                font-weight: bold;
+            }
+            .rag-references-card .ref-header .ref-count {
+                margin-left: 8px;
+                font-size: 12px;
+                color: #888;
+            }
+            .rag-references-card .ref-item {
+                padding: 8px 10px;
+                margin-bottom: 6px;
+                background: white;
+                border-radius: 5px;
+                border: 1px solid #dee2e6;
+                font-size: 13px;
+            }
+            .rag-references-card .ref-item:last-child {
+                margin-bottom: 0;
+            }
+            .rag-references-card .ref-badge {
+                background: #1a73e8;
+                color: white;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 11px;
+                font-weight: bold;
+                margin-right: 8px;
+                flex-shrink: 0;
+            }
+            .rag-references-card .ref-source {
+                font-weight: 600;
+                color: #1a73e8;
+                margin-bottom: 3px;
+                word-break: break-all;
+            }
+            .rag-references-card .ref-content {
+                color: #666;
+                line-height: 1.5;
+                font-size: 12px;
+                white-space: pre-wrap;
+                word-break: break-word;
+            }
+        </style>
+    </div>
+{% endblock %}
+
+{% block echarts %}
+    <script>
+        function truncateString(str, length) {
+            if (!str) return '';
+            return str.length > length ? str.slice(0, length) + '...' : str;
+        }
+        function getHomePageData() {
+            $.get('/page/homePageData', function (result) {
+                $('#totalArticle').text((result.totalArticle || 0) + '个');
+                $('#topAuthor').text(result.topAuthor || '暂无');
+                $('#topRegion').text(result.topRegion || '暂无');
+                let topArticles = result.topArticles || [];
+                $("#topArticleList").empty();
+                for (let i = 0; i < topArticles.length; i++) {
+                    const article = topArticles[i];
+                    $("#topArticleList").append('<li class="p-3 list-item d-flex justify-content-start align-items-center">' +
+                        '<div class="list-style-detail ml-3 mr-2"><p class="mb-0">' + truncateString(article[0], 20) + '</p></div>' +
+                        '<div class="list-style-action d-flex justify-content-end ml-auto"><h6 class="font-weight-bold">' + (article[1] || 0) + '👍</h6></div></li>');
+                }
+            }).fail(function() { console.log("加载实时数据失败"); });
+        }
+        $(function () {
+            getHomePageData();
+            setInterval(getHomePageData, 300000);
+        });
+    </script>
+    <script>
+        try {
+            var myChart = echarts.init(document.getElementById('article7fbl'));
+            myChart.setOption({
+                xAxis: { name: '微博发布日期', type: 'category', boundaryGap: false, data: {{ xAxis7ArticleData | default([]) | tojson }} },
+                yAxis: { name: '微博发布量', type: 'value' },
+                series: [{ data: {{ yAxis7ArticleData | default([]) | tojson }}, type: 'line', areaStyle: {} }]
+            });
+        } catch (e) { console.log("7天发布量图表加载失败", e); }
+    </script>
+
+    <!-- 🌟🌟🌟 修改点：原来的饼图脚本替换为横向柱状图脚本 🌟🌟🌟 -->
+    <script>
+        try {
+            var myChart = echarts.init(document.getElementById('articleTypeZb'));
+
+            // 提取后端传来的 arcTypeData：
+            // 后端 page.py 已用受控词表把 `分类` 自由拼接串归入有限领域
+            //（util/category_taxonomy.py），占比基数为"已标注领域样本"，
+            // 不再是旧的"按原始串分组取 Top10 + 其余合并为其他"口径。
+            var categoryData = {{ arcTypeData | default([]) | tojson }};
+            // 拆分成名称和数量列表
+            var categoryNames = categoryData.map(item => item.name);
+            var categoryValues = categoryData.map(item => item.value);
+
+            var option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' }
+                },
+                // 横向柱状图核心配置，自动适配左侧长文字
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    name: '微博数量',
+                    boundaryGap: [0, 0.01],
+                    min:0,
+                    interval:2000,
+                    axisLabel: {
+                        formatter: function (value) {
+                            return value.toLocaleString();
+                        }
+                    }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: categoryNames
+                },
+                series: [{
+                    name: '微博类型数量',
+                    type: 'bar',
+                    data: categoryValues,
+                    barWidth: '50%'
+                }]
+            };
+            myChart.setOption(option);
+        } catch (e) { console.log("类型柱状图加载失败", e); }
+    </script>
+    <!-- 🌟🌟🌟 修改结束 🌟🌟🌟 -->
+
+    <script>
+        try {
+            var myChart = echarts.init(document.getElementById('commentUserZb'));
+            myChart.setOption({
+                tooltip: { trigger: 'item' }, legend: { top: '5%', left: 'center' },
+                series: [{
+                    name: '评论用户时间占比', type: 'pie', radius: ['40%', '70%'], avoidLabelOverlap: false,
+                    itemStyle: { borderRadius: 10, borderColor: '#fff', borderWidth: 2 },
+                    label: { show: false, position: 'center' },
+                    emphasis: { label: { show: true, fontSize: 40, fontWeight: 'bold' } },
+                    labelLine: { show: false }, data: {{ commentData | default([]) | tojson }}
+                }]
+            });
+        } catch (e) { console.log("评论图表加载失败", e); }
+    </script>
+
+    <!-- ===================== 🌟 AI 聊天脚本 ===================== -->
+    <script>
+        let currentImagePath = null;
+        let currentImageBase64 = null;
+        // 🌟 新增：文档相关变量
+        let currentFilePath = null;
+        let currentFileName = null;
+        let isStreaming = false;
+        let currentReportPath = "";
+
+        // 🌟 HTML 转义
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                      .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        // 🌟 Unicode 转义字符解码
+        function decodeUnicode(str) {
+            if (typeof str !== 'string') return str;
+            return str.replace(/\\u([a-fA-F0-9]{4})/g, function(match, p1) {
+                return String.fromCharCode(parseInt(p1, 16));
+            });
+        }
+
+        // 🌟 内置 Markdown 解析器
+        function simpleMarkdownParse(text) {
+            if (!text) return '';
+            text = text.replace(/\\n/g, '\n').replace(/\\t/g, '\t');
+            let html = escapeHtml(text);
+            html = html
+                .replace(/^#### (.+)$/gm, '<h4>$1</h4>')
+                .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+                .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+                .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+                .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                .replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>')
+                .replace(/^\d+\.\s+(.+)$/gm, '<oli>$1</oli>')
+                .replace(/^[\*\-]\s+(.+)$/gm, '<uli>$1</uli>')
+                .replace(/^---$/gm, '<hr>');
+            html = html.replace(/\n/g, '<br>');
+            html = html.replace(/(<oli>[\s\S]*?<\/oli>(?:<br>)?)+/g, function(match) {
+                let items = match.replace(/<oli>/g, '<li>').replace(/<\/oli>/g, '</li>').replace(/<br>/g, '');
+                return '<ol>' + items + '</ol>';
+            });
+            html = html.replace(/(<uli>[\s\S]*?<\/uli>(?:<br>)?)+/g, function(match) {
+                let items = match.replace(/<uli>/g, '<li>').replace(/<\/uli>/g, '</li>').replace(/<br>/g, '');
+                return '<ul>' + items + '</ul>';
+            });
+            html = html.replace(/<br>\s*(<\/?(?:h[1-4]|ol|ul|li|blockquote|hr)[^>]*>)/g, '$1');
+            html = html.replace(/(<\/?(?:h[1-4]|ol|ul|blockquote|hr)[^>]*>)\s*<br>/g, '$1');
+            return html;
+        }
+
+        function extractReplyFromJson(obj) {
+            if (!obj || typeof obj !== 'object') return null;
+            if (obj.reply) return obj.reply;
+            if (obj.response) return obj.response;
+            if (obj.content) return obj.content;
+            if (obj.data && typeof obj.data === 'object') {
+                if (obj.data.answer) return obj.data.answer;
+                if (obj.data.reply) return obj.data.reply;
+            }
+            if (obj.data && typeof obj.data === 'string') return obj.data;
+            if (obj.text) return obj.text;
+            if (obj.result) return obj.result;
+            return null;
+        }
+
+        function extractRefsFromJson(obj) {
+            if (!obj || typeof obj !== 'object') return [];
+            if (obj.references && Array.isArray(obj.references)) return obj.references;
+            if (obj.data && obj.data.references && Array.isArray(obj.data.references)) return obj.data.references;
+            return [];
+        }
+
+        function extractReply(rawText) {
+            let trimmed = rawText.trim();
+            try {
+                let obj = JSON.parse(trimmed);
+                let result = extractReplyFromJson(obj);
+                if (result) return result;
+            } catch(e) {}
+            let match = trimmed.match(/["']?reply["']?\s*:\s*["']([\s\S]*?)["']\s*\}/);
+            if (match && match[1]) return match[1];
+            return rawText;
+        }
+
+        // 🌟🌟🌟 渲染引用来源卡片（直接显示完整内容，无展开按钮） 🌟🌟🌟
+        function renderReferencesCard(references) {
+            if (!references || !Array.isArray(references) || references.length === 0) {
+                return '';
+            }
+
+            let html = '<div class="rag-references-card">';
+            html += '<div class="ref-header">';
+            html += '<span class="ref-icon">📚</span>';
+            html += '<span class="ref-title">参考来源（知识可追溯）</span>';
+            html += '<span class="ref-count">共 ' + references.length + ' 条</span>';
+            html += '</div>';
+
+            references.forEach(function(ref, index) {
+                var source = ref.source || ref.file || ref.filename || ref.title || '未知来源';
+                var fullContent = ref.content || ref.text || ref.snippet || ref.excerpt || '';
+
+                html += '<div class="ref-item">';
+                html += '<div style="display:flex; align-items:flex-start;">';
+                html += '<span class="ref-badge">' + (index + 1) + '</span>';
+                html += '<div style="flex:1; min-width:0;">';
+                html += '<div class="ref-source">' + escapeHtml(source) + '</div>';
+
+                if (fullContent) {
+                    html += '<div class="ref-content">' + escapeHtml(fullContent) + '</div>';
+                }
+                html += '</div></div></div>';
+            });
+
+            html += '</div>';
+            return html;
+        }
+
+        // ================= 🌟 图片上传 =================
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 5 * 1024 * 1024) {
+                alert("图片大小不能超过 5MB，请压缩后重新上传！");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentImageBase64 = e.target.result;
+                document.getElementById('preview-img').src = currentImageBase64;
+                document.getElementById('image-preview-area').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            const formData = new FormData();
+            formData.append('file', file);
+            fetch('/page/upload_image', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.image_path) {
+                        currentImagePath = data.image_path;
+                        console.log("✅ 图片已上传至服务器:", currentImagePath);
+                    } else {
+                        alert("图片上传失败: " + (data.error || "未知错误"));
+                        clearImage();
+                    }
+                })
+                .catch(err => {
+                    console.error("图片上传异常:", err);
+                    alert("图片上传失败，请检查后端 /page/upload_image 接口是否存在");
+                    clearImage();
+                });
+        }
+
+        function clearImage() {
+            currentImagePath = null;
+            currentImageBase64 = null;
+            document.getElementById('image-upload').value = '';
+            document.getElementById('image-preview-area').style.display = 'none';
+        }
+
+        // ================= 🌟 文档上传处理 =================
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 10 * 1024 * 1024) {
+                alert("文件大小不能超过 10MB！");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/page/upload_file', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.file_path) {
+                        currentFilePath = data.file_path;
+                        currentFileName = data.filename;
+                        document.getElementById('file-preview-name').textContent = '📎 ' + currentFileName;
+                        document.getElementById('file-preview-area').style.display = 'block';
+                        console.log("✅ 文档已上传至服务器:", currentFilePath);
+                    } else {
+                        alert("文档上传失败: " + (data.error || "未知错误"));
+                    }
+                })
+                .catch(err => {
+                    console.error("文档上传异常:", err);
+                    alert("文档上传失败，请检查后端 /page/upload_file 接口是否存在");
+                });
+        }
+
+        function clearFile() {
+            currentFilePath = null;
+            currentFileName = null;
+            document.getElementById('file-upload').value = '';
+            document.getElementById('file-preview-area').style.display = 'none';
+        }
+
+        // ================= 🌟 修改后的发送消息函数 =================
+        async function sendMessage() {
+            let input = document.getElementById("user-input");
+            let message = input.value.trim();
+
+            // 如果没有文字、图片、文件，直接返回
+            if (!message && !currentImagePath && !currentFilePath) return;
+            if (isStreaming) return;
+
+            // 保存文件名用于展示
+            const displayFileName = currentFileName || null;
+            const fileMessage = message || "（上传了一个文件进行分析）";
+
+            // 将用户消息（含文件标识）显示到聊天区
+            addMessage(fileMessage, "user", currentImageBase64, displayFileName);
+            input.value = "";
+
+            // 保存路径用于发送
+            const payloadImagePath = currentImagePath;
+            const payloadFilePath = currentFilePath;
+
+            // 清空预览区
+            clearImage();
+            clearFile();  // ★ 现在会清除文件预览
+
+            const aiMsgElement = addMessagePlaceholder();
+            isStreaming = true;
+            const sendBtn = document.getElementById('send-btn');
+            sendBtn.classList.add('btn-disabled');
+            sendBtn.textContent = '⏳ AI 正在思考...';
+
+            try {
+                const response = await fetch("/page/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        message: message,
+                        image_path: payloadImagePath,
+                        file_path: payloadFilePath,
+                        mode: "strict",
+                        stream: true
+                    })
+                });
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+                const contentType = response.headers.get('content-type') || '';
+                let fullText = '';
+                let references = [];
+
+                if (contentType.includes('application/json')) {
+                    const jsonText = await response.text();
+                    fullText = jsonText;
+                    try {
+                        const jsonData = JSON.parse(jsonText);
+                        references = extractRefsFromJson(jsonData);
+                        console.log("✅ [DEBUG] JSON 响应中提取到 " + references.length + " 条引用", references);
+                    } catch(e) {
+                        console.warn("⚠️ JSON 解析失败:", e);
+                    }
+
+                } else if (contentType.includes('text/event-stream') || contentType.includes('text/plain') || contentType.includes('application/octet-stream')) {
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder('utf-8');
+                    let buffer = '';
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        buffer += decoder.decode(value, { stream: true });
+                        fullText += buffer;
+                        buffer = '';
+
+                        const streamDisplay = extractReply(fullText);
+                        const decodedStream = decodeUnicode(streamDisplay);
+                        aiMsgElement.innerHTML = simpleMarkdownParse(decodedStream) + '<span class="typing-cursor"></span>';
+                        document.getElementById("chat-container").scrollTop = document.getElementById("chat-container").scrollHeight;
+                    }
+
+                    try {
+                        const jsonData = JSON.parse(fullText);
+                        references = extractRefsFromJson(jsonData);
+                    } catch(e) {}
+                } else {
+                    fullText = await response.text();
+                    try {
+                        const jsonData = JSON.parse(fullText);
+                        references = extractRefsFromJson(jsonData);
+                    } catch(e) {}
+                }
+
+                const finalText = extractReply(fullText);
+                const decodedFinal = decodeUnicode(finalText);
+                let answerHtml = simpleMarkdownParse(decodedFinal);
+
+                // 🌟🌟🌟 渲染引用卡片 🌟🌟🌟
+                if (references && references.length > 0) {
+                    answerHtml += renderReferencesCard(references);
+                    console.log("✅ [DEBUG] 已渲染 " + references.length + " 条引用来源卡片");
+                } else {
+                    console.log("⚠️ [DEBUG] 没有提取到引用来源数据");
+                }
+
+                aiMsgElement.innerHTML = answerHtml;
+
+                // 检测报告下载标记
+                const reportMatch = decodedFinal.match(/\[REPORT_PATH:(.*?)\]/);
+                if (reportMatch) {
+                    currentReportPath = reportMatch[1];
+                    let cleanText = decodedFinal.replace(/\[REPORT_PATH:.*?\]/, '');
+                    aiMsgElement.innerHTML = simpleMarkdownParse(cleanText);
+                    addDownloadButton();
+                }
+
+            } catch (error) {
+                console.error("请求失败:", error);
+                aiMsgElement.innerHTML = `<span style="color: #dc3545;">❌ 分析失败: ${error.message}<br>请检查网络连接，或尝试关闭图片后重新提问。</span>`;
+            } finally {
+                isStreaming = false;
+                sendBtn.classList.remove('btn-disabled');
+                sendBtn.textContent = '🚀 发送提问';
+            }
+        }
+
+        // ================= 生成学术报告 =================
+        function generateReport() {
+            if (isStreaming) return;
+            addMessage("请生成近期的完整舆情学术分析报告", "user");
+            addMessage("正在调用大模型生成学术报告，请稍候...（约30秒）", "ai");
+
+            fetch("/page/generate_report", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ start_date: '2026-05-29', end_date: '2026-06-04' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("chat-container").lastChild.remove();
+                const replyText = decodeUnicode(data.reply || data.response || data.content || "报告生成异常");
+                addMessage(replyText, "ai");
+                if (data.report_path) { currentReportPath = data.report_path; addDownloadButton(); }
+            })
+            .catch(error => {
+                console.error("报告生成失败:", error);
+                document.getElementById("chat-container").lastChild.remove();
+                addMessage("❌ 报告生成失败，请稍后重试", "ai");
+            });
+        }
+
+        // ================= DOM 工具函数（修改后支持文件显示） =================
+        function addMessage(text, type, imageSrc, fileName = null) {
+            let container = document.getElementById("chat-container");
+            let div = document.createElement("div");
+            div.className = type + "-message mb-3";
+            let content = document.createElement("div");
+            content.className = "p-3 rounded ai-content";
+            content.style.maxWidth = "80%";
+            if (type === "ai") {
+                content.innerHTML = simpleMarkdownParse(decodeUnicode(text));
+            } else {
+                content.textContent = text;
+                if (imageSrc) {
+                    let img = document.createElement("img");
+                    img.src = imageSrc;
+                    img.style.cssText = "max-width:200px;max-height:150px;border-radius:6px;margin-top:8px;display:block;";
+                    content.appendChild(img);
+                }
+                // 如果有文件名，附加文件标识
+                if (fileName) {
+                    let fileTag = document.createElement("div");
+                    fileTag.style.cssText = "margin-top:6px; font-size:13px; color:#495057; background:rgba(0,0,0,0.05); padding:4px 8px; border-radius:4px; display:inline-block;";
+                    fileTag.innerHTML = "📄 " + escapeHtml(fileName);
+                    content.appendChild(fileTag);
+                }
+            }
+            div.appendChild(content);
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function addMessagePlaceholder() {
+            let container = document.getElementById("chat-container");
+            let div = document.createElement("div");
+            div.className = "ai-message mb-3";
+            let content = document.createElement("div");
+            content.className = "p-3 rounded ai-content";
+            content.style.maxWidth = "80%";
+            content.style.backgroundColor = "#e9ecef";
+            content.innerHTML = '<span class="typing-cursor"></span>';
+            div.appendChild(content);
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return content;
+        }
+
+        function addDownloadButton() {
+            // 移除旧的下载按钮（避免页面上出现多个）
+            const oldBtn = document.getElementById("download-report-btn");
+            if (oldBtn) oldBtn.remove();
+
+            let container = document.getElementById("chat-container");
+            let div = document.createElement("div");
+            div.className = "ai-message mb-3";
+            div.id = "download-report-btn";   // 加上 id 以便下次移除
+
+            let tip = document.createElement("small");
+            tip.className = "text-muted d-block mb-1";
+            tip.textContent = "⚠️ 本报告由 AI 自动生成，仅供学术科研与教学参考，请勿作为正式决策依据。";
+            let btn = document.createElement("button");
+            btn.className = "btn btn-warning download-btn";
+            btn.textContent = "📥 下载Word学术报告";
+            btn.onclick = () => { window.location.href = "/page/download_report?path=" + encodeURIComponent(currentReportPath); };
+
+            div.appendChild(tip);
+            div.appendChild(btn);
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // 回车发送
+        document.getElementById("user-input").addEventListener("keypress", function(e) {
+            if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+        });
+    </script>
+{% endblock %}
