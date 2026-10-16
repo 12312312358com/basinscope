@@ -24,6 +24,7 @@ uploads/
 reports/
 chroma_db/
 dashboard_gen/*.html
+!dashboard_gen/_unified_tpl.html
 dashboard_gen/*.json
 video_features/*.jsonl
 video_features/*.json
@@ -53,4 +54,7 @@ _patent_code_backup_*/
 # Third-party knowledge documents
 knowledge/*
 !knowledge/README.md
+
+# Generated English-mode screenshots
+screenshots/
 

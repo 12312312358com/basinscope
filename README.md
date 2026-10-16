@@ -205,4 +205,22 @@ MIT License. See `LICENCE.txt`.
 
 Maintainer: [replace with maintainer name]  
 Email: [replace with support email]
+## English UI mode
 
+The dashboard includes an optional English interface mode:
+
+```text
+http://127.0.0.1:5001/page/dashboard?lang=en
+```
+
+An `EN` / `中文` switch is also added to the top toolbar.
+
+The translation layer is implemented in:
+
+```text
+static/js/yuyan-i18n.js
+```
+
+It translates navigation, view titles, KPI labels, card titles, chart labels, legends, table headers, risk levels, and common interface terms before the dashboard is rendered.
+
+Original platform posts, comments, article titles, and other source-language content are intentionally not rewritten. This preserves the original evidence and avoids changing data meaning during translation. For publication screenshots, crop or mask source-language passages where necessary.
