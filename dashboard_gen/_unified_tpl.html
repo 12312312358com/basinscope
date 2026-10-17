@@ -529,6 +529,21 @@ tr.warnrow td{background:rgba(255,180,77,.055)}
 .up-pvmeta{font-size:12px;color:var(--fg3);word-break:break-all}
 .up-retry{flex:0 0 auto;align-self:flex-start;background:rgba(255,180,77,.15);color:var(--amber);border:1px solid rgba(255,180,77,.4);border-radius:10px;padding:7px 14px;font-size:12.5px;cursor:pointer;font-weight:600}
 .up-retry:hover{background:rgba(255,180,77,.25)}
+
+/* ---------- English UI mode: wrapping and publication-clean layout ---------- */
+.lang-en .side{width:260px}
+.lang-en .main{margin-left:260px}
+.lang-en .it{white-space:normal;align-items:flex-start;line-height:1.25;padding:7px 8px}
+.lang-en .it > span:first-of-type{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.lang-en .it .bd{flex:0 0 auto;margin-left:6px;white-space:nowrap}
+.lang-en .card h3{padding-right:52px;line-height:1.25;overflow-wrap:anywhere}
+.lang-en .card .sub,.lang-en .ruler,.lang-en .foot,.lang-en .lead,.lang-en .note,.lang-en .srcbox,.lang-en .evh em,.lang-en .evgl,.lang-en .evpanel .tk2,.lang-en .evpanel .evwarn,.lang-en .evpanel .evlg{display:none!important}
+.lang-en .kpis{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.lang-en .kpi .k,.lang-en .kpi .s{line-height:1.3;overflow-wrap:anywhere}
+.lang-en .chip,.lang-en .hint{white-space:normal}
+.lang-en table{font-size:11.5px}
+.lang-en th,.lang-en td{overflow-wrap:anywhere}
+@media (max-width:1180px){.lang-en .side{display:none}.lang-en .main{margin-left:0}}
 </style>
 </head>
 <body>
@@ -644,6 +659,12 @@ var SIDE_C  = {'微博':'#4a7fa8','评论':'#2f8f86'};
 function serCMap(s){ return Object.assign({}, SIDE_C, BASIN_C, (s.o&&s.o.cmap)||{}); }
 var C = {fg:'#2b2118', fg2:'#5c4b3a', fg3:'#85735d', line:'rgba(120,95,60,.24)', grid:'rgba(120,95,60,.10)'};
 var charts = {}, built = {};
+var YUYAN_VECTOR_MODE = new URLSearchParams(window.location.search).get('vector') === '1';
+window.YUYAN_VECTOR_MODE = YUYAN_VECTOR_MODE;
+function initChart(box, theme, opts) {
+  var options = Object.assign({ renderer: YUYAN_VECTOR_MODE ? 'svg' : 'canvas' }, opts || {});
+  return echarts.init(box, theme, options);
+}
 
 function $(s,r){ return (r||document).querySelector(s); }
 /* 文案富文本：先整体转义（防注入），再只放行 <b> 与 <em> 两个自有标签。
@@ -843,7 +864,7 @@ R.hbar = function(box, s){
     : function(p){ return ramp[p.dataIndex]; };
   var card = box.closest('.card');
   if(card && BAR_PANEL === 'light') card.classList.add('lp');   /* 亮底：白卡 + 彩条 */
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     animation: false,
     animationDuration: 0,
@@ -876,7 +897,7 @@ R.hbart = function(box, s){
             tag:x[2]!=null?x[2]:x.tag, extra:x[3]!=null?x[3]:x.extra}; });
   d = d.slice().reverse();
   var cmap2 = Object.assign({}, (s.o&&s.o.cmap)||{}, (s.o&&s.o.map)||{});
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     animation: false, animationDuration: 0, animationDurationUpdate: 0,
     grid: gridL(0, 48, 10, 6),
@@ -918,7 +939,7 @@ R.bar = function(box, s){
   if(o.bw) ser.barCategoryGap = '38%';             /* 加粗时同步拉开间距，别挤成一片 */
   if(o.lab) ser.label = {show:true, position:'top', color:C.fg2, fontSize:11,
     formatter:function(p){ return fmt(p.value); }};
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     animation: false, animationDuration: 0, animationDurationUpdate: 0,
     grid: gridL(46, 18, (o.lab ? 36 : 30), (rot ? 46 : 26)),
@@ -935,7 +956,7 @@ R.bar = function(box, s){
 R.bar2 = function(box, s){
   /* v13：静态多系列柱状图 —— 无进场动画；各系列色相明确区分（serCMap / PAL） */
   var d = s.d||{};
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     animation: false, animationDuration: 0, animationDurationUpdate: 0,
     grid: gridL(48, 18, 40, 30),
@@ -954,7 +975,7 @@ R.stack = function(box, s){
   /* o.hor：横向堆积（段长即占比，宽卡下优势明显）
      v13：静态 —— 无进场动画；各系列颜色沿用 serCMap / PAL（系列间色相明确区分） */
   var d = s.d||{}, hor = !!(s.o && s.o.hor);
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     animation: false, animationDuration: 0, animationDurationUpdate: 0,
     grid: gridL(48, 18, 40, 30),
@@ -985,7 +1006,7 @@ R.stack = function(box, s){
 
 R.line = function(box, s){
   var d = s.d||{}, x=d.x||[], y=d.y||[];
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     grid: gridL(52, 22, 26, 28),
     tooltip:{trigger:'axis', backgroundColor:'rgba(255,253,248,.95)', borderColor:C.line, textStyle:{color:C.fg,fontSize:12}},
@@ -1011,7 +1032,7 @@ R.mline = function(box, s){
      o.zero  是否从 0 起（默认 true；趋势类要保留 0 基线，避免放大波动） */
   var d = s.d||{}, o = s.o||{};
   var cm = serCMap(s);
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     grid: gridL(52, 22, (o.legend === false ? 18 : 36), (o.rot ? 34 : 26)),
     legend:{data:(d.series||[]).map(function(z){ return z.name; }),
@@ -1050,7 +1071,7 @@ R.pie = function(box, s){
      宽卡片（>=700px）上环形与图例整体右移集中，避免环形贴左、图例贴右中间空一大片。 */
   var cw = box.clientWidth || 0;   // 容器尚未布局（隐藏视图首帧）时为 0，按窄版处理
   var wide = cw >= 700;
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base(Object.assign({
     tooltip:{trigger:'item', backgroundColor:'rgba(255,253,248,.95)', borderColor:C.line, textStyle:{color:C.fg,fontSize:12},
       formatter:function(p){ return p.name+'：<b>'+raw(p.value)+'</b>（'+p.percent+'%）'; }},
@@ -1107,7 +1128,7 @@ R.radar = function(box, s){
     ss.forEach(function(z){ m = Math.max(m, +z.y[i]||0); });
     return {name:t, max:Math.ceil(m * 1.15)};
   });
-  var c = echarts.init(box);
+  var c = initChart(box);
   function col(z, i){ return serCMap(s)[z.name] || PAL[i]; }
   c.setOption(base({
     legend:{data:ss.map(function(z){return z.name;}), textStyle:{color:C.fg2,fontSize:11},
@@ -1136,7 +1157,7 @@ R.funnel = function(box, s){
      卡片副标题里已写明「按档内条数降序排列」，避免被读成时间/长度升序。 */
   var o = s.o||{};
   var d = pairify(s.d||[]).map(function(z){ return {name:z[0], value:z[1]}; });
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     tooltip:{trigger:'item', backgroundColor:'rgba(255,253,248,.95)', borderColor:C.line,
       textStyle:{color:C.fg,fontSize:12},
@@ -1160,7 +1181,7 @@ R.bubble = function(box, s){
   var d = pairify(s.d||[]).slice(0, o.n||10)
     .map(function(z){ return {name:z[0], value:+z[1]||0}; });
   d.sort(function(a, b){ return b.value - a.value; });
-  var c = echarts.init(box);
+  var c = initChart(box);
   function layout(){
     var W = Math.max(180, box.clientWidth - 8), H = Math.max(120, box.clientHeight - 6);
     var mn = Infinity, mx = 1;
@@ -1227,7 +1248,7 @@ R.bubble = function(box, s){
 
 R.scatter = function(box, s){
   var d = s.d||[];
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     grid: gridL(52, 24, 34, 40),
     tooltip:{trigger:'item', backgroundColor:'rgba(255,253,248,.95)', borderColor:C.line, textStyle:{color:C.fg,fontSize:12},
@@ -1246,7 +1267,7 @@ R.scatter = function(box, s){
 R.treemap = function(box, s){
   var d = (s.d||[]).slice(0,(s.o&&s.o.n)||40).map(function(z){
     return {name:z[0]!=null?z[0]:z.name, value:z[1]!=null?z[1]:z.value}; });
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     tooltip:{backgroundColor:'rgba(255,253,248,.95)', borderColor:C.line, textStyle:{color:C.fg,fontSize:12}},
     series:[{type:'treemap', roam:false, nodeClick:false, breadcrumb:{show:false},
@@ -1300,7 +1321,7 @@ R.heat = function(box, s){
     return {value:z.value, v:z.v, has:z.has, name:z.name,
       label:{color:(lum(c2) > 150 ? '#08111f' : '#eaf2ff'), fontSize:10, fontWeight:600}};
   });
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     grid:{left:(o.yw||54), right:14, top:8, bottom:24, containLabel:false},
     tooltip:{backgroundColor:'rgba(255,253,248,.95)', borderColor:C.line,
@@ -1375,7 +1396,7 @@ R.map = function(box, s){
     if(!b) return null;
     return {min: b.lo, max: b.hi, color: pal[ci]};
   }).filter(Boolean);
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     tooltip:{backgroundColor:'rgba(255,253,248,.96)', borderColor:C.line, textStyle:{color:C.fg,fontSize:12},
       formatter:function(p){
@@ -1563,7 +1584,7 @@ R.basinmap = function(box, s){
     return (Math.round(need / Math.min(W, H) * 1000) / 10) + '%';
   }
 
-  var c = echarts.init(box);
+  var c = initChart(box);
   function opt(){
     var w = box.clientWidth || 900;
     /* 窄屏字小 + 开避让；宽屏一律全标（13 个省名一个都不能少） */
@@ -1598,15 +1619,18 @@ R.basinmap = function(box, s){
       series:[
         {type:'map', map:NAME, geoIndex:0, data:regions, silent:true},
         /* 干流静态底衬线：留在 canvas 上（导出 PNG 时也在），流动层由 SVG 覆盖层叠在其上 */
+        {type:'lines', coordinateSystem:'geo', polyline:true, silent:true, zlevel:3,
+         lineStyle:{color:'#ffffff', width:YUYAN_VECTOR_MODE ? 12 : 0, opacity:YUYAN_VECTOR_MODE ? .96 : 0},
+         data:[{coords:RV[bk] || []}]},
         {type:'lines', coordinateSystem:'geo', polyline:true, silent:true, zlevel:4,
-         lineStyle:{color:RVC.core, width:2.6, opacity:.92},
+         lineStyle:{color:YUYAN_VECTOR_MODE ? '#7d450a' : RVC.core, width:YUYAN_VECTOR_MODE ? 7 : 2.6, opacity:1},
          data:[{coords:RV[bk] || []}]},
         /* 源头 / 入海口锚点（流域色 + 白边，浅底可见） */
         {type:'scatter', coordinateSystem:'geo', symbolSize:9, zlevel:6, silent:true,
          itemStyle:{color:RVC.core, borderColor:'#ffffff', borderWidth:1.8},
          label:{show:true, color:'#16324f', fontSize:11, distance:5,
            textBorderColor:'rgba(255,255,255,.96)', textBorderWidth:3,
-           formatter:function(p){ return p.data.name; }},
+           formatter:function(p){ return window.YUYAN_I18N ? window.YUYAN_I18N.geo(p.data.name) : p.data.name; }},
          data:o.ends || []},
         /* 省名标签层：centroid 锚点，宽屏全标；深墨字 + 白描边 → 深浅底都清晰 */
         {type:'scatter', coordinateSystem:'geo', symbolSize:1, zlevel:6, silent:true,
@@ -1615,7 +1639,7 @@ R.basinmap = function(box, s){
             撑住可读性，描边太细会"糊"进底色。 */
          label:{show:true, color:'#16324f', fontSize:fs,
            textBorderColor:'rgba(255,255,255,.98)', textBorderWidth:3.2,
-           formatter:function(p){ return p.data.name; }},
+           formatter:function(p){ return window.YUYAN_I18N ? window.YUYAN_I18N.geo(p.data.name) : p.data.name; }},
          /* v16：地图放大到满卡后，东部小省（安徽/江苏/浙江/上海）的 centroid 锚点会挤在
             一起 —— 一律允许 shiftY 纵向避让（宽屏也有大量纵向空间可借），只在窄屏
             （crowd）才额外允许丢标签。两者都关掉会让名字叠成一坨，反而不可读。 */
@@ -1775,7 +1799,7 @@ R.rivermap = function(box, s){
     nMem[k]++;
     return {name: p, value: P[p] || 0, itemStyle: {areaColor: BASIN_MEM[k]}};
   });
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     tooltip: {backgroundColor: 'rgba(255,253,248,.96)', borderColor: C.line,
       textStyle: {color: C.fg, fontSize: 12},
@@ -1858,7 +1882,7 @@ R.sdmap = function(box, s){
   }
   var LS = fitPct();
 
-  var c = echarts.init(box);
+  var c = initChart(box);
   var CITY_FILL = o.riverFill || '#8a5a1c';      /* 沿黄市：琥珀暗底，与黄河色同族 */
   var CITY_CORE = o.riverCore || 'rgba(255,178,66,.42)';
   c.setOption(base({
@@ -2013,7 +2037,7 @@ R.sdcity = function(box, s){
     return out;
   }
 
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     tooltip: {backgroundColor: 'rgba(255,253,248,.96)', borderColor: C.line,
       textStyle: {color: C.fg, fontSize: 12},
@@ -2397,7 +2421,7 @@ R.jnmaps = function(box, s){
 
   function mkChart(cell, ar, opt){
     var box2 = cell.querySelector('.jbox');
-    var c = echarts.init(box2);
+    var c = initChart(box2);
     var last = '';
     function size(){ return (box2.clientWidth || 0) + 'x' + (box2.clientHeight || 0); }
     function apply(){
@@ -2457,7 +2481,7 @@ R.jnmaps = function(box, s){
       /* v17 浅底配套：省名改深墨字 + 白描边（深底时是白字 + 黑描边） */
       label: {show: true, color: 'rgba(14,40,26,.96)', fontSize: 10.5,
         textBorderColor: 'rgba(255,255,255,.92)', textBorderWidth: 2.4,
-        formatter: function(q){ return q.name; }},
+        formatter: function(q){ return window.YUYAN_I18N ? window.YUYAN_I18N.geo(q.name) : q.name; }},
       labelLayout: {moveOverlap: 'shiftY', hideOverlap: true},
       itemStyle: {borderColor: 'rgba(120,133,146,.85)', borderWidth: 1,
         areaColor: 'rgba(146,158,170,.42)'},
@@ -2661,7 +2685,7 @@ R.jnmaps = function(box, s){
    · 全部静态（与 v13 全站静态化一致），动效只留 hover 放大。 */
 R.flow = function(box, s){
   var d = s.d||{}, lanes = d.lanes||[], unit = (s.o&&s.o.unit)||'条';
-  var c = echarts.init(box);
+  var c = initChart(box);
   if(!lanes.length) return c;
   var all = [];
   lanes.forEach(function(L){ L.pts.forEach(function(p){ all.push(+p[1] || 0); }); });
@@ -3732,7 +3756,7 @@ R.spark = function(box, s){
     return {value:z.value, name:z.name, v:z.v,
       label:{color:(lum(c2) > 150 ? '#08111f' : '#eaf2ff'), fontSize:10, fontWeight:600}};
   });
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     grid:{left:88, right:16, top:8, bottom:26, containLabel:false},
     tooltip:{backgroundColor:'rgba(255,253,248,.95)', borderColor:C.line, textStyle:{color:C.fg,fontSize:12},
@@ -3764,7 +3788,7 @@ R.spark = function(box, s){
 R.curve = function(box, s){
   /* loss 曲线：真实训练日志（train_log.json） */
   var d = s.d||{loss:[],evals:[]};
-  var c = echarts.init(box);
+  var c = initChart(box);
   c.setOption(base({
     grid: gridL(48, 20, 30, 30),
     legend:{data:['train loss','eval loss'], textStyle:{color:C.fg2,fontSize:11}, top:0, itemWidth:10, itemHeight:10},

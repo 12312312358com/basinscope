@@ -1,9 +1,9 @@
-﻿cff-version: 1.2.0
-message: "If you use this software, please cite the repository and the associated SoftwareX manuscript when available."
+cff-version: 1.2.0
+message: "If you use this software, please cite the repository and the associated SoftwareX article."
 title: "Yuyan-Yellow River: A multi-source public-opinion analytics system for ecological governance, cultural tourism, and healthcare disputes"
 type: software
-version: 0.1.0
-date-released: 2026-10-15
+version: 0.1.1
+date-released: 2026-10-18
 license: MIT
 repository-code: "https://github.com/12312312358com/yuyan-yellow-river"
 url: "https://github.com/12312312358com/yuyan-yellow-river"
@@ -16,7 +16,6 @@ keywords:
   - cultural tourism
   - healthcare disputes
 authors:
-  - family-names: "REPLACE_WITH_FAMILY_NAME"
-    given-names: "REPLACE_WITH_GIVEN_NAME"
-    email: "REPLACE_WITH_EMAIL"
-
+  - family-names: "Long"
+    given-names: "Wujun"
+    email: "2715469798@qq.com"

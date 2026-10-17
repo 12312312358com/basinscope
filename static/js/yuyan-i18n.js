@@ -322,24 +322,238 @@
     "hh-qa": "Question answering constrained to the Yellow River data scope and retrieved evidence."
   };
 
+  Object.assign(EXACT, {
+    "中文": "EN",
+    "聚焦全省": "Focus province",
+    "周边视野": "Wider view",
+    "ID 已脱敏": "De-identified IDs",
+    "内容涉及省": "Content provinces",
+    "8 个": "8 provinces",
+    "去重后": "after de-duplication",
+    "生态作者": "Ecological Governance authors",
+    "文旅作者": "Cultural Tourism authors",
+    "医患作者": "Healthcare Disputes authors",
+    "声量": "Volume",
+    "扩散": "Diffusion",
+    "敏感": "Sensitivity",
+    "三源交集议题": "Cross-source topic",
+    "医德医风": "Medical ethics and conduct",
+    "看病难": "Difficulty accessing care",
+    "河长制": "River chief system",
+    "医闹·医患纠纷": "Medical disturbances and disputes",
+    "医疗事故·医疗纠纷": "Medical accidents and disputes",
+    "医闹、医患纠纷、医疗事故、伤医": "Medical disturbances, disputes, accidents, and violence against clinicians",
+    "生态": "Ecology",
+    "督察": "Inspection",
+    "环保": "Environmental protection",
+    "中央": "Central",
+    "景区": "Scenic area",
+    "旅游": "Tourism",
+    "游客": "Visitors",
+    "医院": "Hospitals",
+    "医患": "Doctor-patient",
+    "纠纷": "Disputes",
+    "患者": "Patients",
+    "医生": "Physicians",
+    "环境保护": "Environmental protection",
+    "生态环境": "Ecological environment",
+    "近日": "Recently",
+    "开展": "Carry out",
+    "督察组": "Inspection team",
+    "宰客": "Overcharging",
+    "发现": "Found",
+    "环境": "Environment",
+    "国家": "National",
+    "整改": "Rectification",
+    "文化": "Culture",
+    "推进": "Promote",
+    "保护": "Protection",
+    "消费": "Consumption",
+    "安全": "Safety",
+    "持续": "Sustained",
+    "市场": "Market",
+    "治理": "Governance",
+    "发布": "Release",
+    "当地": "Local",
+    "深入": "In-depth",
+    "绿色": "Green",
+    "通报": "Briefing",
+    "国庆": "National Day",
+    "部门": "Department",
+    "全面": "Comprehensive",
+    "现场": "Site",
+    "回应": "Response",
+    "直接": "Direct",
+    "责任": "Responsibility",
+    "重点": "Key",
+    "企业": "Enterprise",
+    "修复": "Restoration",
+    "污染": "Pollution",
+    "垃圾与固废": "Waste and solid refuse",
+    "伤医与医闹（线索）": "Violence against clinicians and medical disturbances (clue)",
+    "Comments闸门": "Comment gate",
+    "Post Word Cloud · 按Event clusters着色": "Post Word Cloud - Coloured by Event Cluster",
+    "Synonym Merging：被分词切碎的Concept": "Synonym Merging: Concepts Split by Tokenization",
+    "Ecological Governance · 跨Platform热词 Top 15": "Ecological Governance - Cross-Platform Top Terms 15",
+    "Healthcare Disputes · 跨Platform热词 Top 15": "Healthcare Disputes - Cross-Platform Top Terms 15",
+    "14 个": "14",
+    "归纳自正文语料": "Derived from post corpus",
+    "生态 218 / Cultural Tourism 327 / 医患 141 articles被覆盖": "Coverage: 218 Ecological Governance / 327 Cultural Tourism / 141 Healthcare Disputes articles",
+    "Ecology 218 / Cultural Tourism 327 / Doctor-patient 141 articles被覆盖": "Coverage: 218 Ecological Governance / 327 Cultural Tourism / 141 Healthcare Disputes articles",
+    "被覆盖": "covered",
+    "人工词汇归纳": "Manual vocabulary compilation",
+    "人工Vocabulary归纳": "Manual vocabulary compilation",
+    "线上事件只作线索": "Online events used only as clues",
+    "线上Events只作线索": "Online events used only as clues",
+    "首次": "First seen",
+    "主事件面板": "Primary Event Panel",
+    "规模最大的事件": "Largest Event",
+    "条命中": "matched articles",
+    "负面": "Negative",
+    "最近": "Most recent",
+    "首要省份": "Primary province",
+    "首要Province": "Primary province",
+    "黄河源·巴颜喀拉": "Yellow River source - Bayan Har",
+    "Yellow River源·巴颜喀拉": "Yellow River source - Bayan Har",
+    "山东省": "Shandong Province",
+    "新闻": "News",
+    "美丽": "Beautiful",
+    "高质量": "High quality",
+    "青岛": "Qingdao",
+    "举报": "Reporting",
+    "非法": "Illegal",
+    "乡村": "Rural",
+    "非遗": "Intangible heritage",
+    "手术": "Surgery",
+    "调查": "Investigation",
+    "检查": "Inspection",
+    "排污": "Discharge",
+    "价格": "Price",
+    "污水": "Wastewater",
+    "文明": "Civilized",
+    "调解": "Mediation",
+    "律师": "Lawyer",
+    "门票": "Tickets",
+    "景点": "Scenic spots",
+    "水质": "Water quality",
+    "免费": "Free",
+    "酒店": "Hotels",
+    "黑臭": "Black-odorous water",
+    "排污口": "Discharge outlet",
+    "岸线": "Shoreline",
+    "美食": "Food",
+    "固废": "Solid waste",
+    "研学": "Educational tourism",
+    "殴打": "Assault",
+    "退票": "Refund",
+    "免票": "Free admission",
+    "用药": "Medication",
+    "法律": "Law",
+    "法院": "Court",
+    "湿地": "Wetlands",
+    "维权": "Rights protection",
+    "卫健委": "Health Commission",
+    "问责": "Accountability",
+    "商家": "Business",
+    "民宿": "Homestays",
+    "垃圾": "Waste",
+    "治疗": "Treatment",
+    "诉讼": "Litigation",
+    "排放": "Emissions",
+    "鉴定": "Appraisal",
+    "抢救": "Rescue",
+    "暴力": "Violence",
+    "博物馆": "Museum",
+    "伤医": "Violence against clinicians",
+    "保护区": "Protected area",
+    "赔偿": "Compensation",
+    "医闹": "Medical disturbance",
+    "省份构成": "Province composition",
+    "Province构成": "Province composition",
+    "高负警示块": "High-Negative Events",
+    "逐月命中对照": "Monthly Match Heatmap",
+    "议题对比": "Topic Comparison",
+    "负面占比区间": "Negative Share Range",
+    "条 / 5Events": "articles / 5 events",
+    "条 / 4 个Events": "articles / 4 events",
+    "条 / 5个事件": "articles / 5 events",
+    "条 / 4 个事件": "articles / 4 events",
+    "含Events词 59 个": "59 event-related terms",
+    "出现最多": "Most frequent",
+    "采集端矩阵": "Acquisition matrix",
+    "议题": "Topic",
+    "明细词": "Detail terms",
+    "5 个": "5",
+    "KMeans 自动": "KMeans automatic",
+    "低于 300 门槛": "Below the 300-comment gate",
+    "越高越可分": "Higher is better separated",
+    "簇": "Cluster",
+    "区分词（该簇独占）": "Distinctive terms (exclusive to cluster)",
+    "Platform构成（含该Platform总量Share）": "Platform composition (share of total platform volume)",
+    "12 个": "12",
+    "58.8 分": "58.8 points",
+    "2 个": "2",
+    "闸门 30 records": "30-record gate",
+    "一级 / 二级": "Tier 1 / Tier 2",
+    "Sample不足": "Insufficient sample",
+    "Negative/声量/敏感/扩散": "Negative / Volume / Sensitivity / Diffusion",
+    "FactorWeight": "Factor weight",
+    "本流域归一区间": "Yellow River normalization range",
+    "Yellow River归一区间": "Yellow River normalization range",
+    "Yellow RiverEvents数": "Yellow River event count",
+    "该事件命中微博里 SnowNLP 判为负面的篇数占比（本流域内归一）": "Share of matched Weibo articles classified as negative by SnowNLP (normalized within the Yellow River scope)",
+    "该事件命中篇数 ÷ 本流域最大事件篇数": "Matched articles divided by the largest event article count in the Yellow River scope",
+    "命中文本里出现官方主体/督察整改问责类词的比例（见 SENS_WORDS）": "Share of matched texts containing official-subject or inspection-rectification terms (see SENS_WORDS)",
+    "该事件平均每篇转发数 ÷ 本流域最大事件均值": "Mean reposts per article divided by the largest event-level mean in the Yellow River scope",
+    "命中篇数未过闸门，只作线索，不做分级与占比推断": "Below the article-count gate; retained only as a clue without grading or share inference",
+    "Score range与Recommended action是规则设定值，评审可直接质疑Weight —— 页面已给出全部原始量": "Score ranges and recommended actions are rule-based values; all raw quantities are shown for review",
+    "列入每日监测清单，逐条核验原文与处置进展": "Add to the daily monitoring list and verify the source text and response progress",
+    "按周复核，关注负面占比是否继续上行": "Review weekly and check whether the negative share continues to rise"
+  });
+
   const PHRASES = Object.entries(EXACT).sort((a, b) => b[0].length - a[0].length);
+
+  function replaceKnown(value) {
+    let out = String(value);
+    for (const pair of PHRASES) out = out.split(pair[0]).join(pair[1]);
+    return out
+      .replace(/生态(?=Authors|治理|环境)/g, 'Ecological')
+      .replace(/医患(?=Authors|矛盾)/g, 'Healthcare')
+      .replace(/(\d+(?:\.\d+)?)\s*分/g, '$1 points')
+      .replace(/(\d+)\s*位/g, '$1 authors')
+      .replace(/(\d+)\s*条/g, '$1 records')
+      .replace(/(\d+)\s*篇/g, '$1 articles')
+      .replace(/(\d+)\s*档/g, 'Level $1')
+      .replace(/第\s*(\d+)\s*档/g, 'Level $1')
+      .replace(/簇\s*(\d+)/g, 'Cluster $1')
+      .replace(/覆盖\s*(\d+)\s*省/g, '$1 provinces covered')
+      .replace(/首现\s*(\d{4}-\d{2}-\d{2})/g, 'First seen $1')
+      .replace(/(\d+)\s*条\s*\/\s*(\d+)\s*个事件/g, '$1 articles / $2 events')
+      .replace(/中位\s*([\d.]+%)/g, 'Median $1')
+      .replace(/赞\s*([\d,]+)/g, 'Likes $1');
+  }
+
+  function geoName(value) {
+    if (value == null) return value;
+    var s = String(value);
+    var geo = {"山东":"Shandong","河南":"Henan","山西":"Shanxi","陕西":"Shaanxi","甘肃":"Gansu","青海":"Qinghai","宁夏":"Ningxia","内蒙古":"Inner Mongolia","四川":"Sichuan","河北":"Hebei","安徽":"Anhui","江苏":"Jiangsu","济南":"Jinan","青岛":"Qingdao","淄博":"Zibo","枣庄":"Zaozhuang","东营":"Dongying","烟台":"Yantai","潍坊":"Weifang","济宁":"Jining","泰安":"Tai\u2019an","威海":"Weihai","日照":"Rizhao","临沂":"Linyi","德州":"Dezhou","聊城":"Liaocheng","滨州":"Binzhou","菏泽":"Heze","黄河源·巴颜喀拉":"Yellow River source - Bayan Har","入海口·东营":"Estuary - Dongying","巴颜喀拉":"Bayan Har"};
+    if (s === "黄河源·巴颜喀拉" || s === "Yellow River源·巴颜喀拉") return "Yellow River source - Bayan Har";
+    if (geo[s]) return geo[s];
+    if (/市$/.test(s) && geo[s.slice(0, -1)]) return geo[s.slice(0, -1)];
+    return s;
+  }
 
   function trText(value, key) {
     if (typeof value !== "string") return value;
     const trimmed = value.trim();
     if (EXACT[trimmed]) return EXACT[trimmed];
     if (["lead", "t", "s", "k", "l", "x", "name", "short", "group", "badge"].includes(key)) {
-      let out = value;
-      for (const pair of PHRASES) out = out.split(pair[0]).join(pair[1]);
-      out = out.replace(/聚类\s*(\d+)/g, 'Cluster $1')
-        .replace(/(\d+(?:\.\d+)?)\s*分/g, '$1 points')
-        .replace(/(\d+)\s*位/g, '$1 authors')
-        .replace(/(\d+)\s*条/g, '$1 records')
-        .replace(/(\d+)\s*篇/g, '$1 articles');
-      return out;
+      return replaceKnown(value);
     }
     return value;
   }
+
+  window.YUYAN_I18N = { t: trText, geo: geoName };
 
   function exactWalk(value) {
     if (Array.isArray(value)) return value.map(exactWalk);
@@ -379,16 +593,16 @@
 
   function translateTextNode(node) {
     const parent = node.parentElement;
-    if (!parent || parent.closest("script,style,canvas")) return;
+    if (!parent || parent.closest("script,style,canvas,svg,.raw,.txt,.srcbox,.foot")) return;
     const raw = node.nodeValue;
     const trimmed = raw.trim();
-    if (!trimmed || !EXACT[trimmed]) return;
-    const translated = EXACT[trimmed] || trimmed
-      .replace(/(\d+(?:\.\d+)?)\s*分/g, '$1 points')
-      .replace(/(\d+)\s*位/g, '$1 authors')
-      .replace(/(\d+)\s*条/g, '$1 records')
-      .replace(/(\d+)\s*篇/g, '$1 articles');
-    node.nodeValue = raw.replace(trimmed, translated);
+    if (!trimmed) return;
+    /* Only translate visible interface chrome. Source posts, comments and data
+       tables remain untouched so that evidence is not rewritten. */
+    const isUi = !!parent.closest(".top,.side,.vtitle,.lead,.kpis,.card > h3,.card > .sub,.ruler,.toolbar,.grp,.seg,.tblwrap th,.evpanel,button");
+    if (!isUi) return;
+    const translated = EXACT[trimmed] || replaceKnown(trimmed);
+    if (translated !== trimmed) node.nodeValue = raw.replace(trimmed, translated);
   }
 
   function translateSubtree(root) {
@@ -410,7 +624,7 @@
     const button = document.createElement("button");
     button.className = "act";
     button.id = "langSwitch";
-    button.textContent = isEnglish ? "中文": "EN";
+    button.textContent = "EN";
     button.title = isEnglish ? "Switch to Chinese": "Switch to English";
     button.onclick = function () {
       const url = new URL(window.location.href);

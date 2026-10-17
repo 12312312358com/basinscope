@@ -1,4 +1,4 @@
-﻿# Yuyan-Yellow River
+# Yuyan-Yellow River
 
 Yuyan-Yellow River is a standalone Flask application for public-opinion analysis of ecological governance, cultural tourism, and healthcare disputes in the Yellow River Basin.
 
@@ -32,6 +32,29 @@ The application uses four layers:
 4. **Presentation**: a Flask application in `app.py` serving the generated dashboard and the question-answering endpoint.
 
 The data-generation pipeline is dependency-aware and uses stale-while-revalidate caching. Each product has an explicit dependency and cache lifetime, as defined in `service/dashboard.py`.
+
+## Documentation
+
+- [Architecture](docs/ARCHITECTURE.md)
+- [Data setup](docs/DATA_SETUP.md)
+- [Methods](docs/METHODS.md)
+- [Reproducibility](docs/REPRODUCIBILITY.md)
+- [SoftwareX metadata](docs/SOFTWARE_METADATA.md)
+- [SoftwareX release checklist](docs/SOFTWAREX_RELEASE_CHECKLIST.md)
+- [Changelog](CHANGELOG.md)
+
+## Repository layout
+
+| Path | Purpose |
+|---|---|
+| `app.py` | Flask application entry point |
+| `spider/` | Platform collection adapters and collection utilities |
+| `dashboard_gen/` | Analytical data products and dashboard generation |
+| `service/` | Question answering, reports, and video workflows |
+| `dao/`, `entity/`, `util/` | Database access, domain models, and shared utilities |
+| `view/`, `templates/`, `static/` | Server-rendered pages and front-end assets |
+| `docs/` | Architecture, methods, reproducibility, and release documentation |
+| `tests/` | Automated tests |
 
 ## Requirements
 
@@ -193,6 +216,12 @@ These limitations are displayed in the dashboard and should be preserved in down
 
 Do not commit API keys, database passwords, raw platform responses, unredacted user identifiers, sensitive personal information, or model credentials. Verify that data collection and reuse comply with platform terms, applicable law, institutional policy, and research ethics requirements.
 
+## Versioning and releases
+
+The manuscript corresponds to the annotated tag `v0.1.1`. Release archives
+exclude raw platform records, model weights, runtime logs, uploads, and
+credentials. See `CHANGELOG.md` and `docs/SOFTWAREX_RELEASE_CHECKLIST.md`.
+
 ## Citation
 
 If you use this software, cite the repository and the associated SoftwareX manuscript when available. See `CITATION.cff`.
@@ -203,8 +232,9 @@ MIT License. See `LICENCE.txt`.
 
 ## Contact
 
-Maintainer: [replace with maintainer name]  
-Email: [replace with support email]
+Maintainer: Wujun Long
+Email: 2715469798@qq.com
+
 ## English UI mode
 
 The dashboard includes an optional English interface mode:

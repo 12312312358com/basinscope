@@ -3434,7 +3434,7 @@ for _m in re.finditer(r'^R\.([a-z0-9_]+)\s*=\s*function', tpl, re.M):
     _n = _m.group(1)
     _nx = re.search(r'^R\.[a-z0-9_]+\s*=\s*function', tpl[_m.end():], re.M)
     _blk = tpl[_m.end(): _m.end() + (_nx.start() if _nx else 4000)]
-    if 'echarts.init' not in _blk:
+    if 'echarts.init' not in _blk and 'initChart(' not in _blk:
         _pure.add(_n)
 
 
@@ -3448,7 +3448,7 @@ def _is_pure_dom(name, _seen=None):
         return False
     _nx = re.search(r'^R\.[a-z0-9_]+\s*=\s*function', tpl[_m.end():], re.M)
     _blk = tpl[_m.end(): _m.end() + (_nx.start() if _nx else 4000)]
-    if 'echarts.init' in _blk:
+    if 'echarts.init' in _blk or 'initChart(' in _blk:
         return False
     for _t in re.findall(r'\bR\.([a-z0-9_]+)\s*\(\s*box', _blk):
         if not _is_pure_dom(_t, _seen):
