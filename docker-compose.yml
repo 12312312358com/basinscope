@@ -1,0 +1,37 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: db_weibo_basin
+      MYSQL_USER: yuyan
+      MYSQL_PASSWORD: yuyan_demo_password
+      MYSQL_ROOT_PASSWORD: root_demo_password
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+    volumes:
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./sql/demo_seed.sql:/docker-entrypoint-initdb.d/02-demo-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -proot_demo_password --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  app:
+    build: .
+    environment:
+      SECRET_KEY: reviewer-demo-secret
+      HOST: 0.0.0.0
+      PORT: 5001
+      FLASK_DEBUG: 0
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: yuyan
+      DB_PASSWORD: yuyan_demo_password
+      DB_NAME: db_weibo_basin
+    ports:
+      - "5001:5001"
+    depends_on:
+      db:
+        condition: service_healthy

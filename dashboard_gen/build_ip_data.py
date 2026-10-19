@@ -1,5 +1,6 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """归一化 IP 地区数据 → 生成地图用 JSON（只读库，不写库）"""
+import os
 import json, re, pymysql
 
 PROV = ['北京','天津','河北','山西','内蒙古','辽宁','吉林','黑龙江','上海','江苏','浙江',

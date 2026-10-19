@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 流域专题数据构建（长江 / 黄河）
 --------------------------------------------------
@@ -324,10 +324,11 @@ def trend_stats(A, sentById):
         'span': span, 'full': full,       # 连续月份序列（含 0 值空档）
         'peak': [peak[0], peak[1], pct(peak[1], tot)],
         'n2026': sum(v for k, v in ym.items() if k.startswith('2026')),
-        'last12': [last12[0], last12[-1], c12, pct(c12, tot)],
+        'last12': ([last12[0], last12[-1], c12, pct(c12, tot)]
+                   if last12 else ['-', '-', 0, 0]),
         'y2026pct': pct(sum(v for k, v in ym.items() if k.startswith('2026')), tot),
         'cut': cut,                       # 采集截止日（最后一个月是断月，必须标注）
-        'lastMonth': last12[-1],
+        'lastMonth': last12[-1] if last12 else '-',
         'lastPartial': bool(months and months[-1][0] == cut[:7]),
     }
 
@@ -1725,9 +1726,10 @@ def main():
          'y': '/'.join(str(lvY.get(k, 0)) for k in ('红', '橙', '黄', '蓝', '灰')),
          'h': '/'.join(str(lvH.get(k, 0)) for k in ('红', '橙', '黄', '蓝', '灰')), 'kind': 's',
          'note': '灰=未过 %d 篇闸门，不入级' % BM.RISK_GATE},
-        {'m': '最高风险事件', 'y': (rkY[0]['name'] + '（%.1f 分）' % rkY[0]['score']) if rkY else '-',
-         'h': (rkH[0]['name'] + '（%.1f 分）' % rkH[0]['score']) if rkH else '-', 'kind': 's',
-         'note': '规则化四级评分'},
+        {'m': '最高风险事件',
+         'y': ((rkY[0]['name'] + ('（%.1f 分）' % rkY[0]['score'])) if rkY[0].get('score') is not None else rkY[0]['name']) if rkY else '-',
+         'h': ((rkH[0]['name'] + ('（%.1f 分）' % rkH[0]['score'])) if rkH[0].get('score') is not None else rkH[0]['name']) if rkH else '-',
+         'kind': 's', 'note': '规则化四级评分'},
         {'m': '作者集中度（Top10 占比）', 'y': dY['nodes']['conc'][2][2],
          'h': dH['nodes']['conc'][2][2], 'kind': 'p', 'note': '越高越集中于少数账号'},
         {'m': '情感模型中性段占比', 'y': dY['calib']['neuPct'], 'h': dH['calib']['neuPct'],

@@ -198,10 +198,13 @@ def kb_docs():
 
 KBDOCS = kb_docs()
 RPT = []
-for f in sorted(os.listdir(os.path.join(PRJ, 'reports'))):
-    p = os.path.join(PRJ, 'reports', f)
-    RPT.append({'f': f, 'kb': f'{os.path.getsize(p)/1024:.0f}',
-                'k': 'Word 报告' if f.endswith('.docx') else '报告图表'})
+RPT_DIR = os.path.join(PRJ, 'reports')
+if os.path.isdir(RPT_DIR):
+    for f in sorted(os.listdir(RPT_DIR)):
+        p = os.path.join(RPT_DIR, f)
+        if os.path.isfile(p):
+            RPT.append({'f': f, 'kb': f'{os.path.getsize(p)/1024:.0f}',
+                        'k': 'Word 报告' if f.endswith('.docx') else '报告图表'})
 
 TABLES = sorted(U['tableRows'].items(), key=lambda z: -z[1])
 
@@ -346,6 +349,9 @@ V.append(dict(
            nt(f'点赞分布合计 {N(sum(FDD["articleAnalysis"]["dz"]["y"]))} = 文章总量，分箱无死角。', k='ok')],
 ))
 
+_csrc = FDD['commentAnalysis']['source']
+_csrc_label = ' / '.join(str(x.get('name')) for x in _csrc[:2]) or 'N/A'
+
 V.append(dict(
     id='comment', group='二、数据洞察', name='微博评论分析', badge='真实', badgeCls='real',
     lead=f't_comment 全表 {N(CAN["c_total"])} 行，去重后 {N(CAN["c_dist"])} 条；'
@@ -358,8 +364,7 @@ V.append(dict(
           K('女性占比', PC(FDD['commentAnalysis']['gender'][1]['value'],
                           sum(g['value'] for g in FDD['commentAnalysis']['gender'])),
             '性别字段推断值', 5),
-          K('来源省份首两位', f'{FDD["commentAnalysis"]["source"][0]["name"]} / {FDD["commentAnalysis"]["source"][1]["name"]}',
-            '广东 3,135 · 江苏 1,680', 6)],
+          K('来源字段首两位', _csrc_label, '按当前语料统计', 6)],
     cards=[
                 # v7 柱状 → 漏斗（与数据分析页的正文长度分布保持同一读法，便于两页对照）。
         # v8：与 a2 同族的卡，同步改成同一种形态（一张是漏斗一张是分段条会像漏改）。

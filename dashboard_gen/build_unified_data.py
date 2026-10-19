@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """汇总「全站一体化预览」所需的全部真实数据 -> unified_data.json
 
 数据来源（三条链路，互不混用，页面内逐块标注）：
@@ -335,15 +335,18 @@ print('不重叠拆分:', U['basinSplit']['article'])
 # ============================================================
 import os, sqlite3
 kbp = os.path.join(PRJ, 'chroma_db', 'chroma.sqlite3')
-kb = dict(chroma=os.path.basename(kbp), db_mb=round(os.path.getsize(kbp) / 1048576, 1))
-con = sqlite3.connect(kbp); cc = con.cursor()
-cc.execute('SELECT name,dimension FROM collections')
-cols = cc.fetchall()
-cc.execute('SELECT COUNT(*) FROM embeddings')
-kb['chunks'] = cc.fetchone()[0]
-con.close()
-kb['collection'] = cols[0][0] if cols else ''
-kb['dim'] = cols[0][1] if cols else 0
+kb = dict(chroma='not configured', db_mb=0, chunks=0, collection='', dim=0)
+if os.path.isfile(kbp):
+    kb = dict(chroma=os.path.basename(kbp), db_mb=round(os.path.getsize(kbp) / 1048576, 1))
+    con = sqlite3.connect(kbp)
+    cc = con.cursor()
+    cc.execute('SELECT name,dimension FROM collections')
+    cols = cc.fetchall()
+    cc.execute('SELECT COUNT(*) FROM embeddings')
+    kb['chunks'] = cc.fetchone()[0]
+    con.close()
+    kb['collection'] = cols[0][0] if cols else ''
+    kb['dim'] = cols[0][1] if cols else 0
 
 
 def cnt(d, pat=None):

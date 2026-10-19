@@ -76,9 +76,34 @@ def _num(v):
         return 0
 
 
+def _empty_result():
+    """Write a valid empty product when optional video insights are unavailable."""
+    topics = {b: {'n': 0, 'cards': [], 'agg': {}} for b in BASINS}
+    out = {
+        'meta': {
+            'generated': time.strftime('%Y-%m-%dT%H:%M:%S'),
+            'source': '',
+            'prompt_version': None,
+            'total_analyzed': 0,
+            'status': 'not_configured',
+            'note': ('Optional short-video insight data are not included in this '
+                     'release. The remaining dashboard views are unaffected.'),
+            'excluded': {},
+            'no_conclusion': [],
+        },
+        'topics': topics,
+        'others': {},
+    }
+    io.open(DST, 'w', encoding='utf-8').write(
+        json.dumps(out, ensure_ascii=False, indent=2))
+    print('[topic_data] video insights not configured; empty product written')
+    print('[topic_data] 输出：%s  %.1f KB' % (DST, os.path.getsize(DST) / 1024))
+    return out
+
+
 def build():
     if not os.path.exists(INSIGHT):
-        raise SystemExit('缺少分析结果：%s（先跑 service/video/insight/build_insight.py）' % INSIGHT)
+        return _empty_result()
     ins = json.load(io.open(INSIGHT, encoding='utf-8'))
     l2 = _l2_index()
     l3 = _l3_index()

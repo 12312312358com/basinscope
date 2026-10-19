@@ -1,0 +1,61 @@
+name: reviewer-smoke
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  dashboard-smoke:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: db_weibo_basin
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot --silent"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=30
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install review dependencies
+        run: pip install -r requirements-review.txt
+      - name: Load schema and synthetic data
+        run: |
+          mysql -h127.0.0.1 -uroot -proot db_weibo_basin < sql/schema.sql
+          mysql -h127.0.0.1 -uroot -proot db_weibo_basin < sql/demo_seed.sql
+      - name: Start application
+        env:
+          SECRET_KEY: reviewer-ci-secret
+          HOST: 127.0.0.1
+          PORT: 5011
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_USER: root
+          DB_PASSWORD: root
+          DB_NAME: db_weibo_basin
+        run: |
+          nohup python app.py > /tmp/yuyan.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:5011/healthz >/dev/null; then break; fi
+            sleep 2
+          done
+      - name: Check readiness and dashboard
+        run: |
+          curl -fsS http://127.0.0.1:5011/healthz
+          curl -fsS http://127.0.0.1:5011/readyz
+          curl -fsS --max-time 600 http://127.0.0.1:5011/page/dashboard -o /tmp/dashboard.html
+          test "$(wc -c < /tmp/dashboard.html)" -gt 50000
+          grep -q "黄河流域" /tmp/dashboard.html
+      - name: Show application log on failure
+        if: failure()
+        run: tail -200 /tmp/yuyan.log || true

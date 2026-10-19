@@ -1,5 +1,6 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """只读：生成「微博热词统计分析」预览数据。一次分词，派生「清洗前/清洗后」两套口径。"""
+import os
 import re, sys, json, collections, datetime
 import pymysql, jieba
 try: sys.stdout.reconfigure(encoding='utf-8', errors='replace')

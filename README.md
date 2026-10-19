@@ -56,6 +56,38 @@ The data-generation pipeline is dependency-aware and uses stale-while-revalidate
 | `docs/` | Architecture, methods, reproducibility, and release documentation |
 | `tests/` | Automated tests |
 
+## Reviewer quick start
+
+The repository includes a schema-only database and synthetic demo data for reviewers. The demo has no platform records, private identifiers, API keys, or model weights.
+
+With Docker:
+
+```powershell
+docker compose up --build
+```
+
+Open:
+
+```text
+http://127.0.0.1:5001/healthz
+http://127.0.0.1:5001/readyz
+http://127.0.0.1:5001/page/dashboard
+```
+
+Without Docker, follow [docs/REVIEWER_GUIDE.md](docs/REVIEWER_GUIDE.md):
+
+```powershell
+Copy-Item .env.reviewer.example .env.reviewer
+# Set DB_PASSWORD and other local values in .env.reviewer.
+python -m venv .venv-review
+.\.venv-review\Scripts\Activate.ps1
+pip install -r requirements-review.txt
+python scripts/init_demo_db.py
+python scripts/doctor.py
+python app.py
+```
+
+`/healthz` checks that Flask is running. `/readyz` also checks the database, required tables, and demo data.
 ## Requirements
 
 - Windows 10/11 or Linux.
@@ -218,7 +250,7 @@ Do not commit API keys, database passwords, raw platform responses, unredacted u
 
 ## Versioning and releases
 
-The manuscript corresponds to the annotated tag `v0.1.1`. Release archives
+The manuscript corresponds to the annotated tag `v0.1.2`. Release archives
 exclude raw platform records, model weights, runtime logs, uploads, and
 credentials. See `CHANGELOG.md` and `docs/SOFTWAREX_RELEASE_CHECKLIST.md`.
 

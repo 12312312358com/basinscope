@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """黄河流域舆情独立系统入口。
 
 本入口只提供服务端渲染的黄河流域 18 个视图，不加载长江流域、
@@ -79,6 +79,81 @@ def create_app():
     def data_refresh_start():
         return jsonify({"status": "disabled"})
 
+
+    @app.route("/readyz")
+    def readyz():
+        """Check database tables and demo/real data needed by the dashboard."""
+        required = (
+            "t_user",
+            "t_article",
+            "t_comment",
+            "t_article_safe",
+            "t_comment_safe",
+            "t_basin_article",
+            "t_basin_comment",
+            "t_xhs_article",
+            "t_xhs_comment",
+            "t_zhihu_article",
+            "t_zhihu_comment",
+            "t_douyin_article",
+            "t_douyin_comment",
+        )
+        conn = None
+        try:
+            import pymysql
+
+            conn = pymysql.connect(
+                host=os.getenv("DB_HOST", "localhost"),
+                port=int(os.getenv("DB_PORT", "3306")),
+                user=os.getenv("DB_USER", "root"),
+                password=os.getenv("DB_PASSWORD", ""),
+                database=os.getenv("DB_NAME", "db_weibo_basin"),
+                charset="utf8mb4",
+                connect_timeout=5,
+                read_timeout=10,
+            )
+            with conn.cursor() as cur:
+                cur.execute("SHOW TABLES")
+                existing = {row[0] for row in cur.fetchall()}
+                missing = [name for name in required if name not in existing]
+                if missing:
+                    return (
+                        jsonify(
+                            status="error",
+                            database="ok",
+                            missing_tables=missing,
+                        ),
+                        503,
+                    )
+                cur.execute("SELECT COUNT(*) FROM t_basin_article")
+                article_count = int(cur.fetchone()[0])
+                cur.execute("SELECT COUNT(*) FROM t_basin_comment")
+                comment_count = int(cur.fetchone()[0])
+            status = "ok" if article_count > 0 else "error"
+            code = 200 if status == "ok" else 503
+            return (
+                jsonify(
+                    status=status,
+                    database="ok",
+                    tables=len(required),
+                    article_count=article_count,
+                    comment_count=comment_count,
+                    scope="yellow-river",
+                ),
+                code,
+            )
+        except Exception as exc:
+            return (
+                jsonify(
+                    status="error",
+                    database="unavailable",
+                    error=type(exc).__name__,
+                ),
+                503,
+            )
+        finally:
+            if conn is not None:
+                conn.close()
     @app.route("/healthz")
     def healthz():
         return jsonify({"status": "ok", "scope": "yellow-river"})

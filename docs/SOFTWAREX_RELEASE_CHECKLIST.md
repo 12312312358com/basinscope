@@ -3,7 +3,7 @@
 ## Repository
 
 - [ ] Repository is public and hosted on GitHub.
-- [ ] The manuscript version uses an annotated tag such as `v0.1.1`.
+- [ ] The manuscript version uses an annotated tag such as `v0.1.2`.
 - [ ] `README.md`, `LICENCE.txt`, and `CITATION.cff` exist at that tag.
 - [ ] Python code, templates, requirements, and setup documentation are included.
 - [ ] Raw platform records, database dumps, model weights, logs, credentials, and generated artifacts are absent.

@@ -1,5 +1,6 @@
 # Documentation
 
+- [Reviewer guide](REVIEWER_GUIDE.md)
 - [Architecture](ARCHITECTURE.md): application layers, directory map, and data flow.
 - [Data setup](DATA_SETUP.md): required MySQL tables, fields, and data governance.
 - [Methods](METHODS.md): collection, event matching, sentiment analysis, clustering, risk screening, and short-video processing.
