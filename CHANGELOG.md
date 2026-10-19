@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 - 2026-10-19
+
+- Made dashboard data paths portable across Windows and Linux.
+- Added SQLAlchemy to the minimal reviewer dependency set.
+- Verified the complete reviewer smoke test on GitHub Actions with Linux and MySQL 8.0.
+
 ## 0.1.2 - 2026-10-19
 
 - Added a reviewer-only MySQL schema, synthetic seed dataset, and database initializer.

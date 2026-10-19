@@ -250,7 +250,7 @@ Do not commit API keys, database passwords, raw platform responses, unredacted u
 
 ## Versioning and releases
 
-The manuscript corresponds to the annotated tag `v0.1.2`. Release archives
+The manuscript corresponds to the annotated tag `v0.1.3`. Release archives
 exclude raw platform records, model weights, runtime logs, uploads, and
 credentials. See `CHANGELOG.md` and `docs/SOFTWAREX_RELEASE_CHECKLIST.md`.
 
