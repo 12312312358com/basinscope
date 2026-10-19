@@ -50,11 +50,31 @@ jobs:
             sleep 2
           done
       - name: Check readiness and dashboard
+        shell: bash
         run: |
-          curl -fsS http://127.0.0.1:5011/healthz
-          curl -fsS http://127.0.0.1:5011/readyz
-          curl -fsS --max-time 600 http://127.0.0.1:5011/page/dashboard -o /tmp/dashboard.html
-          test "$(wc -c < /tmp/dashboard.html)" -gt 50000
+          health_code=$(curl -sS -o /tmp/health.json -w "%{http_code}" http://127.0.0.1:5011/healthz)
+          echo "healthz HTTP $health_code: $(cat /tmp/health.json)"
+          if [ "$health_code" != "200" ]; then
+            echo "::error title=healthz HTTP $health_code::$(cat /tmp/health.json)"
+            exit 1
+          fi
+
+          ready_code=$(curl -sS -o /tmp/ready.json -w "%{http_code}" http://127.0.0.1:5011/readyz)
+          echo "readyz HTTP $ready_code: $(cat /tmp/ready.json)"
+          if [ "$ready_code" != "200" ]; then
+            db_snapshot=$(mysql -h127.0.0.1 -uroot -proot -N -e "USE db_weibo_basin; SHOW TABLES; SELECT COUNT(*) FROM t_basin_article; SELECT COUNT(*) FROM t_basin_comment;" | tr '\n' ',')
+            echo "::error title=readyz HTTP $ready_code::$(cat /tmp/ready.json) db=$db_snapshot"
+            exit 1
+          fi
+
+          dashboard_code=$(curl -sS --max-time 600 -o /tmp/dashboard.html -w "%{http_code}" http://127.0.0.1:5011/page/dashboard)
+          dashboard_bytes=$(wc -c < /tmp/dashboard.html)
+          echo "dashboard HTTP $dashboard_code, bytes=$dashboard_bytes"
+          if [ "$dashboard_code" != "200" ]; then
+            echo "::error title=dashboard HTTP $dashboard_code::$(head -c 1200 /tmp/dashboard.html | tr '\n' ' ')"
+            exit 1
+          fi
+          test "$dashboard_bytes" -gt 50000
           grep -q "黄河流域" /tmp/dashboard.html
       - name: Show application log on failure
         if: failure()
