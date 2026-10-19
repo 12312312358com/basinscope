@@ -35,7 +35,7 @@ U['generated'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
 # 0. 既有快照
 # ============================================================
 def jload(name):
-    return json.load(io.open(f'{BASE}\\{name}', encoding='utf-8'))
+    return json.load(io.open(os.path.join(BASE, name), encoding='utf-8'))
 
 
 HOT = jload('hotword_preview_data.json')
@@ -256,9 +256,9 @@ def read_fre(path, n=50):
 
 
 U['cloudFre'] = dict(
-    article=read_fre(PRJ + r'\fenci\article_fre2.csv'),
-    comment=read_fre(PRJ + r'\fenci\comment_fre2.csv'),
-    user=read_fre(PRJ + r'\fenci\comment_user_fre2.csv'),
+    article=read_fre(os.path.join(PRJ, 'fenci', 'article_fre2.csv')),
+    comment=read_fre(os.path.join(PRJ, 'fenci', 'comment_fre2.csv')),
+    user=read_fre(os.path.join(PRJ, 'fenci', 'comment_user_fre2.csv')),
 )
 for k, v in U['cloudFre'].items():
     print(f'词云词频 {k}: {len(v)} 条  首={v[0] if v else None}')
@@ -450,7 +450,7 @@ print('核查项: %d 通过 / %d' % (sum(1 for c in U['recon'] if c['ok']), len(
 
 conn.close()
 
-io.open(f'{BASE}\\unified_data.json', 'w', encoding='utf-8').write(
+io.open(os.path.join(BASE, 'unified_data.json'), 'w', encoding='utf-8').write(
     json.dumps(U, ensure_ascii=False, separators=(',', ':')))
 print('写出 unified_data.json  %.0f KB' % (len(json.dumps(U, ensure_ascii=False)) / 1024))
 print('键:', sorted(U.keys()))
