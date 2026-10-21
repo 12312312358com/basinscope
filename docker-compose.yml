@@ -3,8 +3,8 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_DATABASE: db_weibo_basin
-      MYSQL_USER: yuyan
-      MYSQL_PASSWORD: yuyan_demo_password
+      MYSQL_USER: basinscope
+      MYSQL_PASSWORD: basinscope_demo_password
       MYSQL_ROOT_PASSWORD: root_demo_password
     command:
       - --character-set-server=utf8mb4
@@ -27,8 +27,8 @@ services:
       FLASK_DEBUG: 0
       DB_HOST: db
       DB_PORT: 3306
-      DB_USER: yuyan
-      DB_PASSWORD: yuyan_demo_password
+      DB_USER: basinscope
+      DB_PASSWORD: basinscope_demo_password
       DB_NAME: db_weibo_basin
     ports:
       - "5001:5001"

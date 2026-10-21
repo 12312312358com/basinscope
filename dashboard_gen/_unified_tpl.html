@@ -1,8 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<title>舆眼 · 黄河流域舆情分析（真实数据）</title>
+<title>BasinScope · 黄河流域舆情分析（真实数据）</title>
 <style>
 :root{
   --bg:#f7f2e8; --bg2:#f0e9dc; --panel:#fffdf8; --panel2:#faf5ec; --line:rgba(120,95,60,.18);
@@ -559,7 +559,7 @@ tr.warnrow td{background:rgba(255,180,77,.055)}
       <circle cx="17" cy="17" r="1.5" fill="#3f8f63"/>
     </svg>
   </div>
-  <div class="brand">舆眼<small>黄河流域舆情分析系统 · 生态治理 / 文旅 / 医患矛盾</small></div>
+  <div class="brand">BasinScope<small>黄河流域舆情分析系统 · 生态治理 / 文旅 / 医患矛盾</small></div>
   <div class="sp"></div>
   <div class="chip">数据源 <b>db_weibo_basin</b> · 快照 <b id="gen"></b></div>
   <div class="chip" id="chipData" style="display:none">上次采集 <b id="lastCrawl">—</b></div>
@@ -593,7 +593,7 @@ var U = /*__DATA__*/{};
 var WCGLOSS = /*__GLOSSARY__*/{};
 var VIEWS = /*__VIEWS__*/[];
 </script>
-<script src="/static/js/yuyan-i18n.js"></script>
+<script src="/static/js/basinscope-i18n.js"></script>
 <script>
 /* ==================================================================
    渲染引擎：VIEWS 里只描述"要什么"，图表统一由 recipe 生成
@@ -659,10 +659,10 @@ var SIDE_C  = {'微博':'#4a7fa8','评论':'#2f8f86'};
 function serCMap(s){ return Object.assign({}, SIDE_C, BASIN_C, (s.o&&s.o.cmap)||{}); }
 var C = {fg:'#2b2118', fg2:'#5c4b3a', fg3:'#85735d', line:'rgba(120,95,60,.24)', grid:'rgba(120,95,60,.10)'};
 var charts = {}, built = {};
-var YUYAN_VECTOR_MODE = new URLSearchParams(window.location.search).get('vector') === '1';
-window.YUYAN_VECTOR_MODE = YUYAN_VECTOR_MODE;
+var BASINSCOPE_VECTOR_MODE = new URLSearchParams(window.location.search).get('vector') === '1';
+window.BASINSCOPE_VECTOR_MODE = BASINSCOPE_VECTOR_MODE;
 function initChart(box, theme, opts) {
-  var options = Object.assign({ renderer: YUYAN_VECTOR_MODE ? 'svg' : 'canvas' }, opts || {});
+  var options = Object.assign({ renderer: BASINSCOPE_VECTOR_MODE ? 'svg' : 'canvas' }, opts || {});
   return echarts.init(box, theme, options);
 }
 
@@ -1620,17 +1620,17 @@ R.basinmap = function(box, s){
         {type:'map', map:NAME, geoIndex:0, data:regions, silent:true},
         /* 干流静态底衬线：留在 canvas 上（导出 PNG 时也在），流动层由 SVG 覆盖层叠在其上 */
         {type:'lines', coordinateSystem:'geo', polyline:true, silent:true, zlevel:3,
-         lineStyle:{color:'#ffffff', width:YUYAN_VECTOR_MODE ? 12 : 0, opacity:YUYAN_VECTOR_MODE ? .96 : 0},
+         lineStyle:{color:'#ffffff', width:BASINSCOPE_VECTOR_MODE ? 12 : 0, opacity:BASINSCOPE_VECTOR_MODE ? .96 : 0},
          data:[{coords:RV[bk] || []}]},
         {type:'lines', coordinateSystem:'geo', polyline:true, silent:true, zlevel:4,
-         lineStyle:{color:YUYAN_VECTOR_MODE ? '#7d450a' : RVC.core, width:YUYAN_VECTOR_MODE ? 7 : 2.6, opacity:1},
+         lineStyle:{color:BASINSCOPE_VECTOR_MODE ? '#7d450a' : RVC.core, width:BASINSCOPE_VECTOR_MODE ? 7 : 2.6, opacity:1},
          data:[{coords:RV[bk] || []}]},
         /* 源头 / 入海口锚点（流域色 + 白边，浅底可见） */
         {type:'scatter', coordinateSystem:'geo', symbolSize:9, zlevel:6, silent:true,
          itemStyle:{color:RVC.core, borderColor:'#ffffff', borderWidth:1.8},
          label:{show:true, color:'#16324f', fontSize:11, distance:5,
            textBorderColor:'rgba(255,255,255,.96)', textBorderWidth:3,
-           formatter:function(p){ return window.YUYAN_I18N ? window.YUYAN_I18N.geo(p.data.name) : p.data.name; }},
+           formatter:function(p){ return window.BASINSCOPE_I18N ? window.BASINSCOPE_I18N.geo(p.data.name) : p.data.name; }},
          data:o.ends || []},
         /* 省名标签层：centroid 锚点，宽屏全标；深墨字 + 白描边 → 深浅底都清晰 */
         {type:'scatter', coordinateSystem:'geo', symbolSize:1, zlevel:6, silent:true,
@@ -1639,7 +1639,7 @@ R.basinmap = function(box, s){
             撑住可读性，描边太细会"糊"进底色。 */
          label:{show:true, color:'#16324f', fontSize:fs,
            textBorderColor:'rgba(255,255,255,.98)', textBorderWidth:3.2,
-           formatter:function(p){ return window.YUYAN_I18N ? window.YUYAN_I18N.geo(p.data.name) : p.data.name; }},
+           formatter:function(p){ return window.BASINSCOPE_I18N ? window.BASINSCOPE_I18N.geo(p.data.name) : p.data.name; }},
          /* v16：地图放大到满卡后，东部小省（安徽/江苏/浙江/上海）的 centroid 锚点会挤在
             一起 —— 一律允许 shiftY 纵向避让（宽屏也有大量纵向空间可借），只在窄屏
             （crowd）才额外允许丢标签。两者都关掉会让名字叠成一坨，反而不可读。 */
@@ -2481,7 +2481,7 @@ R.jnmaps = function(box, s){
       /* v17 浅底配套：省名改深墨字 + 白描边（深底时是白字 + 黑描边） */
       label: {show: true, color: 'rgba(14,40,26,.96)', fontSize: 10.5,
         textBorderColor: 'rgba(255,255,255,.92)', textBorderWidth: 2.4,
-        formatter: function(q){ return window.YUYAN_I18N ? window.YUYAN_I18N.geo(q.name) : q.name; }},
+        formatter: function(q){ return window.BASINSCOPE_I18N ? window.BASINSCOPE_I18N.geo(q.name) : q.name; }},
       labelLayout: {moveOverlap: 'shiftY', hideOverlap: true},
       itemStyle: {borderColor: 'rgba(120,133,146,.85)', borderWidth: 1,
         areaColor: 'rgba(146,158,170,.42)'},
@@ -3412,7 +3412,7 @@ R.evledger = function(box, s){
 
 
 /* ===== v8：分段进度条渲染器 =====
-   由来：用户指定采用「舆眼-界面改造预案」里那张「正文长度分布」卡的形态
+   由来：用户指定采用「BasinScope-界面改造预案」里那张「正文长度分布」卡的形态
    —— 左侧中文档位、中间分段进度条、右侧条数与占比、底部一条口径说明。
    实现选型：纯 DOM 而非 ECharts。理由：
      1) 条形只有 16px 高，canvas 在这个高度上锯齿明显，DOM 矩形边缘锐利；
@@ -3838,7 +3838,7 @@ R.chat = function(box, s){
   }
 
   addMsg('ai',
-    '你好，我是<strong>舆眼智能问答</strong>。' +
+    '你好，我是<strong>BasinScope智能问答</strong>。' +
     (basin ? ('当前专题为 <b>'+__qaEsc(basin)+'流域</b>，我只读取本流域的数据。')
            : '可结合本地数据与教材/论文知识库回答舆情问题。') + '<br>' +
     '· ' + (basin ? (__qaEsc(basin)+'流域最近有哪些热点事件？')

@@ -1,5 +1,5 @@
-﻿# -*- coding: utf-8 -*-
-"""按「舆眼-界面改造预案」的五组十七视图结构，把此前所有预览模块
+# -*- coding: utf-8 -*-
+"""按「BasinScope-界面改造预案」的五组十七视图结构，把此前所有预览模块
 （IP 地域 / 热词统计 / 柱状图 / 情感 / 词云 / 流域对照 …）整合成
 一个自包含单文件 HTML（真实数据 + ECharts + 中国地图）。
 
@@ -876,11 +876,11 @@ V.append(dict(
           K('向量文本块', N(KB['chunks']), '可直接做语义检索', 4),
           K('可导出数据集', '4 类', '省份 / 热词 / 核查 / 全量', 5),
           K('数据缺口', '3 项', '见下方选题建议', 6)],
-    btns=[{'t': '导出 省份声量明细 (CSV)', 'd': 'prov', 'f': '舆眼_省份声量明细.csv', 'csv': True},
-          {'t': '导出 热词明细 Top40 (CSV)', 'd': 'hotTbl', 'f': '舆眼_热词明细.csv', 'csv': True},
-          {'t': '导出 一致性核查 (CSV)', 'd': 'recon', 'f': '舆眼_一致性核查.csv', 'csv': True},
-          {'t': '导出 全量数据快照 (JSON)', 'd': '__all__', 'f': '舆眼_数据快照.json'},
-          {'t': '导出 情感抽样 (CSV)', 'd': 'sentExport', 'f': '舆眼_情感抽样.csv', 'csv': True}],
+    btns=[{'t': '导出 省份声量明细 (CSV)', 'd': 'prov', 'f': 'BasinScope_省份声量明细.csv', 'csv': True},
+          {'t': '导出 热词明细 Top40 (CSV)', 'd': 'hotTbl', 'f': 'BasinScope_热词明细.csv', 'csv': True},
+          {'t': '导出 一致性核查 (CSV)', 'd': 'recon', 'f': 'BasinScope_一致性核查.csv', 'csv': True},
+          {'t': '导出 全量数据快照 (JSON)', 'd': '__all__', 'f': 'BasinScope_数据快照.json'},
+          {'t': '导出 情感抽样 (CSV)', 'd': 'sentExport', 'f': 'BasinScope_情感抽样.csv', 'csv': True}],
     cards=[
         TABLE('研究选题建议（基于数据缺口）',
               [{'k': 'q', 'l': '可做方向'}, {'k': 'why', 'l': '数据支撑'}, {'k': 'need', 'l': '还需补什么'}],
@@ -3524,7 +3524,7 @@ out = (tpl.replace('/*__ECHARTS__*/', echarts, 1)
           .replace('/*__DATA__*/{}', DATA, 1)
           .replace('/*__VIEWS__*/[]', VIEWS, 1))
 
-DST = os.path.join(BASE, '舆眼-黄河流域舆情.html')
+DST = os.path.join(BASE, 'BasinScope-黄河流域舆情.html')
 io.open(DST, 'w', encoding='utf-8').write(out)
 
 print('\n== 生成结果 ==')

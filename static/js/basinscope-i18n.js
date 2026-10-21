@@ -1,15 +1,15 @@
-﻿(function () {
+(function () {
   "use strict";
   const query = new URLSearchParams(window.location.search);
   const isEnglish = query.get("lang") === "en";
-  window.YUYAN_EN_MODE = isEnglish;
+  window.BASINSCOPE_EN_MODE = isEnglish;
   if (isEnglish) {
     document.documentElement.lang = "en";
     document.body.classList.add("lang-en");
   }
 
   const EXACT = {
-    "舆眼": "Yuyan",
+    "BasinScope": "BasinScope",
     "黄河流域舆情": "Yellow River Public Opinion",
     "黄河流域": "Yellow River",
     "18 项": "18 views",
@@ -553,7 +553,7 @@
     return value;
   }
 
-  window.YUYAN_I18N = { t: trText, geo: geoName };
+  window.BASINSCOPE_I18N = { t: trText, geo: geoName };
 
   function exactWalk(value) {
     if (Array.isArray(value)) return value.map(exactWalk);
@@ -637,9 +637,9 @@
   function applyEnglish() {
     const brand = document.querySelector(".brand");
     if (brand) {
-      brand.innerHTML = "Yuyan<small>Yellow River Public Opinion Analysis System - Ecological Governance | Cultural Tourism | Healthcare Disputes</small>";
+      brand.innerHTML = "BasinScope<small>Yellow River Public Opinion Analysis System - Ecological Governance | Cultural Tourism | Healthcare Disputes</small>";
     }
-    document.title = "Yuyan - Yellow River Public Opinion Analysis";
+    document.title = "BasinScope - Yellow River Public Opinion Analysis";
     const style = document.createElement("style");
     style.id = "en-mode-style";
     style.textContent = ".lang-en .lead,.lang-en .note{display:none!important}";

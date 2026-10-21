@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4 - 2026-10-21
+
+- Rebranded the software and user-facing documentation as BasinScope.
+- Renamed the public theme and translation assets for consistency.
+- Updated repository, reviewer-demo, and release metadata for the new software name.
+
 ## 0.1.3 - 2026-10-19
 
 - Made dashboard data paths portable across Windows and Linux.

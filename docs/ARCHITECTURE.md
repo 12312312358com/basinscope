@@ -1,6 +1,6 @@
 # Architecture
 
-Yuyan-Yellow River is a standalone Flask application with four connected parts.
+BasinScope is a standalone Flask application with four connected parts.
 
 ## Acquisition
 
@@ -25,7 +25,7 @@ dependencies and cache lifetimes.
 
 `app.py` serves the dashboard and the question-answering endpoint. Interface
 assets are organized under `templates/`, `static/`, and `view/`. Optional English
-labels are provided by `static/js/yuyan-i18n.js`.
+labels are provided by `static/js/basinscope-i18n.js`.
 
 ## Main source directories
 

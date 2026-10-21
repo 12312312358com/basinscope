@@ -1,6 +1,6 @@
-# Yuyan-Yellow River
+# BasinScope
 
-Yuyan-Yellow River is a standalone Flask application for public-opinion analysis of ecological governance, cultural tourism, and healthcare disputes in the Yellow River Basin.
+BasinScope is a standalone Flask application for public-opinion analysis of ecological governance, cultural tourism, and healthcare disputes in the Yellow River Basin.
 
 The software integrates topic-targeted acquisition, desensitized multi-source storage, Chinese-language text analytics, event monitoring, rule-based risk screening, cross-platform comment clustering, interactive visualization, short-video analysis, and basin-constrained question answering.
 
@@ -220,7 +220,7 @@ build_unified_page.py
 The final standalone output is:
 
 ```text
-dashboard_gen/舆眼-黄河流域舆情.html
+dashboard_gen/BasinScope-黄河流域舆情.html
 ```
 
 ## Data-processing methods
@@ -280,7 +280,7 @@ An `EN` / `中文` switch is also added to the top toolbar.
 The translation layer is implemented in:
 
 ```text
-static/js/yuyan-i18n.js
+static/js/basinscope-i18n.js
 ```
 
 It translates navigation, view titles, KPI labels, card titles, chart labels, legends, table headers, risk levels, and common interface terms before the dashboard is rendered.

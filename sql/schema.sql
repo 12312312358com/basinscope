@@ -1,4 +1,4 @@
--- Schema-only review database for Yuyan-Yellow River.
+-- Schema-only review database for BasinScope.
 -- Contains no platform records, credentials, or personal data.
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;

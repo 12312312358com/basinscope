@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""舆眼 · 分平台采集入口（薄封装，每个平台一个）
+"""BasinScope · 分平台采集入口（薄封装，每个平台一个）
 
 ## 为什么要这一层
 `run_refresh.py` 的 `--platform` 只在**调度层**筛选（决定跑哪几个配置项），
@@ -34,7 +34,7 @@ PYTHON = sys.executable          # 用当前解释器，别硬编码 .venv 路�
 def crawl(platform_key, extra_spider_arg=None, argv=None):
     """platform_key是 run_refresh.py 的配置键；extra_spider_arg 是给底层爬虫的附加参数。"""
     argv = argv if argv is not None else sys.argv[1:]
-    ap = argparse.ArgumentParser(description='舆眼 %s 采集 + 同步' % (platform_key or '全部平台'))
+    ap = argparse.ArgumentParser(description='BasinScope %s 采集 + 同步' % (platform_key or '全部平台'))
     ap.add_argument('--profile', choices=['quick', 'full'], default='quick',
                     help='quick=小规模增量(默认)；full=全量，小时级')
     ap.add_argument('--pages', type=int, help='覆盖每关键词抓几页')

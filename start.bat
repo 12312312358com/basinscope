@@ -1,4 +1,4 @@
-﻿@echo off
+@echo off
 chcp 65001 >nul
 cd /d %~dp0
 set HOST=127.0.0.1
@@ -9,7 +9,7 @@ if exist .venv\Scripts\python.exe (
   set PY=python
 )
 echo ====================================
-echo  Yuyan-Yellow River
+echo  BasinScope
 echo  http://127.0.0.1:5001
 echo ====================================
 "%PY%" app.py

@@ -69,7 +69,7 @@ def build():
 
 _TPL = r"""<!doctype html><html lang="zh"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>视频分析总览 · 舆眼</title>
+<title>视频分析总览 · BasinScope</title>
 <style>
 :root{--bg:#12161c;--card:#1b2029;--line:#2a3240;--fg:#e8edf4;--sub:#9aa7b8;--acc:#5aa9ff}
 *{box-sizing:border-box}

@@ -44,7 +44,7 @@ jobs:
           DB_PASSWORD: root
           DB_NAME: db_weibo_basin
         run: |
-          nohup python app.py > /tmp/yuyan.log 2>&1 &
+          nohup python app.py > /tmp/basinscope.log 2>&1 &
           for i in $(seq 1 60); do
             if curl -fsS http://127.0.0.1:5011/healthz >/dev/null; then break; fi
             sleep 2
@@ -78,7 +78,7 @@ jobs:
           grep -q "黄河流域" /tmp/dashboard.html
       - name: Show application log on failure
         if: failure()
-        run: tail -200 /tmp/yuyan.log || true
+        run: tail -200 /tmp/basinscope.log || true
 
   docker-smoke:
     runs-on: ubuntu-latest

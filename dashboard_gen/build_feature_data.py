@@ -1,5 +1,5 @@
-﻿# -*- coding: utf-8 -*-
-"""汇总「舆眼」全功能导航中心 所需真实数据 -> feature_detail_data.json
+# -*- coding: utf-8 -*-
+"""汇总「BasinScope」全功能导航中心 所需真实数据 -> feature_detail_data.json
 口径对齐 view/page/page.py 与 dao/*.py
 """
 import csv, io, json, os, sys, time
