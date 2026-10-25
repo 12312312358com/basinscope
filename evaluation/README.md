@@ -81,3 +81,17 @@ python scripts/verify_video_subset.py --json
 
 The check requires a matching l2 feature record, at least one keyframe, ASR
 status `ok`, and a non-empty transcript for each selected l3 Yellow River case.
+## Resume an interrupted run
+
+Results are saved after every question. If a run is interrupted, continue from
+the existing `qa_results.jsonl` without repeating completed questions:
+
+```powershell
+python scripts\run_qa_eval.py `
+  --base-url http://127.0.0.1:5001 `
+  --output-dir evaluation `
+  --resume
+```
+
+Only rows whose question text still matches `qa_questions.jsonl` are reused.
+Start a clean run by omitting `--resume`.

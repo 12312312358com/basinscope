@@ -152,6 +152,7 @@ def main() -> int:
     parser.add_argument("--output-dir", default="evaluation")
     parser.add_argument("--timeout", type=int, default=600)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--resume", action="store_true", help="Reuse matching results already present in qa_results.jsonl")
     args = parser.parse_args()
 
     root = Path(__file__).resolve().parents[1]
@@ -166,8 +167,25 @@ def main() -> int:
         print(json.dumps({"status": "passed", "questions": len(questions), "path": str(questions_path)}, ensure_ascii=False, indent=2))
         return 0
 
+    existing = {}
+    existing_path = output_dir / "qa_results.jsonl"
+    if args.resume and existing_path.is_file():
+        by_id = {q["id"]: q for q in questions}
+        for line in existing_path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            q = by_id.get(row.get("id"))
+            if q and row.get("question") == q.get("question"):
+                existing[row["id"]] = row
+
     results = []
     for question in questions:
+        if question["id"] in existing:
+            item = existing[question["id"]]
+            results.append(item)
+            print(f"[{item['id']}] resumed {item.get('auto_status', '')}")
+            continue
         if question.get("manual_only"):
             item = {
                 **question,
@@ -181,20 +199,22 @@ def main() -> int:
             }
             results.append(item)
             print(f"[{item['id']}] manual_only")
-            continue
-        response = call_chat(args.base_url, question, args.timeout)
-        item = {
-            **question,
-            "reply": response.get("reply", ""),
-            "references": response.get("references", []),
-            "reference_count": len(response.get("references", [])),
-            "auto_status": automatic_status(question, response),
-            "manual_score": "",
-            "manual_notes": "",
-            "error": response.get("error", ""),
-        }
-        results.append(item)
-        print(f"[{item['id']}] {item['auto_status']} refs={item['reference_count']}")
+        else:
+            response = call_chat(args.base_url, question, args.timeout)
+            item = {
+                **question,
+                "reply": response.get("reply", ""),
+                "references": response.get("references", []),
+                "reference_count": len(response.get("references", [])),
+                "auto_status": automatic_status(question, response),
+                "manual_score": "",
+                "manual_notes": "",
+                "error": response.get("error", ""),
+            }
+            results.append(item)
+            print(f"[{item['id']}] {item['auto_status']} refs={item['reference_count']}")
+        # Save after every question so an interrupted run can be resumed.
+        write_outputs(results, output_dir)
     jsonl_path, csv_path = write_outputs(results, output_dir)
     counts = {key: sum(1 for row in results if row["auto_status"] == key) for key in ("auto_pass", "manual_review", "manual_only", "error")}
     print(json.dumps({"status": "completed", "questions": len(results), "counts": counts, "jsonl": str(jsonl_path), "csv": str(csv_path)}, ensure_ascii=False, indent=2))
