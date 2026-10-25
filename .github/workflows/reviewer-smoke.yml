@@ -29,6 +29,8 @@ jobs:
           python-version: '3.11'
       - name: Install review dependencies
         run: pip install -r requirements-review.txt
+      - name: Verify synthetic reviewer fixture
+        run: python scripts/verify_reviewer_demo.py --repo-root . --json
       - name: Load schema and synthetic data
         run: |
           mysql -h127.0.0.1 -uroot -proot db_weibo_basin < sql/schema.sql
@@ -76,6 +78,22 @@ jobs:
           fi
           test "$dashboard_bytes" -gt 50000
           grep -q "黄河流域" /tmp/dashboard.html
+      - name: Verify reviewer database and dashboard
+        env:
+          SECRET_KEY: reviewer-ci-secret
+          HOST: 127.0.0.1
+          PORT: 5011
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_USER: root
+          DB_PASSWORD: root
+          DB_NAME: db_weibo_basin
+        run: |
+          python scripts/verify_reviewer_demo.py \
+            --repo-root . \
+            --db \
+            --url http://127.0.0.1:5011 \
+            --json
       - name: Show application log on failure
         if: failure()
         run: tail -200 /tmp/basinscope.log || true
@@ -107,6 +125,13 @@ jobs:
           curl -fsS --max-time 600 http://127.0.0.1:5001/page/dashboard -o /tmp/dashboard.html
           test "$(wc -c < /tmp/dashboard.html)" -gt 50000
           grep -q "黄河流域" /tmp/dashboard.html
+      - name: Verify containerized reviewer demo
+        run: |
+          docker compose exec -T app python scripts/verify_reviewer_demo.py \
+            --repo-root . \
+            --db \
+            --url http://127.0.0.1:5001 \
+            --json
       - name: Show container logs on failure
         if: failure()
         run: docker compose logs --no-color

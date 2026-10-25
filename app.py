@@ -125,9 +125,15 @@ def create_app():
                         ),
                         503,
                     )
-                cur.execute("SELECT COUNT(*) FROM t_basin_article")
+                cur.execute(
+                    "SELECT COUNT(*) FROM t_basin_article WHERE `流域`=%s",
+                    ("黄河",),
+                )
                 article_count = int(cur.fetchone()[0])
-                cur.execute("SELECT COUNT(*) FROM t_basin_comment")
+                cur.execute(
+                    "SELECT COUNT(*) FROM t_basin_comment WHERE `流域`=%s",
+                    ("黄河",),
+                )
                 comment_count = int(cur.fetchone()[0])
             status = "ok" if article_count > 0 else "error"
             code = 200 if status == "ok" else 503
