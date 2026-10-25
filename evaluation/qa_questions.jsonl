@@ -1,0 +1,30 @@
+{"id":"q01","type":"factual","basin":"黄河","question":"当前微博快照包含多少篇文章？","expected_facts":["1097"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q02","type":"factual","basin":"黄河","question":"其中有多少篇属于三个重点主题？","expected_facts":["899"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q03","type":"factual","basin":"黄河","question":"生态治理主题有多少篇文章？","expected_facts":["371"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q04","type":"factual","basin":"黄河","question":"文化旅游主题有多少篇文章？","expected_facts":["359"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q05","type":"factual","basin":"黄河","question":"医疗争议主题有多少篇文章？","expected_facts":["169"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q06","type":"factual","basin":"黄河","question":"这些文章一共有多少点赞数？","expected_facts":["158423"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q07","type":"factual","basin":"黄河","question":"这些文章的评论数元数据总和是多少？","expected_facts":["32833"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q08","type":"factual","basin":"黄河","question":"这些文章一共有多少转发数？","expected_facts":["72681"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q09","type":"factual","basin":"黄河","question":"当前快照包含多少条跨平台评论？","expected_facts":["949"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q10","type":"factual","basin":"黄河","question":"有多少条评论用于聚类？","expected_facts":["936"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q11","type":"factual","basin":"黄河","question":"五个评论聚类的轮廓系数是多少？","expected_facts":["0.464"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q12","type":"factual","basin":"黄河","question":"风险筛查中黄色和蓝色事件分别有多少个？","expected_facts":["3","9"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q13","type":"event","basin":"黄河","question":"中央生态环保督察事件有多少篇微博文章？","expected_facts":["139"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q14","type":"event","basin":"黄河","question":"中央生态环保督察事件有多少条负面记录和负面比例？","expected_facts":["73","52.5"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q15","type":"risk","basin":"黄河","question":"58.8分由哪些四个分项贡献组成？","expected_facts":["58.8","21.0","16.4","20.0","1.4"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q16","type":"risk","basin":"黄河","question":"督察整改与问责事件的风险分数是多少？","expected_facts":["46.1"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q17","type":"risk","basin":"黄河","question":"水污染和排污事件的风险分数是多少？","expected_facts":["35.1"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q18","type":"cross_platform","basin":"黄河","question":"医疗争议数据在微博、小红书和知乎分别有多少篇文章？","expected_facts":["169","346","267"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q19","type":"cross_platform","basin":"黄河","question":"医疗争议数据包含多少条评论？","expected_facts":["585"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q20","type":"cross_platform","basin":"黄河","question":"五个评论聚类分别包含多少条评论？","expected_facts":["412","144","142","123","115"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q21","type":"video","basin":"黄河","question":"黄河 Douyin 案例共有多少个，其中文旅和生态治理各多少？","expected_facts":["33","17","16"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q22","type":"video","basin":"黄河","question":"短视频示例的时长、关键帧数、转写字数和推荐分数是多少？","expected_facts":["45.8","19","212","0.885"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q23","type":"factual","basin":"黄河","question":"32,833 和 949 这两个评论数字有什么区别？","expected_facts":["32833","949"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q24","type":"evidence_gap","basin":"黄河","question":"文化旅游是否包含小红书和知乎文本？","expected_facts":["不包含"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q25","type":"evidence_gap","basin":"黄河","question":"请根据当前快照预测2027年的风险排名。","expected_facts":["无法"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q26","type":"out_of_scope","basin":"黄河","question":"长江流域文章最多的省份是哪里？","expected_facts":[],"expected_source_terms":[],"out_of_scope":true}
+{"id":"q27","type":"out_of_scope","basin":"黄河","question":"全国34个省级行政区中，哪个省的舆情风险最高？","expected_facts":[],"expected_source_terms":[],"out_of_scope":true}
+{"id":"q28","type":"scope","basin":"黄河","question":"当前用于分析的黄河流域目标省份有几个？","expected_facts":["8"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q29","type":"scope","basin":"黄河","question":"地图中显示但不属于八省分析样本的共源省是哪一个？","expected_facts":["四川"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q30","type":"traceability","basin":"黄河","question":"系统如何保证每项输出可以追溯？","expected_facts":["来源","规则","限制"],"expected_source_terms":[],"out_of_scope":false}
