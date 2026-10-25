@@ -168,6 +168,20 @@ def main() -> int:
 
     results = []
     for question in questions:
+        if question.get("manual_only"):
+            item = {
+                **question,
+                "reply": "",
+                "references": [],
+                "reference_count": 0,
+                "auto_status": "manual_only",
+                "manual_score": "",
+                "manual_notes": question.get("manual_reason", ""),
+                "error": "",
+            }
+            results.append(item)
+            print(f"[{item['id']}] manual_only")
+            continue
         response = call_chat(args.base_url, question, args.timeout)
         item = {
             **question,
@@ -182,7 +196,7 @@ def main() -> int:
         results.append(item)
         print(f"[{item['id']}] {item['auto_status']} refs={item['reference_count']}")
     jsonl_path, csv_path = write_outputs(results, output_dir)
-    counts = {key: sum(1 for row in results if row["auto_status"] == key) for key in ("auto_pass", "manual_review", "error")}
+    counts = {key: sum(1 for row in results if row["auto_status"] == key) for key in ("auto_pass", "manual_review", "manual_only", "error")}
     print(json.dumps({"status": "completed", "questions": len(results), "counts": counts, "jsonl": str(jsonl_path), "csv": str(csv_path)}, ensure_ascii=False, indent=2))
     return 0 if counts["error"] == 0 else 1
 

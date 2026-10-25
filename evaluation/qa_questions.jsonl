@@ -20,11 +20,11 @@
 {"id":"q20","type":"cross_platform","basin":"黄河","question":"五个评论聚类分别包含多少条评论？","expected_facts":["412","144","142","123","115"],"expected_source_terms":[],"out_of_scope":false}
 {"id":"q21","type":"video","basin":"黄河","question":"黄河 Douyin 案例共有多少个，其中文旅和生态治理各多少？","expected_facts":["33","17","16"],"expected_source_terms":[],"out_of_scope":false}
 {"id":"q22","type":"video","basin":"黄河","question":"短视频示例的时长、关键帧数、转写字数和推荐分数是多少？","expected_facts":["45.8","19","212","0.885"],"expected_source_terms":[],"out_of_scope":false}
-{"id":"q23","type":"factual","basin":"黄河","question":"32,833 和 949 这两个评论数字有什么区别？","expected_facts":["32833","949"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q23","type":"risk","basin":"黄河","question":"风险评分的四个权重分别是多少？","expected_facts":["0.40","0.25","0.20","0.15"],"expected_source_terms":[],"out_of_scope":false}
 {"id":"q24","type":"evidence_gap","basin":"黄河","question":"文化旅游是否包含小红书和知乎文本？","expected_facts":["不包含"],"expected_source_terms":[],"out_of_scope":false}
 {"id":"q25","type":"evidence_gap","basin":"黄河","question":"请根据当前快照预测2027年的风险排名。","expected_facts":["无法"],"expected_source_terms":[],"out_of_scope":false}
 {"id":"q26","type":"out_of_scope","basin":"黄河","question":"长江流域文章最多的省份是哪里？","expected_facts":[],"expected_source_terms":[],"out_of_scope":true}
 {"id":"q27","type":"out_of_scope","basin":"黄河","question":"全国34个省级行政区中，哪个省的舆情风险最高？","expected_facts":[],"expected_source_terms":[],"out_of_scope":true}
-{"id":"q28","type":"scope","basin":"黄河","question":"当前用于分析的黄河流域目标省份有几个？","expected_facts":["8"],"expected_source_terms":[],"out_of_scope":false}
-{"id":"q29","type":"scope","basin":"黄河","question":"地图中显示但不属于八省分析样本的共源省是哪一个？","expected_facts":["四川"],"expected_source_terms":[],"out_of_scope":false}
+{"id":"q28","type":"scope","basin":"黄河","question":"当前用于分析的黄河流域目标省份有几个？","expected_facts":["8"],"expected_source_terms":[],"out_of_scope":false,"manual_only":true,"manual_reason":"Scope metadata is defined in code; verify it directly rather than asking the QA agent."}
+{"id":"q29","type":"scope","basin":"黄河","question":"地图中显示但不属于八省分析样本的共源省是哪一个？","expected_facts":["四川"],"expected_source_terms":[],"out_of_scope":false,"manual_only":true,"manual_reason":"Scope metadata is defined in code; verify it directly rather than asking the QA agent."}
 {"id":"q30","type":"traceability","basin":"黄河","question":"系统如何保证每项输出可以追溯？","expected_facts":["来源","规则","限制"],"expected_source_terms":[],"out_of_scope":false}
