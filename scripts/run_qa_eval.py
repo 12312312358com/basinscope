@@ -176,7 +176,11 @@ def main() -> int:
                 continue
             row = json.loads(line)
             q = by_id.get(row.get("id"))
-            if q and row.get("question") == q.get("question"):
+            if (
+                q
+                and row.get("question") == q.get("question")
+                and row.get("auto_status") != "error"
+            ):
                 existing[row["id"]] = row
 
     results = []
