@@ -49,6 +49,7 @@ except ImportError:
 
 # 🌟 核心修复：不再创建新的 XinghuoLLMService 实例，使用 xinghuo_llm.py 中的全局实例
 from service.xinghuo_llm import xinghuo_llm, assemble_use_data
+from service.snapshot_facts import lookup_snapshot_fact
 try:
     from service.report_service import generate_full_report
 except Exception as _e:
@@ -630,6 +631,15 @@ def ai_chat():
             user.get('username', 'anonymous') if isinstance(user, dict) else 'anonymous')
 
         # 会话隔离：按「用户 + 流域」分桶，避免跨专题追问时历史串台
+        # Verified snapshot facts take precedence over generative routing.
+        if user_message:
+            deterministic = lookup_snapshot_fact(user_message, basin=basin)
+            if deterministic is not None:
+                return jsonify({
+                    "reply": deterministic["reply"],
+                    "references": deterministic.get("references", []),
+                })
+
         sid = f"{user_id}:{basin}" if basin else user_id
 
         # 🌟 核心修复：调用 xinghuo_llm.chat()，传入所有参数（含专题流域）
