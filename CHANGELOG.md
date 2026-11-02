@@ -2,7 +2,7 @@
 
 ## 0.1.4 - 2026-10-21
 
-- Rebranded the software and user-facing documentation as BasinScope.
+- Rebranded the software and user-facing documentation as SignalTrace.
 - Renamed the public theme and translation assets for consistency.
 - Updated repository, reviewer-demo, and release metadata for the new software name.
 

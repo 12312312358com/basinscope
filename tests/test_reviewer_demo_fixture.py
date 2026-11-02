@@ -34,7 +34,7 @@ def test_reviewer_demo_fixture() -> None:
 def test_yellow_map_scope() -> None:
     repo = Path(os.environ.get("BASINSCOPE_REPO", Path(__file__).resolve().parents[1]))
     geo = json.loads(
-        (repo / "dashboard_gen" / "basin_geo_map.json").read_text(encoding="utf-8")
+        (repo / "src" / "dashboard_gen" / "basin_geo_map.json").read_text(encoding="utf-8")
     )
     analytical = set(geo["meta"]["data"]["yl"])
     displayed = set(geo["meta"]["yl"])

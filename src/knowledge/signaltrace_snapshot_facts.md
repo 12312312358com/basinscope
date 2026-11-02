@@ -1,6 +1,6 @@
-# BasinScope Snapshot Facts
+# SignalTrace Snapshot Facts
 
-This document summarizes verified snapshot-level facts used by the BasinScope
+This document summarizes verified snapshot-level facts used by the SignalTrace
 dashboard and reported in the accompanying manuscript. It is a curated
 knowledge document, not a substitute for the source records.
 

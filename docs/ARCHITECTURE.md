@@ -1,6 +1,6 @@
 # Architecture
 
-BasinScope is a standalone Flask application with four connected parts.
+SignalTrace is a standalone Flask application with four connected parts.
 
 ## Acquisition
 

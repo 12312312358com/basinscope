@@ -9,7 +9,7 @@ if exist .venv\Scripts\python.exe (
   set PY=python
 )
 echo ====================================
-echo  BasinScope
+echo  SignalTrace
 echo  http://127.0.0.1:5001
 echo ====================================
 "%PY%" app.py

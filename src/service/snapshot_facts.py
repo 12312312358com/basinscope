@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Deterministic answers for verified BasinScope snapshot facts.
+"""Deterministic answers for verified SignalTrace snapshot facts.
 
 This module is intentionally small and conservative. It only answers questions
-whose facts are explicitly present in knowledge/basinscope_snapshot_facts.md.
+whose facts are explicitly present in knowledge/signaltrace_snapshot_facts.md.
 Unknown questions return None and continue through the normal QA pipeline.
 """
 from __future__ import annotations
@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 
-FACT_FILE = "knowledge/basinscope_snapshot_facts.md"
+FACT_FILE = "knowledge/signaltrace_snapshot_facts.md"
 
 
 def _norm(text: str) -> str:
@@ -30,9 +30,9 @@ def _ref() -> dict[str, Any]:
     content = path.read_text(encoding="utf-8") if path.is_file() else ""
     return {
         "id": 1,
-        "title": "BasinScope snapshot facts",
+        "title": "SignalTrace snapshot facts",
         "type": "curated_snapshot",
-        "content": "Verified snapshot-level figures from the BasinScope manuscript and repository.",
+        "content": "Verified snapshot-level figures from the SignalTrace manuscript and repository.",
         "full_content": content,
         "score": 1.0,
         "file_path": FACT_FILE,

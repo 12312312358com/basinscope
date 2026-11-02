@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Verify the 33-case Yellow River short-video evaluation subset."""
 from __future__ import annotations
 
@@ -25,11 +25,30 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-root", default=str(Path(__file__).resolve().parents[1]))
     parser.add_argument("--json", action="store_true")
+    parser.add_argument(
+        "--require-data",
+        action="store_true",
+        help="Return exit code 2 instead of skipping when local video features are absent.",
+    )
     args = parser.parse_args()
     root = Path(args.repo_root)
     vf = root / "video_features"
-    l2 = load_jsonl(vf / "l2_features.jsonl")
-    l3 = load_jsonl(vf / "l3_features.jsonl")
+    required = [vf / "l2_features.jsonl", vf / "l3_features.jsonl"]
+    missing = [str(path.relative_to(root)) for path in required if not path.is_file()]
+    if missing:
+        result = {
+            "status": "skipped",
+            "reason": (
+                "The public repository excludes video_features/*.jsonl to avoid "
+                "redistributing source-derived records. Provide de-identified local "
+                "feature files to run this optional verification."
+            ),
+            "missing": missing,
+        }
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 2 if args.require_data else 0
+    l2 = load_jsonl(required[0])
+    l3 = load_jsonl(required[1])
     l2_map = {
         row["content_id"]: row
         for row in l2

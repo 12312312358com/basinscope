@@ -28,6 +28,11 @@ chroma_db/
 dashboard_gen/*.html
 !dashboard_gen/_unified_tpl.html
 dashboard_gen/*.json
+!dashboard_gen/basin_geo_map.json
+src/dashboard_gen/*.html
+!src/dashboard_gen/_unified_tpl.html
+src/dashboard_gen/*.json
+!src/dashboard_gen/basin_geo_map.json
 video_features/*.jsonl
 video_features/*.json
 video_features/*.csv

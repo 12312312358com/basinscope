@@ -1,6 +1,6 @@
 # Reviewer Guide
 
-This guide provides a reproducible reviewer path for the synthetic BasinScope demo. It does not require private platform records, API keys, local model weights, or original video files.
+This guide provides a reproducible reviewer path for the synthetic SignalTrace demo. It does not require private platform records, API keys, local model weights, or original video files.
 
 ## What the demo verifies
 
@@ -35,6 +35,7 @@ http://127.0.0.1:5001/page/dashboard
 1. Create a review database named `db_weibo_basin_review`.
 2. Copy `.env.reviewer.example` to `.env.reviewer`.
 3. Set `DB_PASSWORD` in `.env.reviewer`.
+   `app.py` automatically loads `.env.reviewer` when `.env` is absent. If both files exist, `.env` takes precedence.
 4. Install the review dependencies:
 
 ```powershell
@@ -133,4 +134,4 @@ Validate the selected 33-case Yellow River short-video subset:
 python scripts\verify_video_subset.py --repo-root . --json
 ```
 
-The short-video check requires the local `video_features/*.jsonl` files. It verifies that every selected l3 case has a matching l2 record, a non-zero frame count, ASR status `ok`, and a non-empty transcript.
+The short-video check requires the local `video_features/*.jsonl` files. If those optional files are absent, the command reports `status: skipped` and exits successfully; `--require-data` converts this into exit code 2. It verifies that every selected l3 case has a matching l2 record, a non-zero frame count, ASR status `ok`, and a non-empty transcript.

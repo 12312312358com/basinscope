@@ -9,7 +9,7 @@
   }
 
   const EXACT = {
-    "BasinScope": "SignalTrace",
+    "SignalTrace": "SignalTrace",
     "黄河流域舆情": "Yellow River Public Opinion",
     "黄河流域": "Yellow River",
     "18 项": "18 views",

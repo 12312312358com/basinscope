@@ -1,4 +1,4 @@
--- Schema-only review database for BasinScope.
+-- Schema-only review database for SignalTrace.
 -- Contains no platform records, credentials, or personal data.
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;

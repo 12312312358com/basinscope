@@ -7,6 +7,7 @@ from service.snapshot_facts import FACT_FILE, lookup_snapshot_fact
 
 
 REPO = Path(__file__).resolve().parents[1]
+SRC = REPO / "src"
 QUESTIONS = REPO / "evaluation" / "qa_questions.jsonl"
 
 
@@ -18,7 +19,7 @@ def _normalize(value: object) -> str:
 
 
 def test_snapshot_fact_lookup_covers_evaluation_questions() -> None:
-    assert (REPO / FACT_FILE).is_file()
+    assert (SRC / FACT_FILE).is_file()
     questions = [
         json.loads(line)
         for line in QUESTIONS.read_text(encoding="utf-8").splitlines()

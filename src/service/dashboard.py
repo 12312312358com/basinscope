@@ -8,7 +8,7 @@
   build_feature_data.py    -> feature_detail_data.json     依赖 ip
   build_unified_data.py    -> unified_data.json            依赖上述 4 个 json + 实时查 db_weibo_basin
   build_basin_data.py      -> basin_data.json              直查 t_basin_article / t_basin_comment（流域专题）
-  build_unified_page.py    -> BasinScope-黄河流域舆情.html        依赖 unified_data.json + basin_data.json
+  build_unified_page.py    -> SignalTrace-黄河流域舆情.html        依赖 unified_data.json + basin_data.json
 
 数据来源：全部来自 db_weibo_basin 实时查询 / 项目 fenci CSV / 知识库与微调文件，非静态快照。
 
@@ -33,7 +33,7 @@ logger = logging.getLogger(__name__)
 
 _GEN_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'dashboard_gen')
 _PRJ = os.path.dirname(_GEN_DIR)
-_HTML_NAME = 'BasinScope-黄河流域舆情.html'
+_HTML_NAME = 'SignalTrace-黄河流域舆情.html'
 _HTML_PATH = os.path.join(_GEN_DIR, _HTML_NAME)
 
 # 优先用项目虚拟环境；缺失时回退到当前解释器（例如精简副本不带 .venv）

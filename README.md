@@ -1,6 +1,6 @@
-# BasinScope
+# SignalTrace
 
-BasinScope is a standalone Flask application for public-opinion analysis of ecological governance, cultural tourism, and healthcare disputes in the Yellow River Basin.
+SignalTrace is a standalone Flask application for public-opinion analysis of ecological governance, cultural tourism, and healthcare disputes in the Yellow River Basin.
 
 The software integrates topic-targeted acquisition, desensitized multi-source storage, Chinese-language text analytics, event monitoring, rule-based risk screening, cross-platform comment clustering, interactive visualization, short-video analysis, and basin-constrained question answering.
 
@@ -26,12 +26,12 @@ This repository implements the Yellow River module only. The dashboard is restri
 
 The application uses four layers:
 
-1. **Acquisition**: platform-specific collectors in `spider/`.
+1. **Acquisition**: platform-specific collectors in `src/spider/`.
 2. **Storage**: MySQL article and comment tables organized by platform.
-3. **Analytics**: data-generation and analysis scripts in `dashboard_gen/` and `service/`.
+3. **Analytics**: data-generation and analysis scripts in `src/dashboard_gen/` and `src/service/`.
 4. **Presentation**: a Flask application in `app.py` serving the generated dashboard and the question-answering endpoint.
 
-The data-generation pipeline is dependency-aware and uses stale-while-revalidate caching. Each product has an explicit dependency and cache lifetime, as defined in `service/dashboard.py`.
+The data-generation pipeline is dependency-aware and uses stale-while-revalidate caching. Each product has an explicit dependency and cache lifetime, as defined in `src/service/dashboard.py`.
 
 ## Documentation
 
@@ -47,14 +47,15 @@ The data-generation pipeline is dependency-aware and uses stale-while-revalidate
 
 | Path | Purpose |
 |---|---|
-| `app.py` | Flask application entry point |
-| `spider/` | Platform collection adapters and collection utilities |
-| `dashboard_gen/` | Analytical data products and dashboard generation |
-| `service/` | Question answering, reports, and video workflows |
-| `dao/`, `entity/`, `util/` | Database access, domain models, and shared utilities |
-| `view/`, `templates/`, `static/` | Server-rendered pages and front-end assets |
+| `app.py` | Root compatibility launcher for the application |
+| `src/app.py` | Flask application entry point |
+| `src/spider/` | Platform collection adapters and collection utilities |
+| `src/dashboard_gen/` | Analytical data products and dashboard generation |
+| `src/service/` | Question answering, reports, and video workflows |
+| `src/dao/`, `src/entity/`, `src/util/` | Database access, domain models, and shared utilities |
+| `src/view/`, `src/templates/`, `src/static/` | Server-rendered pages and front-end assets |
 | `docs/` | Architecture, methods, reproducibility, and release documentation |
-| `tests/` | Automated tests |
+| `scripts/`, `sql/`, `tests/` | Reviewer utilities, database fixtures, and automated tests |
 
 ## Reviewer quick start
 
@@ -86,6 +87,9 @@ python scripts/init_demo_db.py
 python scripts/doctor.py
 python app.py
 ```
+
+
+The application automatically loads `.env.reviewer` when no `.env` file is present.
 
 `/healthz` checks that Flask is running. `/readyz` also checks the database, required tables, and demo data.
 ## Requirements
@@ -201,7 +205,7 @@ Windows launcher:
 
 ## Dashboard generation
 
-Individual products can be regenerated with the scripts in `dashboard_gen/`. The main sequence is:
+Individual products can be regenerated with the scripts in `src/dashboard_gen/`. The main sequence is:
 
 ```text
 build_hotword_data.py
@@ -220,7 +224,7 @@ build_unified_page.py
 The final standalone output is:
 
 ```text
-dashboard_gen/BasinScope-黄河流域舆情.html
+src/dashboard_gen/SignalTrace-黄河流域舆情.html
 ```
 
 ## Data-processing methods
