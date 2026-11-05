@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""汇总「SignalTrace」全功能导航中心 所需真实数据 -> feature_detail_data.json
+"""汇总「SOPRAS」全功能导航中心 所需真实数据 -> feature_detail_data.json
 口径对齐 view/page/page.py 与 dao/*.py
 """
 import csv, io, json, os, sys, time

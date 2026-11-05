@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Run the SignalTrace QA evaluation set and record replies and references."""
+"""Run the SOPRAS QA evaluation set and record replies and references."""
 from __future__ import annotations
 
 import argparse

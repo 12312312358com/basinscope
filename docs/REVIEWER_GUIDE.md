@@ -1,6 +1,6 @@
 # Reviewer Guide
 
-This guide provides a reproducible reviewer path for the synthetic SignalTrace demo. It does not require private platform records, API keys, local model weights, or original video files.
+This guide provides a reproducible reviewer path for the synthetic SOPRAS demo. It does not require private platform records, API keys, local model weights, or original video files.
 
 ## What the demo verifies
 
@@ -99,7 +99,7 @@ For `/readyz`, the expected counts are:
 
 ## Optional features
 
-Question answering, OCR, ASR, and original video features require their corresponding local models or API credentials. Their absence does not prevent the synthetic dashboard review path.
+OCR, ASR, and original video features require their corresponding local models or API credentials. Their absence does not prevent the synthetic dashboard review path.
 
 ## Troubleshooting
 
@@ -114,19 +114,7 @@ Run the application from the repository root and verify that `dashboard_gen/_uni
 ### Port already in use
 
 Set `PORT` to another value in `.env.reviewer` and change the verification URL accordingly.
-## QA and short-video checks
-
-Validate the 30-question evaluation file without requiring an API key:
-
-```powershell
-python scripts\run_qa_eval.py --dry-run
-```
-
-After the QA service is configured, run the full evaluation:
-
-```powershell
-python scripts\run_qa_eval.py --base-url http://127.0.0.1:5001
-```
+## Short-video checks
 
 Validate the selected 33-case Yellow River short-video subset:
 

@@ -3,16 +3,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}首页{% endblock %} · SignalTrace</title>
+    <title>{% block title %}首页{% endblock %} · SOPRAS</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <!-- 统一主题：与 dashboard_gen/SignalTrace-全站一体化预览.html 同一套设计令牌 -->
+    <!-- 统一主题：与 dashboard_gen/SOPRAS-全站一体化预览.html 同一套设计令牌 -->
     <link rel="stylesheet" href="/static/css/basinscope.css">
 </head>
 <body>
 
 <!-- ==================== 顶栏 ==================== -->
 <div class="top">
-    <div class="brand">SignalTrace<small>全站一体化舆情分析</small></div>
+    <div class="brand">SOPRAS<small>全站一体化舆情分析</small></div>
     <span class="chip">本系统含 <b>AI</b> 生成内容</span>
     <div class="sp"></div>
     <span class="hint" id="gen"></span>
@@ -83,7 +83,7 @@
 </main>
 
 <footer class="foot">
-    <span>Copyright &copy; 2026 SignalTrace · 齐鲁师范学院</span>
+    <span>Copyright &copy; 2026 SOPRAS · 齐鲁师范学院</span>
     <span style="margin-left:14px">合规声明：本系统部分分析内容由 AI 大模型结合专业知识库自动生成，仅供学术科研与教学参考。</span>
 </footer>
 
@@ -93,7 +93,7 @@
 <script src="/static/js/echarts.min.js"></script>
 <script src="/static/js/china.js"></script>
 <script>
-/* 图表统一底色：不改动各页面自己的 option，只把 echarts 默认主题换成SignalTrace配色。
+/* 图表统一底色：不改动各页面自己的 option，只把 echarts 默认主题换成SOPRAS配色。
    若某处显式传了 theme，则仍以传入的为准。 */
 (function () {
     if (!window.echarts) return;
@@ -122,6 +122,7 @@
 </script>
 
 {% block echarts %}{% endblock %}
-<script src="/static/js/basinscope-i18n.js"></script>
+<script src="/static/js/basinscope-i18n.js?v=20261028-5"></script>
+<script src="/static/js/signaltrace-ui-en.js?v=20261028-5"></script>
 </body>
 </html>

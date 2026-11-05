@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Verify the SignalTrace synthetic reviewer demo.
+"""Verify the SOPRAS synthetic reviewer demo.
 
 The default mode checks the committed synthetic SQL fixture without requiring a
 database. Optional modes validate a running review database and HTTP endpoints.

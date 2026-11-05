@@ -1,9 +1,9 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite the repository and the associated SoftwareX article."
-title: "SignalTrace: A multi-source public-opinion analytics system for ecological governance, cultural tourism, and healthcare disputes"
+title: "SOPRAS: A modular, source-linked system for multi-source public opinion analysis and risk screening"
 type: software
-version: 0.1.4
-date-released: 2026-10-21
+version: 0.1.5
+date-released: 2026-11-05
 license: MIT
 repository-code: "https://github.com/12312312358com/basinscope"
 url: "https://github.com/12312312358com/basinscope"

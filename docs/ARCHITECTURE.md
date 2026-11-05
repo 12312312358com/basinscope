@@ -1,6 +1,6 @@
 # Architecture
 
-SignalTrace is a standalone Flask application with four connected parts.
+SOPRAS is a standalone Flask application with four connected parts.
 
 ## Acquisition
 
@@ -23,7 +23,7 @@ dependencies and cache lifetimes.
 
 ## Presentation and interaction
 
-`app.py` serves the dashboard and the question-answering endpoint. Interface
+`app.py` serves the dashboard. Interface
 assets are organized under `templates/`, `static/`, and `view/`. Optional English
 labels are provided by `static/js/basinscope-i18n.js`.
 
@@ -34,7 +34,7 @@ labels are provided by `static/js/basinscope-i18n.js`.
 | `app.py` | Flask entry point |
 | `spider/` | Platform collectors and collection utilities |
 | `dashboard_gen/` | Analytical products and dashboard generation |
-| `service/` | Question answering, report generation, and video workflows |
+| `service/` | Report generation and video workflows |
 | `dao/`, `entity/`, `util/` | Database access, models, and shared utilities |
 | `view/`, `templates/`, `static/` | Pages, templates, and front-end assets |
 | `docs/` | Setup, methods, architecture, and release documentation |

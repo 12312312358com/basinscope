@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-"""SignalTrace application package."""
+"""SOPRAS application package."""

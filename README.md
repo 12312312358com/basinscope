@@ -1,12 +1,12 @@
-# SignalTrace
+# SOPRAS
 
-SignalTrace is a standalone Flask application for public-opinion analysis of ecological governance, cultural tourism, and healthcare disputes in the Yellow River Basin.
+SOPRAS is a standalone Flask application for public-opinion analysis of ecological governance, cultural tourism, and healthcare disputes in the Yellow River Basin.
 
-The software integrates topic-targeted acquisition, desensitized multi-source storage, Chinese-language text analytics, event monitoring, rule-based risk screening, cross-platform comment clustering, interactive visualization, short-video analysis, and basin-constrained question answering.
+The software integrates topic-targeted acquisition, desensitized multi-source storage, Chinese-language text analytics, event monitoring, rule-based risk screening, cross-platform comment clustering, interactive visualization, and short-video analysis.
 
 ## Scope
 
-This repository implements the Yellow River module only. The dashboard is restricted to the 18 `hh-*` views and their supporting acquisition, storage, analytical, retrieval, and visualization components.
+This repository implements the Yellow River module only. The dashboard is restricted to the 17 `hh-*` views and their supporting acquisition, storage, analytical, and visualization components.
 
 ## Main features
 
@@ -17,8 +17,7 @@ This repository implements the Yellow River module only. The dashboard is restri
 - SnowNLP baseline sentiment analysis with a calibration view.
 - TF-IDF and K-means exploratory comment clustering.
 - Four-factor rule-based risk screening with an explicit sample gate.
-- Interactive dashboard with overview, topic, comment, propagation, event, risk, calibration, method, and question-answering views.
-- Retrieval-augmented question answering constrained to the Yellow River data scope.
+- Interactive dashboard with overview, topic, comment, propagation, event, risk, calibration, and method views.
 - Three-layer short-video analysis: metadata, keyframes, and in-memory ASR.
 - No original video or audio retention and no face, voiceprint, or speaker recognition.
 
@@ -29,7 +28,7 @@ The application uses four layers:
 1. **Acquisition**: platform-specific collectors in `src/spider/`.
 2. **Storage**: MySQL article and comment tables organized by platform.
 3. **Analytics**: data-generation and analysis scripts in `src/dashboard_gen/` and `src/service/`.
-4. **Presentation**: a Flask application in `app.py` serving the generated dashboard and the question-answering endpoint.
+4. **Presentation**: a Flask application in `app.py` serving the generated dashboard.
 
 The data-generation pipeline is dependency-aware and uses stale-while-revalidate caching. Each product has an explicit dependency and cache lifetime, as defined in `src/service/dashboard.py`.
 
@@ -51,7 +50,7 @@ The data-generation pipeline is dependency-aware and uses stale-while-revalidate
 | `src/app.py` | Flask application entry point |
 | `src/spider/` | Platform collection adapters and collection utilities |
 | `src/dashboard_gen/` | Analytical data products and dashboard generation |
-| `src/service/` | Question answering, reports, and video workflows |
+| `src/service/` | Reports and video workflows |
 | `src/dao/`, `src/entity/`, `src/util/` | Database access, domain models, and shared utilities |
 | `src/view/`, `src/templates/`, `src/static/` | Server-rendered pages and front-end assets |
 | `docs/` | Architecture, methods, reproducibility, and release documentation |
@@ -97,7 +96,7 @@ The application automatically loads `.env.reviewer` when no `.env` file is prese
 - Windows 10/11 or Linux.
 - Python 3.10 or later.
 - MySQL 8.0 or later.
-- 16 GB RAM recommended for the complete retrieval and question-answering stack.
+- 16 GB RAM recommended for the complete local-model and video-processing stack.
 - Optional CUDA GPU.
 - ffmpeg or the bundled `imageio-ffmpeg` package for audio processing.
 - Optional OpenAI-compatible credentials for language and vision services.
@@ -165,13 +164,11 @@ The public repository does not include raw platform records, unredacted user dat
 
 ## Model assets
 
-The question-answering and video pipelines may use local model assets. Model weights are intentionally excluded from Git.
+The video pipeline may use local model assets. Model weights are intentionally excluded from Git.
 
 Expected local locations include:
 
 ```text
-models/bge-large-zh-v1.5
-models/bge-reranker-v2-m3
 models/whisper/small
 ```
 
@@ -224,7 +221,7 @@ build_unified_page.py
 The final standalone output is:
 
 ```text
-src/dashboard_gen/SignalTrace-黄河流域舆情.html
+src/dashboard_gen/SOPRAS-黄河流域舆情.html
 ```
 
 ## Data-processing methods
@@ -244,7 +241,6 @@ src/dashboard_gen/SignalTrace-黄河流域舆情.html
 - Temporal patterns are affected by acquisition time and quotas.
 - Risk weights are expert-defined and have not been statistically validated.
 - The video sample is non-random and covers Douyin only.
-- The first question-answering request may load large local models and increase memory use.
 
 These limitations are displayed in the dashboard and should be preserved in downstream reports and publications.
 
@@ -254,7 +250,7 @@ Do not commit API keys, database passwords, raw platform responses, unredacted u
 
 ## Versioning and releases
 
-The manuscript corresponds to the annotated tag `v0.1.4`. Release archives
+The manuscript corresponds to the annotated tag `v0.1.5`. Release archives
 exclude raw platform records, model weights, runtime logs, uploads, and
 credentials. See `CHANGELOG.md` and `docs/SOFTWAREX_RELEASE_CHECKLIST.md`.
 
@@ -281,10 +277,11 @@ http://127.0.0.1:5001/page/dashboard?lang=en
 
 An `EN` / `中文` switch is also added to the top toolbar.
 
-The translation layer is implemented in:
+The translation layers are implemented in:
 
 ```text
-static/js/basinscope-i18n.js
+src/static/js/basinscope-i18n.js
+src/static/js/signaltrace-ui-en.js
 ```
 
 It translates navigation, view titles, KPI labels, card titles, chart labels, legends, table headers, risk levels, and common interface terms before the dashboard is rendered.

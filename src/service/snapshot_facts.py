@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Deterministic answers for verified SignalTrace snapshot facts.
+"""Deterministic answers for verified SOPRAS snapshot facts.
 
 This module is intentionally small and conservative. It only answers questions
 whose facts are explicitly present in knowledge/signaltrace_snapshot_facts.md.
@@ -30,9 +30,9 @@ def _ref() -> dict[str, Any]:
     content = path.read_text(encoding="utf-8") if path.is_file() else ""
     return {
         "id": 1,
-        "title": "SignalTrace snapshot facts",
+        "title": "SOPRAS snapshot facts",
         "type": "curated_snapshot",
-        "content": "Verified snapshot-level figures from the SignalTrace manuscript and repository.",
+        "content": "Verified snapshot-level figures from the SOPRAS manuscript and repository.",
         "full_content": content,
         "score": 1.0,
         "file_path": FACT_FILE,

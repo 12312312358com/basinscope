@@ -1,5 +1,5 @@
 import charset_normalizer
-from flask import Blueprint, render_template, jsonify, request, current_app, send_file, session
+from flask import Blueprint, render_template, jsonify, request, current_app, send_file, session, redirect, url_for
 from dao import articleDao, commentDao
 from util.category_taxonomy import domain_distribution
 import json
@@ -614,6 +614,8 @@ def sentimentAnalysis():
 @pb.route('/chat', methods=['POST'])
 def ai_chat():
     """处理 AI 聊天问答，集成 RAG 知识溯源，支持多模态输入和创意模式"""
+    return jsonify({"reply": "Question answering is not available in this release.", "references": []}), 404
+
     try:
         data = request.get_json(silent=True) or {}
         user_message = data.get('message', '').strip()
@@ -925,11 +927,16 @@ def task_status(task_id):
 # ===================== 单页仪表盘（参考站点同款 · 数据实时查 db_weibo_basin） =====================
 @pb.route('/dashboard')
 def dashboard():
-    """单页仪表盘：18 视图深蓝仪表盘，数据实时查 db_weibo_basin。
+    """单页仪表盘：17 视图深蓝仪表盘，数据实时查 db_weibo_basin。
 
     缓存采用 stale-while-revalidate：命中新鲜缓存直接返回；缓存过期时先返回
     旧内容（用户零等待）并在后台增量重算；?force=1 才同步全量重算。
     """
+    if request.args.get('lang') not in ('en', 'zh'):
+        args = request.args.to_dict(flat=True)
+        args['lang'] = 'en'
+        return redirect(url_for('page.dashboard', **args))
+
     from service.dashboard import get_html
     force = request.args.get('force') == '1'
     html, err = get_html(force=force)

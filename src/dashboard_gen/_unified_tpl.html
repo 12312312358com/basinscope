@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<title>SignalTrace · 黄河流域舆情分析（真实数据）</title>
+<title>SOPRAS · 黄河流域舆情分析（真实数据）</title>
 <style>
 :root{
   --bg:#f7f2e8; --bg2:#f0e9dc; --panel:#fffdf8; --panel2:#faf5ec; --line:rgba(120,95,60,.18);
@@ -530,19 +530,32 @@ tr.warnrow td{background:rgba(255,180,77,.055)}
 .up-retry{flex:0 0 auto;align-self:flex-start;background:rgba(255,180,77,.15);color:var(--amber);border:1px solid rgba(255,180,77,.4);border-radius:10px;padding:7px 14px;font-size:12.5px;cursor:pointer;font-weight:600}
 .up-retry:hover{background:rgba(255,180,77,.25)}
 
-/* ---------- English UI mode: wrapping and publication-clean layout ---------- */
-.lang-en .side{width:260px}
-.lang-en .main{margin-left:260px}
-.lang-en .it{white-space:normal;align-items:flex-start;line-height:1.25;padding:7px 8px}
+/* ---------- English UI mode: readable wrapping without covering charts ---------- */
+.lang-en .side{width:270px}
+.lang-en .main{margin-left:270px}
+.lang-en .it{white-space:normal;align-items:flex-start;line-height:1.3;padding:7px 8px}
 .lang-en .it > span:first-of-type{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
 .lang-en .it .bd{flex:0 0 auto;margin-left:6px;white-space:nowrap}
-.lang-en .card h3{padding-right:52px;line-height:1.25;overflow-wrap:anywhere}
-.lang-en .card .sub,.lang-en .ruler,.lang-en .foot,.lang-en .lead,.lang-en .note,.lang-en .srcbox,.lang-en .evh em,.lang-en .evgl,.lang-en .evpanel .tk2,.lang-en .evpanel .evwarn,.lang-en .evpanel .evlg{display:none!important}
+.lang-en .card{height:auto!important;min-width:0;overflow:visible}
+.lang-en .card>h3{padding-right:80px;line-height:1.32;overflow-wrap:anywhere;word-break:break-word;min-height:0}
+.lang-en .card>.sub{display:block!important;font-size:10.7px;line-height:1.5;white-space:normal!important;overflow-wrap:anywhere;word-break:break-word;margin:2px 0 7px;max-width:100%}
+.lang-en .lead,.lang-en .note,.lang-en .ruler,.lang-en .foot{display:block!important;white-space:normal!important;overflow-wrap:anywhere;word-break:break-word;line-height:1.5}
+.lang-en .lead{font-size:12px;max-width:100%;margin-bottom:12px}
+.lang-en .ruler{font-size:10.7px;margin:6px 0 5px;max-width:100%}
+.lang-en .foot{font-size:10.7px;margin-top:10px}
+.lang-en .ch{flex:0 0 auto;min-width:0;min-height:180px;position:relative;z-index:1}
+.lang-en .toolbar,.lang-en .tools-top{flex-wrap:wrap;min-width:0;row-gap:6px}
+.lang-en .toolbar button,.lang-en .act{max-width:290px;height:auto;white-space:normal;line-height:1.3}
 .lang-en .kpis{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
-.lang-en .kpi .k,.lang-en .kpi .s{line-height:1.3;overflow-wrap:anywhere}
-.lang-en .chip,.lang-en .hint{white-space:normal}
-.lang-en table{font-size:11.5px}
-.lang-en th,.lang-en td{overflow-wrap:anywhere}
+.lang-en .kpi{height:auto!important;min-height:94px;overflow:visible}
+.lang-en .kpi .k,.lang-en .kpi .s{line-height:1.35;overflow-wrap:anywhere;white-space:normal!important}
+.lang-en .kpi .v{font-size:20px;line-height:1.25}
+.lang-en .chip,.lang-en .hint{white-space:normal;overflow-wrap:anywhere}
+.lang-en .tblwrap{max-width:100%;overflow:auto}
+.lang-en table{table-layout:auto}
+.lang-en th,.lang-en td{overflow-wrap:anywhere;word-break:break-word;white-space:normal!important}
+.lang-en .vct{display:block!important;-webkit-line-clamp:unset!important;-webkit-box-orient:initial!important;overflow:visible!important;min-height:44px}
+.lang-en details.srcbox{display:block!important}
 @media (max-width:1180px){.lang-en .side{display:none}.lang-en .main{margin-left:0}}
 </style>
 </head>
@@ -559,7 +572,7 @@ tr.warnrow td{background:rgba(255,180,77,.055)}
       <circle cx="17" cy="17" r="1.5" fill="#3f8f63"/>
     </svg>
   </div>
-  <div class="brand">SignalTrace<small>黄河流域舆情分析系统 · 生态治理 / 文旅 / 医患矛盾</small></div>
+  <div class="brand">SOPRAS<small>黄河流域舆情分析系统 · 生态治理 / 文旅 / 医患矛盾</small></div>
   <div class="sp"></div>
   <div class="chip">数据源 <b>db_weibo_basin</b> · 快照 <b id="gen"></b></div>
   <div class="chip" id="chipData" style="display:none">上次采集 <b id="lastCrawl">—</b></div>
@@ -593,7 +606,8 @@ var U = /*__DATA__*/{};
 var WCGLOSS = /*__GLOSSARY__*/{};
 var VIEWS = /*__VIEWS__*/[];
 </script>
-<script src="/static/js/basinscope-i18n.js"></script>
+<script src="/static/js/basinscope-i18n.js?v=20261028-5"></script>
+<script src="/static/js/signaltrace-ui-en.js?v=20261028-5"></script>
 <script>
 /* ==================================================================
    渲染引擎：VIEWS 里只描述"要什么"，图表统一由 recipe 生成
@@ -877,7 +891,7 @@ R.hbar = function(box, s){
       {splitLine:{lineStyle:{color:TH.grid}}, axisLine:{show:false}}),
     yAxis: {type:'category', data:names,
       axisLine:{lineStyle:{color:TH.line}}, axisTick:{show:false},
-      axisLabel:{color:TH.name, fontSize:11.5, width:96, overflow:'truncate'}},
+      axisLabel:{color:TH.name, fontSize:11, width:118, overflow:'truncate', rotate:0, interval:0, hideOverlap:false, formatter:function(v){v=String(v);return v.length>24?v.slice(0,21)+'...':v;}}},
     series:[{type:'bar', data:vals, barMaxWidth:bh,
       itemStyle:{borderRadius:[0,5,5,0], color:colorOf},
       emphasis:{focus:'self', itemStyle:{shadowBlur:12, shadowColor:'rgba(120,170,255,.5)'}},
@@ -910,7 +924,7 @@ R.hbart = function(box, s){
     xAxis:{type:'value', axisLabel:{color:C.fg3,fontSize:11,formatter:function(v){return fmt(v);}},
       splitLine:{lineStyle:{color:C.grid}}, axisLine:{show:false}},
     yAxis:{type:'category', data:d.map(function(x){return x.name;}), axisLine:{lineStyle:{color:C.line}},
-      axisTick:{show:false}, axisLabel:{color:C.fg2,fontSize:11.5, width:96, overflow:'truncate'}},
+      axisTick:{show:false}, axisLabel:{color:C.fg2,fontSize:11,width:118,overflow:'truncate',rotate:0,interval:0,hideOverlap:false,formatter:function(v){v=String(v);return v.length>24?v.slice(0,21)+'...':v;}}},
     series:[{type:'bar', barMaxWidth:16, label:{show:true, position:'right', color:C.fg2, fontSize:11,
         formatter:function(p){return fmt(p.value);}},
       itemStyle:{borderRadius:[0,5,5,0], color:function(p){ return cmap2[d[p.dataIndex].tag]||PAL[0]; }},
@@ -926,11 +940,62 @@ R.bar = function(box, s){
        o.r    柱顶圆角半径（参考款是明显的圆头；默认 4）
        o.bw   barMaxWidth（宽卡 + 只画前 5 名时把柱子加粗，否则是五根牙签） */
   var d = s.d||{}, x = d.x||[], y = d.y||[], o = s.o||{};
-  var off = o.p||0;                                /* 配色起始偏移 */
-  var ramp = barRamp(y.length, off);               /* 逐柱一色，色相按柱数等分 */
-  var rot = o.rot||0, fs = o.fs||10.5;
+  var off = o.p||0;
+  var ramp = barRamp(y.length, off);
+  var isEnglish = new URLSearchParams(location.search).get("lang") !== "zh";
+  var longCategories = x.some(function (name) { return String(name).length > 10; });
+
+  /* English category names are longer than Chinese labels. When needed, use a
+     horizontal bar layout so labels remain horizontal and never cross the plot. */
+  if (isEnglish && longCategories) {
+    var rows = x.map(function (name, i) {
+      return { name: String(name), value: +y[i] || 0 };
+    }).reverse();
+    var wrapCategory = function (value) {
+      var words = String(value).split(/\s+/);
+      var lines = [], line = "";
+      words.forEach(function (word) {
+        if (line && (line.length + word.length + 1) > 17) {
+          lines.push(line);
+          line = word;
+        } else {
+          line = line ? line + " " + word : word;
+        }
+      });
+      if (line) lines.push(line);
+      return lines.join("\n");
+    };
+    var chartHorizontal = initChart(box);
+    chartHorizontal.setOption(base({
+      animation: false,
+      animationDuration: 0,
+      animationDurationUpdate: 0,
+      grid: gridL(0, 40, 12, 8),
+      tooltip: {trigger:"axis", axisPointer:{type:"shadow"}, backgroundColor:"rgba(255,253,248,.96)",
+        borderColor:C.line, textStyle:{color:C.fg,fontSize:12},
+        formatter:function(params){ return params[0].name + ": " + raw(params[0].value); }},
+      xAxis: {type:"value", axisLabel:{color:C.fg3,fontSize:10.5,formatter:function(v){return fmt(v);}},
+        splitLine:{lineStyle:{color:C.grid}}, axisLine:{show:false}},
+      yAxis: {type:"category", data:rows.map(function(z){return z.name;}), inverse:false,
+        axisLine:{lineStyle:{color:C.line}}, axisTick:{show:false},
+        axisLabel:{color:C.fg2,fontSize:9.6,width:190,lineHeight:12,
+          overflow:"break",rotate:0,interval:0,hideOverlap:false,formatter:wrapCategory}},
+      series:[{type:"bar", data:rows.map(function(z){return z.value;}),
+        barMaxWidth:Math.min(18,o.bw||18),
+        itemStyle:{borderRadius:[0,4,4,0],color:function(p){return ramp[p.dataIndex];}},
+        label:{show:rows.length<=12,position:"right",color:C.fg2,fontSize:10.5,
+          formatter:function(p){return fmt(p.value);}}}]
+    }));
+    return chartHorizontal;
+  }
   var rr = (o.r == null ? 4 : o.r);
   var xa = Object.assign({type:'category', data:x}, AX(rot, fs));
+  if(isEnglish){
+    xa.axisLabel = Object.assign({}, xa.axisLabel, {
+      rotate:0, interval:0, hideOverlap:false, width:104, overflow:"truncate",
+      formatter:function(v){v=String(v);return v.length>16?v.slice(0,13)+"...":v;}
+    });
+  }
   if(o.lab) xa.axisLabel.interval = 0;             /* 类目少，全标；默认保持原抽稀行为 */
   var ser = {type:'bar', data:y, barMaxWidth:(o.bw||22),
     itemStyle:{borderRadius:[rr, rr, 0, 0],
@@ -1302,6 +1367,20 @@ R.heat = function(box, s){
 
   var d = s.d||{}, o = s.o||{};
   var X = d.x||[], Y = d.y||[];
+  var isEnglish = new URLSearchParams(location.search).get("lang") !== "zh";
+  function wrapHeatCategory(value){
+    var words=String(value).split(/\s+/), lines=[], line="";
+    words.forEach(function(word){
+      if(line && (line.length+word.length+1)>31){
+        lines.push(line); line=word;
+      }else{
+        line=line?line+" "+word:word;
+      }
+    });
+    if(line) lines.push(line);
+    return lines.join("\n");
+  }
+  var heatLeft=isEnglish?Math.max(o.yw||54,250):(o.yw||54);
   var SQ = !!o.sqrt;
   /* 色阶取值：sqrt 模式只压色阶、不动格内数字 —— 数字必须保持原值可读，
      变形只发生在「颜色 ↔ 数值」这条映射上。 */
@@ -1323,14 +1402,16 @@ R.heat = function(box, s){
   });
   var c = initChart(box);
   c.setOption(base({
-    grid:{left:(o.yw||54), right:14, top:8, bottom:24, containLabel:false},
+    grid:{left:heatLeft, right:14, top:8, bottom:24, containLabel:false},
     tooltip:{backgroundColor:'rgba(255,253,248,.95)', borderColor:C.line,
       textStyle:{color:C.fg, fontSize:12},
       formatter:function(p){ return p.data.name + '：<b>' + raw(p.data.v) + '</b>' + (o.unit||''); }},
     xAxis:{type:'category', data:X, axisLine:{show:false}, axisTick:{show:false},
       axisLabel:{color:C.fg3, fontSize:10, interval:0}},
     yAxis:{type:'category', inverse:true, data:Y, axisLine:{lineStyle:{color:C.line}},
-      axisTick:{show:false}, axisLabel:{color:C.fg2, fontSize:11}},
+      axisTick:{show:false}, axisLabel:isEnglish?{color:C.fg2,fontSize:10.5,width:230,
+        lineHeight:12.5,overflow:"break",rotate:0,interval:0,hideOverlap:false,
+        formatter:wrapHeatCategory}:{color:C.fg2, fontSize:11}},
     visualMap:{show:false, min:0, max:mx, seriesIndex:1, inRange:{color:HPAL}},
     series:[
       {type:'heatmap', silent:true, z:1, data:all,
@@ -3412,7 +3493,7 @@ R.evledger = function(box, s){
 
 
 /* ===== v8：分段进度条渲染器 =====
-   由来：用户指定采用「SignalTrace-界面改造预案」里那张「正文长度分布」卡的形态
+   由来：用户指定采用「SOPRAS-界面改造预案」里那张「正文长度分布」卡的形态
    —— 左侧中文档位、中间分段进度条、右侧条数与占比、底部一条口径说明。
    实现选型：纯 DOM 而非 ECharts。理由：
      1) 条形只有 16px 高，canvas 在这个高度上锯齿明显，DOM 矩形边缘锐利；
@@ -3816,92 +3897,6 @@ function __qaMd(s){
   s = s.replace(/\n/g, '<br>');
   return s;
 }
-R.chat = function(box, s){
-  // 渲染器收到的 s 是整张卡 spec，卡数据在 s.d（兼容直接传 data 的写法）
-  var basin = (s && (s.basin || (s.d && s.d.basin))) || '';
-  var wrap = el('div','chatbox');
-  var msgs = el('div','chat-msgs');
-  var tips = el('div','chat-tips');
-  tips.innerHTML = basin
-    ? ('当前为 <b>'+__qaEsc(basin)+'流域</b>专题：回答只基于本流域数据；若问另一流域会被明确拒绝。回车或点「发送」提问。')
-    : '回答由星火大模型 + 新闻传播学知识库（RAG）实时生成，会标注引用来源；回车或点「发送」提问。';
-  msgs.appendChild(tips);
-
-  function addMsg(who, html){
-    var row = el('div','chat-row '+who);
-    var b = el('div','chat-bubble');
-    b.innerHTML = html;
-    row.appendChild(b);
-    msgs.appendChild(row);
-    msgs.scrollTop = msgs.scrollHeight;
-    return b;
-  }
-
-  addMsg('ai',
-    '你好，我是<strong>SignalTrace智能问答</strong>。' +
-    (basin ? ('当前专题为 <b>'+__qaEsc(basin)+'流域</b>，我只读取本流域的数据。')
-           : '可结合本地数据与教材/论文知识库回答舆情问题。') + '<br>' +
-    '· ' + (basin ? (__qaEsc(basin)+'流域最近有哪些热点事件？')
-                  : '什么是沉默的螺旋？在当前数据里有没有体现？') + '<br>' +
-    '· 本流域声量最高的省份是哪个？<br>' +
-    '· 这类事件为什么容易在网络上快速发酵？');
-
-  var row = el('div','chat-inputrow');
-  var inp = el('input','chat-input');
-  inp.type = 'text';
-  inp.placeholder = '请输入你的问题…';
-  inp.autocomplete = 'off';
-  var btn = el('button','chat-send','发送');
-  row.appendChild(inp); row.appendChild(btn);
-  wrap.appendChild(msgs); wrap.appendChild(row);
-  box.appendChild(wrap);
-
-  var busy = false;
-  function send(){
-    var q = inp.value.replace(/^\s+|\s+$/g,'');
-    if(!q || busy) return;
-    busy = true;
-    addMsg('user', __qaEsc(q));
-    inp.value = '';
-    btn.disabled = true; btn.textContent = '思考中…';
-    var pending = addMsg('ai', '<span class="chat-loading">正在检索知识库并生成回答…</span>');
-    fetch('/page/chat', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({message:q, mode:'strict', basin: basin || undefined})
-    }).then(function(r){
-      return r.text().then(function(t){
-        var data = null;
-        try{ data = JSON.parse(t); }catch(e){}
-        if(data && data.reply) return data;
-        throw new Error('HTTP '+r.status);
-      });
-    }).then(function(data){
-      var reply = (data && data.reply) ? data.reply : '⚠️ 大模型未返回有效内容，请重试。';
-      var refs = (data && data.references) || [];
-      var html = __qaMd(reply);
-      if(refs && refs.length){
-        html += '<div class="chat-refs"><b>📚 引用来源</b><ul>';
-        refs.forEach(function(f){
-          var t = (typeof f === 'string') ? f : (f && (f.title || f.name || f.source || f.filename));
-          if(t) html += '<li>'+__qaEsc(t)+'</li>';
-        });
-        html += '</ul></div>';
-      }
-      pending.innerHTML = html;
-    }).catch(function(e){
-      pending.innerHTML = '<span style="color:var(--red)">❌ 请求失败：'+__qaEsc(e.message)+'。请确认 Flask 服务已启动且已登录。</span>';
-    }).then(function(){
-      busy = false; btn.disabled = false; btn.textContent = '发送';
-      msgs.scrollTop = msgs.scrollHeight;
-    });
-  }
-  btn.addEventListener('click', send);
-  inp.addEventListener('keydown', function(e){ if(e.key === 'Enter') send(); });
-
-  return { resize:function(){}, chatSend:send };
-};
-
 R.report = function(box, s){
   var wrap = el('div','chatbox');
   var msgs = el('div','chat-msgs');

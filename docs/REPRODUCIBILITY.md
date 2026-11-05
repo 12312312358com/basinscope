@@ -5,7 +5,7 @@
 - Windows 10/11 or Linux
 - Python 3.10+
 - MySQL 8.0+
-- 16 GB RAM recommended for the complete retrieval and question-answering stack
+- 16 GB RAM recommended for the complete local-model and video-processing stack
 - ffmpeg or imageio-ffmpeg for video audio processing
 - Optional CUDA GPU
 - Optional OpenAI-compatible credentials for language and vision services

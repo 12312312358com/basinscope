@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""按「SignalTrace-界面改造预案」的五组十七视图结构，把此前所有预览模块
+"""按「SOPRAS-界面改造预案」的五组十七视图结构，把此前所有预览模块
 （IP 地域 / 热词统计 / 柱状图 / 情感 / 词云 / 流域对照 …）整合成
 一个自包含单文件 HTML（真实数据 + ECharts + 中国地图）。
 
@@ -472,7 +472,7 @@ V.append(dict(
               '故本页所有"占比"只用上述三套抽样的自洽结果，不引用旧表。', k='warn'),
            nt('三套抽样各自"正+中+负 = 总数"全部成立（400/500/200），可直接对外引用。', k='ok'),
            nt('本页 8 张卡共 10 格：2 列下正好 5 行除得尽（末行不留空位）；3 列下余 1 格，'
-              '由「末行自动补齐」把空位并给该行最后一张卡。该兜底对全部 18 个视图生效。', k='ok')],
+              '由「末行自动补齐」把空位并给该行最后一张卡。该兜底对全部 17 个视图生效。', k='ok')],
 ))
 
 # ==================================================================
@@ -876,11 +876,11 @@ V.append(dict(
           K('向量文本块', N(KB['chunks']), '可直接做语义检索', 4),
           K('可导出数据集', '4 类', '省份 / 热词 / 核查 / 全量', 5),
           K('数据缺口', '3 项', '见下方选题建议', 6)],
-    btns=[{'t': '导出 省份声量明细 (CSV)', 'd': 'prov', 'f': 'SignalTrace_省份声量明细.csv', 'csv': True},
-          {'t': '导出 热词明细 Top40 (CSV)', 'd': 'hotTbl', 'f': 'SignalTrace_热词明细.csv', 'csv': True},
-          {'t': '导出 一致性核查 (CSV)', 'd': 'recon', 'f': 'SignalTrace_一致性核查.csv', 'csv': True},
-          {'t': '导出 全量数据快照 (JSON)', 'd': '__all__', 'f': 'SignalTrace_数据快照.json'},
-          {'t': '导出 情感抽样 (CSV)', 'd': 'sentExport', 'f': 'SignalTrace_情感抽样.csv', 'csv': True}],
+    btns=[{'t': '导出 省份声量明细 (CSV)', 'd': 'prov', 'f': 'SOPRAS_省份声量明细.csv', 'csv': True},
+          {'t': '导出 热词明细 Top40 (CSV)', 'd': 'hotTbl', 'f': 'SOPRAS_热词明细.csv', 'csv': True},
+          {'t': '导出 一致性核查 (CSV)', 'd': 'recon', 'f': 'SOPRAS_一致性核查.csv', 'csv': True},
+          {'t': '导出 全量数据快照 (JSON)', 'd': '__all__', 'f': 'SOPRAS_数据快照.json'},
+          {'t': '导出 情感抽样 (CSV)', 'd': 'sentExport', 'f': 'SOPRAS_情感抽样.csv', 'csv': True}],
     cards=[
         TABLE('研究选题建议（基于数据缺口）',
               [{'k': 'q', 'l': '可做方向'}, {'k': 'why', 'l': '数据支撑'}, {'k': 'need', 'l': '还需补什么'}],
@@ -3350,18 +3350,16 @@ _SHORT = {'-overview': '总览', '-geo': 'IP 属地地图', '-trend': '传播趋
           '-nodes': '关键传播节点',
           '-events': '事件监测', '-evprov': '事件传播强度',
           '-risk': '风险分级预警',
-          '-method': '口径与方法', '-calib': '情感模型校准',
-          '-qa': '智能问答'}
+          '-method': '口径与方法', '-calib': '情感模型校准'}
 
-# 批次 2：每流域 16 个模块的固定顺序 —— 侧栏的分组顺序 = 该列表顺序
+# 批次 2：每流域 17 个视图的固定顺序 —— 侧栏的分组顺序 = 该列表顺序
 # （模板是按 VIEWS 里首次出现的 group 建分组，所以顺序在这里决定，不在模板里改）
 ORDER = ['overview', 'geo',                                 # 流域总览
          'topic', 'words',                                  # 议题与词频
          'content', 'comment', 'video', 'clust',               # 内容与评论
          'channel', 'interact', 'nodes', 'trend',          # 传播与扩散
          'events', 'evprov', 'risk',                       # 事件与预警
-         'method', 'calib',                                # 口径与方法
-         'qa']                                             # 智能问答（本流域限定）
+         'method', 'calib']                                # 口径与方法
 
 for _b in ('长江', '黄河'):
     _byid = {}
@@ -3524,7 +3522,7 @@ out = (tpl.replace('/*__ECHARTS__*/', echarts, 1)
           .replace('/*__DATA__*/{}', DATA, 1)
           .replace('/*__VIEWS__*/[]', VIEWS, 1))
 
-DST = os.path.join(BASE, 'SignalTrace-黄河流域舆情.html')
+DST = os.path.join(BASE, 'SOPRAS-黄河流域舆情.html')
 io.open(DST, 'w', encoding='utf-8').write(out)
 
 print('\n== 生成结果 ==')

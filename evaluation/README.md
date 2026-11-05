@@ -1,6 +1,6 @@
 # QA Evaluation
 
-This directory contains a reproducible manual audit set for the SignalTrace
+This directory contains a reproducible manual audit set for the SOPRAS
 question-answering path. The questions cover numeric facts, event monitoring,
 cross-platform comparisons, risk scores, evidence gaps, scope rejection, and
 source traceability.

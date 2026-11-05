@@ -19,3 +19,7 @@ dashboard_gen/*.html
 !dashboard_gen/_unified_tpl.html
 dashboard_gen/*.json
 .pytest_cache
+# Local reviewer/runtime state
+user_profiles.json
+evaluation/qa_results.csv
+evaluation/qa_results.jsonl

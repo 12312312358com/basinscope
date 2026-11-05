@@ -1,18 +1,18 @@
 (function () {
   "use strict";
   const query = new URLSearchParams(window.location.search);
-  const isEnglish = query.get("lang") === "en";
+  const isEnglish = query.get("lang") !== "zh";
   window.BASINSCOPE_EN_MODE = isEnglish;
   if (isEnglish) {
     document.documentElement.lang = "en";
-    document.body.classList.add("lang-en");
+    if (document.body) document.body.classList.add("lang-en");
   }
 
   const EXACT = {
-    "SignalTrace": "SignalTrace",
+    "BasinScope": "SOPRAS",
     "黄河流域舆情": "Yellow River Public Opinion",
     "黄河流域": "Yellow River",
-    "18 项": "18 views",
+    "17 项": "17 views",
     "数据源": "Data source",
     "快照": "Snapshot",
     "上次采集": "Last collection",
@@ -26,7 +26,6 @@
     "传播与扩散": "Propagation and Diffusion",
     "事件与预警": "Events and Warning",
     "口径与方法": "Methodology and Data Conventions",
-    "智能问答": "Question Answering",
     "黄河流域总览": "Yellow River Overview",
     "IP 属地地图": "Author-IP Location Map",
     "议题专题": "Topic Profiles",
@@ -194,6 +193,7 @@
   };
 
   Object.assign(EXACT, {
+    "\u9ec4\u6cb3\u6d41\u57df\u8bcd\u9891\u4e0e\u8bcd\u4e91": "Yellow River Word Frequency and Word Cloud",
     "流域专属地图 · 黄河流域": "Basin-Specific Map - Yellow River",
     "山东省 · 16 地市提及分布（自动聚焦）": "Shandong Province - Mention Distribution across 16 Prefecture-Level Cities (Auto Focus)",
     "目标省份声量 Top 12": "Target-Province Volume Top 12",
@@ -319,7 +319,6 @@
     "hh-risk": "Transparent four-factor risk screening, factor contributions, score levels, and review guidance.",
     "hh-method": "Data sources, definitions, sample gates, data gaps, and recalculable indicators.",
     "hh-calib": "Measured SnowNLP bias and comparison with a domain polarity dictionary.",
-    "hh-qa": "Question answering constrained to the Yellow River data scope and retrieved evidence."
   };
 
   Object.assign(EXACT, {
@@ -554,11 +553,166 @@
     "\u8bf7\u8f93\u5165\u60a8\u7684\u5b66\u672f\u95ee\u9898\uff0c\u6216\u4e0a\u4f20\u56fe\u7247/\u6587\u6863\u8ba9 AI \u5206\u6790...": "Enter a research question, or upload an image/document for AI analysis...",
     "\u5df2\u9644\u52a0\u56fe\u7247\uff0cAI \u5c06\u4f7f\u7528\u591a\u6a21\u6001\u89c6\u89c9\u5f15\u64ce\u8fdb\u884c\u5206\u6790": "Image attached. The AI will analyze it with the multimodal vision service."
   });
+  Object.assign(EXACT, {
+    "\u4ec5\u7ed8\u8be5\u6cb3\u6d41\u5b9e\u9645\u6d41\u7ecf\u7684\u7701\u7ea7\u884c\u653f\u533a\uff08\u542b\u5171\u6e90\u7701\uff09 \u00b7 \u586b\u5145\uff1dTarget-Province Volume\uff08": "Only provinces through which the river actually flows (including shared-source provinces) ? Fill = target-province volume (",
+    "\u6309\u4f4d\u6b21\u7b49\u9891\u5206 8 \u7ea7": "Equal-frequency rank based on 8 levels",
+    "\uff0c\u8d8a\u4eae\u8d8a\u9ad8\uff0c\u65ad\u70b9\u89c1\u5361\u4e0b\u8272\u6807\uff09 \u00b7 Yellow River\uff1d\u9ec4\u8272\u6d41\u52a8\u7ebf\uff08\u5e72\u6d41\u8d70\u5411\uff09": ", with brighter colors indicating higher values; breakpoints are shown in the legend) ? Yellow River = yellow flow line (mainstem direction)",
+    "\u586b\u5145\uff1dTarget-Province Volume\uff0c": "Fill = target-province volume,",
+    "\uff08\u8d8a\u4eae\u8d8a\u9ad8\uff09\uff1a": "(brighter indicates higher):",
+    "Yellow River\u5e72\u6d41 \u00b7 \u9ec4\u8272\u6d41\u52a8\u7ebf\uff08\u6e90\u2192\u5165\u6d77\u5faa\u73af\uff09": "Yellow River mainstem ? yellow flow line (source to estuary)",
+    "\u65e0Yellow RiverSample": "No Yellow River sample",
+    "\u00b7 \u6700\u9ad8 458 records / \u6700\u4f4e 49 records\uff08\u5206\u6bcd = Yellow RiverWeibo 899 records\uff09 \u00b7 \u5404\u56fe\u4ec5\u7ed8\u8be5\u6cb3\u6d41\u5b9e\u9645\u6d41\u7ecf\u7684\u7701\u7ea7\u884c\u653f\u533a\uff08\u542b\u5171\u6e90\u7701\uff09\uff1b\u8272\u9636\u6309Yellow River\u6570\u503c\u7b49\u9891\u5206\u7ea7\uff08\u975e\u7ebf\u6027\u62c9\u4f38\uff09 \u00b7": "? Maximum 458 records / minimum 49 records (denominator = 899 Yellow River Weibo records) ? Each map shows only provinces through which the river flows (including shared-source provinces); color levels use equal-frequency bins of Yellow River values (nonlinear stretch) ?",
+    "\u6eda\u8f6e / \u53cc\u6307\u53ef\u7f29\u653e": "Scroll / pinch to zoom",
+    "\u9875\u9762\u52a0\u8f7d 2 \u79d2\u540e\u81ea\u52a8\u805a\u7126\u5230": "Auto-focus after 2 seconds on",
+    "\uff0c\u53f3\u4fa7\u300cWider view\u300d\u53ef\u9000\u56de\u542b\u6cb3\u5317 / Henan / \u5b89\u5fbd / \u6c5f\u82cf \u7684\u5927\u89c6\u91ce \u00b7 \u586b\u5145\uff1dWeibo\u6b63\u6587\u63d0\u53ca\u6b21\u6570\uff0c\u6309": ", use the ?Wider view? button on the right to return to the broader view including Hebei / Henan / Anhui / Jiangsu ? Fill = Weibo post mention count, using",
+    "\u5bf9\u6570\u4e94\u5206\u4f4d": "log quintiles",
+    "\u5206\u6863\uff08\u5934\u90e8 314 \u6b21\u4e0e\u4e2a\u4f4d\u6570\u5730\u5e02\u540c\u56fe\uff0c\u7ebf\u6027\u5f52\u4e00\u4f1a\u628a\u5176\u4f59\u5730\u5e02\u5168\u538b\u5230\u6700\u6de1\u4e00\u6863\uff09 \u00b7": "bins (the top value of 314 and single-digit cities share one map; linear normalization would push all other cities into the lightest bin) ?",
+    "\u60ac\u505c": "Hover",
+    "\u770b\u6570\u503c\u3001": "to view values,",
+    "\u70b9\u51fb": "Click",
+    "\u9501\u5b9a\u5de6\u4e0b\u8be6\u60c5\uff08Esc \u53d6\u6d88\uff09 \u00b7 \u6eda\u8f6e / \u62d6\u62fd\u53ef\u81ea\u884c\u7f29\u653e\u3002": "to lock the lower-left details (Esc to cancel) ? Scroll / drag to zoom.",
+    "\u6b63\u6587\u91cc\u51fa\u73b0\u8be5\u5e02\u540d\u7684\u6b21\u6570": "Number of mentions of the city name in post text",
+    "\uff08\u5173\u952e\u8bcd\u547d\u4e2d\uff0c\u6765\u81ea\u5168\u91cf t_article\uff1b\u4e0d\u662f IP \u5c5e\u5730\u3001\u4e5f\u4e0d\u662f\u5730\u5e02\u7ea7\u91c7\u96c6\u7ed3\u679c\uff09\uff1a\u5e93\u91cc\u53ea\u5230\u7701\u7ea7\u7c92\u5ea6\uff0c\u4e0d\u5b58\u5728\u300c\u67d0\u5e02\u8206\u60c5\u591a\u5c11\u6761\u300d\u8fd9\u79cd\u8bf4\u6cd5 \u2014\u2014 \u6240\u4ee5\u672c\u56fe\u4e0d\u7ed9\u4efb\u4f55\u4e00\u5ea7\u57ce\u5e02\u7f16Volume\uff0c\u53ea\u6570\u6b63\u6587\u53eb\u5230\u5b83\u540d\u5b57\u7684\u6b21\u6570\u3002\u540c\u4e00Definition\u7684Home\u7f29\u7565\u56fe\u89c1\u300c\u5730\u7406\u533a\u4f4d \u00b7 \u4e2d\u56fd \u2192 Shandong \u2192 \u6d4e\u5357\u300d\u3002": "(keyword matches from the full t_article table; this is neither IP location nor city-level collection): the database is only province-level, so there is no defensible city-level public-opinion count. The map therefore assigns no volume to any city and only counts post-text mentions. See the home thumbnail under ?Geography ? China ? Shandong ? Jinan?.",
+    "\u6b63\u6587\u63d0\u53ca\u6b21\u6570": "Post mention count",
+    "\uff08Weibo\u6b63\u6587\u51fa\u73b0\u8be5\u5e02\u540d\u7684\u6b21\u6570\uff09": "(number of Weibo posts mentioning the city name)",
+    "\u90bb\u7701\uff08\u6cb3\u5317 / Henan / \u5b89\u5fbd / \u6c5f\u82cf\uff0c\u53ea\u4f5c\u533a\u4f4d\u53c2\u7167\uff09": "Neighboring provinces (Hebei / Henan / Anhui / Jiangsu; geographic reference only)",
+    "\u6863\u4f4d\u6309": "Levels are defined by",
+    "\u5212\u5206\uff08\u6781\u5dee\u592a\u5927\uff0c\u7ebf\u6027\u5f52\u4e00\u4f1a\u628a\u9664\u5934\u90e8\u5916\u7684\u5730\u5e02\u5168\u538b\u5230\u6700\u6de1\u4e00\u6863\uff09\u00b7 \u672c\u56fe": "bins (the range is too large; linear normalization would push all but the top cities into the lightest bin) ? This map",
+    "\u4e0d\u662f\u5730\u5e02\u7ea7\u91c7\u96c6\u7ed3\u679c": "is not a city-level collection result",
+    "\uff1a\u5e93\u91cc\u6ca1\u6709\u5730\u5e02Field\uff0c\u63d0\u53ca\u6570\u7531": ": the database has no city field; mention counts are derived from",
+    "\u6b63\u6587\u5173\u952e\u8bcd": "post keywords",
+    "\u547d\u4e2d\u5f97\u5230\uff08Definition\u89c1\u300cMethodology and Data Conventions\u300d\uff09\u3002\u60ac\u505c\u770b\u6570\u503c\uff0c\u70b9\u51fb\u53ef\u9501\u5b9a\u5de6\u4e0b\u8be6\u60c5\uff1b\u53f3\u4e0a\u89d2\u4e24\u4e2a\u6309\u94ae\u5207\u6362\u300c\u5168\u7701 / \u542b\u90bb\u7701\u300d\u89c6\u91ce\uff0c\u6eda\u8f6e\u6216\u62d6\u62fd\u53ef\u81ea\u884c\u7f29\u653e\u3002": "matches (see Methodology and Data Conventions). Hover to view values; click to lock details in the lower-left panel; use the two buttons in the upper right to switch between province and neighboring-province views; scroll or drag to zoom.",
+    "\u4e09\u5927\u4e3b\u9898\uff08Ecological Governance / Cultural Tourism / Healthcare Disputes\uff09\u00b7 Social Governance\u4e3a\u515c\u5e95\u5c42": "Three focal topics (Ecological Governance / Cultural Tourism / Healthcare Disputes) ? Social Governance is the fallback layer",
+    "SnowNLP \u8f7b\u91cfModel \u00b7 Negative share 33.0%": "SnowNLP lightweight model ? Negative share 33.0%",
+    "Release\u65f6\u95f4\u89e3\u6790\u6240\u5f97 \u00b7 \u8fd1\u5e74SampleShare\u9ad8": "Parsed from release time ? The recent sample share is high",
+    "\u5206\u6bcd = Yellow River\u5168\u90e8 1,097 records\uff1b\u4e09\u5927\u4e3b\u9898\uff08Ecological Governance / Cultural Tourism / Healthcare Disputes\uff09\u5168\u90e8\u5c55\u5f00\u3001Weibo\u805a\u7126 899 records\uff08\u5176\u4e2dEcological Governance / Healthcare Disputes\u53e6\u6709\u8de8Platform\u4e09\u6e90Definition\uff09\uff1bSocial Governance\u4e3a\u515c\u5e95\u5c42\uff08\u5173\u952e\u8bcd\u672a\u547d\u4e2d\u5176\u4ed6Topic\uff09\u3001\u53ea\u4f5c\u5206\u6bcd\u3002": "Denominator = all 1,097 Yellow River records; all three focal topics (Ecological Governance / Cultural Tourism / Healthcare Disputes) are expanded, with 899 Weibo records (Ecological Governance and Healthcare Disputes also have three-source cross-platform definitions); Social Governance is the fallback layer (keywords did not match another topic) and is used only in the denominator.",
+    "\u4e09\u4e2aTopic\u5404\u81ea\u5185\u90e8\u7684\u6b63/\u4e2d/\u8d1f\u7ed3\u6784\uff08\u5404\u6309Topic\u5185 100% \u5f52\u4e00\uff09 \u00b7 \u53ea\u6bd4\u7ed3\u6784\uff0c\u4e0d\u505aPolarity\u5916\u63a8": "Positive/neutral/negative structure within each topic, normalized to 100% within that topic ? Structural comparison only; no polarity extrapolation",
+    "\u56db\u6e90\u4ea4\u96c6Topic\uff1a\u6bcf\u6761\u6309\u6240\u5728Platform\u5185\u90e8 100% \u5f52\u4e00\uff0c\u53ea\u6bd4\u7ed3\u6784Share\u3001\u4e0d\u5bf9\u9f50\u7edd\u5bf9\u503c\uff1bDouyin 0 records\u672a\u8ba1\u5165\u3002Cultural Tourism \u4e3aWeibo\u72ec\u6709\uff0c\u4e0d\u5728\u8de8\u6e90Definition\u5185\u3002": "Four-source topic intersection: each record is normalized to 100% within its platform; only structural shares are compared, not absolute values; Douyin 0 records are excluded. Cultural Tourism occurs only on Weibo and is outside the cross-source definition.",
+    "Weibo / Xiaohongshu / Zhihu \u4e09\u6e90\u6b63\u6587\u5206\u8bcd\u5408\u5e76\uff08\u4ea4\u96c6Topic\uff0c\u6309Matched articles\uff09": "Weibo / Xiaohongshu / Zhihu three-source post-token merge (intersection topics, by matched articles)",
+    "\u4e09\u6e90\u5408\u5e76\u6b63\u6587\u62bd\u6837 250 records\uff1bModel\u672a\u6821\u51c6\uff0c\u4ec5\u7ed3\u6784\u53c2\u8003": "250 sampled merged three-source posts; model uncalibrated, structural reference only",
+    "\u8fd9\u4e00\u5f20\u628a\u4e24\u4e2a\u4e13\u9898\u7684\u5dee\u5f02\u505a\u6210\u53ef\u6838\u5bf9\u7684\u516d\u884c\uff0c\u907f\u514d\"\u4e24\u8fb9\u5dee\u4e0d\u591a\"\u7684\u5370\u8c61": "This panel compares the two topics across six rows for verification, avoiding an impression that they are similar",
+    "\u6837\u672c\u91cf": "Sample size",
+    "\u4e24\u4fa7\u5747\u4e3a\u7b49\u91cf\u91c7\u6837\u53e3\u5f84": "Both sides use equal-size sampling",
+    "\u6570\u503c\u8d8a\u9ad8\u8d8a\u6613\u6269\u6563": "Higher values indicate greater diffusion potential",
+    "\u8f6c\u53d1\u00f7\u70b9\u8d5e\uff1b\u9ad8\uff1d\u89c2\u70b9\u8f7d\u4f53\uff0c\u4f4e\uff1d\u56f4\u89c2\u8868\u6001": "Reposts ? likes; high = opinion carrier, low = spectator response",
+    "\u53ef\u5224\u5b9a\u5b98\u65b9\u8d26\u53f7\u5360\u6bd4": "Share of identifiable official accounts",
+    "\u53ea\u770b\u53ef\u5224\u5b9a\u4e3b\u4f53\u6837\u672c\uff0c\u4e0d\u662f\u5168\u91cf": "Only identifiable subject samples; not the full sample",
+    "\u76ee\u6807\u7701\u4efd\u6570": "Number of target provinces",
+    "\u91c7\u96c6\u914d\u989d\u53e3\u5f84\uff0c\u53cd\u6620\u8986\u76d6\u5e7f\u5ea6": "Collection quota basis; reflects coverage breadth",
+    "\u5934\u90e8 10 \u4f5c\u8005\u5360\u6bd4": "Share of the top 10 authors",
+    "\u8d8a\u4f4e\u8d8a\u5206\u6563": "Lower values indicate greater dispersion",
+    "\u6570\u636e\u5feb\u7167\uff1a2026-10-15 21:44 \u00b7 \u53e3\u5f84\u7edf\u4e00\u7531 unified_data.json \u63d0\u4f9b\uff0c\u9875\u9762\u5185\u6240\u6709\u6570\u5b57\u4e0e\u56fe\u8868\u540c\u6e90\uff1b\u6807\u6ce8": "Data snapshot: 2026-10-15 21:44 ? conventions are provided by unified_data.json; all numbers and charts on this page share the same source; labels",
+    "\u771f\u5b9e": "Real",
+    "\u4e3a\u5e93/\u6587\u4ef6\u5b9e\u6d4b\uff0c": "are measured from databases/files,",
+    "\u6f14\u793a": "Demo",
+    "\u4e3a\u754c\u9762\u539f\u578b\u3002": "are interface prototypes.",
+    "\u589e\u91cf\u91c7\u96c6\u6700\u65b0\u5fae\u535a\u5e76\u91cd\u5efa\u672c\u9875\uff08quick \u6863\u7ea6 3~6 \u5206\u949f\uff09": "Incrementally collect new Weibo posts and rebuild this page (quick mode, about 3-6 minutes)",
+    "\u7acb\u5373\u6e32\u67d3\u672c\u9875\u5168\u90e8\u56fe\u8868\uff08\u6eda\u52a8\u65f6\u4e5f\u4f1a\u81ea\u52a8\u8865\u6e32\u67d3\uff09": "Render all charts on this page now (off-screen charts also render on scroll)",
+    "\u8c03\u7528\u6d4f\u89c8\u5668\u6253\u5370\uff0c\u53ef\u53e6\u5b58\u4e3a PDF\uff08\u4fdd\u7559\u6df1\u8272\u5e95\uff09": "Open browser print and save as PDF (dark background retained)",
+    "\u9ec4\u6cb3\u6d41\u57df\u8206\u60c5\u5206\u6790 \u00b7 \u751f\u6001\u6cbb\u7406 / \u6587\u65c5 / \u533b\u60a3\u77db\u76fe": "Yellow River public-opinion analysis ? Ecological governance / Cultural tourism / Healthcare disputes",
+    "\u5bfc\u51fa\u8be5\u56fe PNG\uff082\u00d7 \u5206\u8fa8\u7387\uff0c\u542b\u6df1\u8272\u5e95\uff09": "Export this chart as PNG (2x resolution, dark background)",
+    "\u628a\u5c71\u4e1c\u7701 16 \u5730\u5e02\u521a\u597d\u94fa\u6ee1\u753b\u5e03": "Fit all 16 prefecture-level cities in Shandong to the canvas",
+    "\u7f29\u5c0f\u5230\u542b\u6cb3\u5317 / \u6cb3\u5357 / \u5b89\u5fbd / \u6c5f\u82cf \u7684\u89c6\u91ce": "Zoom out to include Hebei / Henan / Anhui / Jiangsu",
+    "\u5bfc\u51fa\u8be5\u8868 CSV\uff08UTF-8 BOM\uff0cExcel \u53ef\u76f4\u63a5\u6253\u5f00\uff09": "Export this table as CSV (UTF-8 BOM, opens directly in Excel)"
+  });
+  Object.assign(EXACT, {
+    "\u4ec5\u7ed8\u8be5\u6cb3\u6d41\u5b9e\u9645\u6d41\u7ecf\u7684\u7701\u7ea7\u884c\u653f\u533a\uff08\u542b\u5171\u6e90\u7701\uff09 \u00b7 \u586b\u5145\uff1dTarget-Province Volume\uff08": "Shows only provinces through which the river actually flows (including shared-source provinces) ? Fill = target-province volume (",
+    "\uff0c\u8d8a\u4eae\u8d8a\u9ad8\uff0c\u65ad\u70b9\u89c1\u5361\u4e0b\u8272\u6807\uff09 \u00b7 Yellow River\uff1d\u9ec4\u8272\u6d41\u52a8\u7ebf\uff08\u5e72\u6d41\u8d70\u5411\uff09": ", with brighter colors indicating higher values; breakpoints are shown in the legend below the map) ? Yellow River = yellow flow line (mainstem direction)",
+    "\u586b\u5145\uff1dTarget-Province Volume\uff0c": "Fill = target-province volume,",
+    "Yellow River\u5e72\u6d41 \u00b7 \u9ec4\u8272\u6d41\u52a8\u7ebf\uff08\u6e90\u2192\u5165\u6d77\u5faa\u73af\uff09": "Yellow River mainstem ? yellow flow line (source to estuary)",
+    "\u65e0Yellow RiverSample": "No Yellow River sample",
+    "\u00b7 \u6700\u9ad8 458 records / \u6700\u4f4e 49 records\uff08\u5206\u6bcd = Yellow RiverWeibo 899 records\uff09 \u00b7 \u5404\u56fe\u4ec5\u7ed8\u8be5\u6cb3\u6d41\u5b9e\u9645\u6d41\u7ecf\u7684\u7701\u7ea7\u884c\u653f\u533a\uff08\u542b\u5171\u6e90\u7701\uff09\uff1b\u8272\u9636\u6309Yellow River\u6570\u503c\u7b49\u9891\u5206\u7ea7\uff08\u975e\u7ebf\u6027\u62c9\u4f38\uff09 \u00b7": "? Maximum 458 records / minimum 49 records (denominator = 899 Yellow River Weibo records) ? Each map shows only provinces through which the river flows (including shared-source provinces); color levels use equal-frequency bins of Yellow River values (nonlinear stretch) ?",
+    "\uff0c\u53f3\u4fa7\u300cWider view\u300d\u53ef\u9000\u56de\u542b\u6cb3\u5317 / Henan / \u5b89\u5fbd / \u6c5f\u82cf \u7684\u5927\u89c6\u91ce \u00b7 \u586b\u5145\uff1dWeiboPost mention count\uff0c\u6309": ", use the ?Wider view? button on the right to return to the broader view including Hebei / Henan / Anhui / Jiangsu ? Fill = Weibo post mention count, using",
+    "\u5206\u6863\uff08\u5934\u90e8 314 \u6b21\u4e0e\u4e2a\u4f4d\u6570\u5730\u5e02\u540c\u56fe\uff0c\u7ebf\u6027\u5f52\u4e00\u4f1a\u628a\u5176\u4f59\u5730\u5e02\u5168\u538b\u5230\u6700\u6de1\u4e00\u6863\uff09 \u00b7": "bins (the top value of 314 and single-digit cities share one map; linear normalization would push all other cities into the lightest bin) ?",
+    "\u9501\u5b9a\u5de6\u4e0b\u8be6\u60c5\uff08Esc \u53d6\u6d88\uff09 \u00b7 \u6eda\u8f6e / \u62d6\u62fd\u53ef\u81ea\u884c\u7f29\u653e\u3002": "to lock the lower-left details (Esc to cancel) ? Scroll / drag to zoom.",
+    "\uff08\u5173\u952e\u8bcd\u547d\u4e2d\uff0c\u6765\u81ea\u5168\u91cf t_article\uff1b\u4e0d\u662f IP \u5c5e\u5730\u3001\u4e5fis not a city-level collection result\uff09\uff1a\u5e93\u91cc\u53ea\u5230\u7701\u7ea7\u7c92\u5ea6\uff0c\u4e0d\u5b58\u5728\u300c\u67d0\u5e02\u8206\u60c5\u591a\u5c11\u6761\u300d\u8fd9\u79cd\u8bf4\u6cd5 \u2014\u2014 \u6240\u4ee5\u672c\u56fe\u4e0d\u7ed9\u4efb\u4f55\u4e00\u5ea7\u57ce\u5e02\u7f16Volume\uff0c\u53ea\u6570\u6b63\u6587\u53eb\u5230\u5b83\u540d\u5b57\u7684\u6b21\u6570\u3002\u540c\u4e00Definition\u7684Home\u7f29\u7565\u56fe\u89c1\u300c\u5730\u7406\u533a\u4f4d \u00b7 \u4e2d\u56fd \u2192 Shandong \u2192 \u6d4e\u5357\u300d\u3002": "(keyword matches from the full t_article table; this is neither IP location nor city-level collection): the database is only province-level, so there is no defensible city-level public-opinion count. The map therefore assigns no volume to any city and only counts post-text mentions. See the home thumbnail under ?Geography ? China ? Shandong ? Jinan?.",
+    "\uff08Weibo\u6b63\u6587\u51fa\u73b0\u8be5\u5e02\u540d\u7684\u6b21\u6570\uff09": "(number of Weibo posts mentioning the city name)",
+    "\u90bb\u7701\uff08\u6cb3\u5317 / Henan / \u5b89\u5fbd / \u6c5f\u82cf\uff0c\u53ea\u4f5c\u533a\u4f4d\u53c2\u7167\uff09": "Neighboring provinces (Hebei / Henan / Anhui / Jiangsu; geographic reference only)",
+    "\uff1a\u5e93\u91cc\u6ca1\u6709\u5730\u5e02Field\uff0c\u63d0\u53ca\u6570\u7531": ": the database has no city field; mention counts are derived from",
+    "\u547d\u4e2d\u5f97\u5230\uff08Definition\u89c1\u300cMethodology and Data Conventions\u300d\uff09\u3002Hover\u770b\u6570\u503c\uff0cClick\u53ef\u9501\u5b9a\u5de6\u4e0b\u8be6\u60c5\uff1b\u53f3\u4e0a\u89d2\u4e24\u4e2a\u6309\u94ae\u5207\u6362\u300c\u5168\u7701 / \u542b\u90bb\u7701\u300d\u89c6\u91ce\uff0c\u6eda\u8f6e\u6216\u62d6\u62fd\u53ef\u81ea\u884c\u7f29\u653e\u3002": "matches (see Methodology and Data Conventions). Hover to view values; click to lock details in the lower-left panel; use the two buttons in the upper right to switch between province and neighboring-province views; scroll or drag to zoom.",
+    "\u6570\u636e\u5feb\u7167\uff1a2026-10-15 21:44 \u00b7 \u53e3\u5f84\u7edf\u4e00\u7531 unified_data.json \u63d0\u4f9b\uff0c\u9875\u9762\u5185\u6240\u6709\u6570\u5b57\u4e0e\u56fe\u8868\u540c\u6e90\uff1b\u6807\u6ce8": "Data snapshot: 2026-10-15 21:44 ? conventions are provided by unified_data.json; all numbers and charts on this page share the same source; labels",
+    "\u771f\u5b9e": "Real",
+    "\u4e3a\u5e93/\u6587\u4ef6\u5b9e\u6d4b\uff0c": "are measured from databases/files,",
+    "\u6f14\u793a": "Demo",
+    "\u4e3a\u754c\u9762\u539f\u578b\u3002": "are interface prototypes."
+  });
+  Object.assign(EXACT, {
+    "\u4ec5\u7ed8\u8be5\u6cb3\u6d41\u5b9e\u9645\u6d41\u7ecf\u7684\u7701\u7ea7\u884c\u653f\u533a\uff08\u542b\u5171\u6e90\u7701\uff09 \u00b7 \u586b\u5145\uff1dTarget-Province Volume\uff08": "Shows only provinces through which the river actually flows (including shared-source provinces) ? Fill = target-province volume (",
+    "\uff0c\u8d8a\u4eae\u8d8a\u9ad8\uff0c\u65ad\u70b9\u89c1\u5361\u4e0b\u8272\u6807\uff09 \u00b7 Yellow River\uff1d\u9ec4\u8272\u6d41\u52a8\u7ebf\uff08\u5e72\u6d41\u8d70\u5411\uff09": ", with brighter colors indicating higher values; breakpoints are shown in the legend below the map) ? Yellow River = yellow flow line (mainstem direction)",
+    "\u00b7 \u6700\u9ad8 458 records / \u6700\u4f4e 49 records\uff08\u5206\u6bcd = Yellow RiverWeibo 899 records\uff09 \u00b7 \u5404\u56fe\u4ec5\u7ed8\u8be5\u6cb3\u6d41\u5b9e\u9645\u6d41\u7ecf\u7684\u7701\u7ea7\u884c\u653f\u533a\uff08\u542b\u5171\u6e90\u7701\uff09\uff1b\u8272\u9636\u6309Yellow River\u6570\u503c\u7b49\u9891\u5206\u7ea7\uff08\u975e\u7ebf\u6027\u62c9\u4f38\uff09 \u00b7": "? Maximum 458 records / minimum 49 records (denominator = 899 Yellow River Weibo records) ? Each map shows only provinces through which the river flows (including shared-source provinces); color levels use equal-frequency bins of Yellow River values (nonlinear stretch) ?",
+    "\uff0c\u53f3\u4fa7\u300cWider view\u300d\u53ef\u9000\u56de\u542b\u6cb3\u5317 / Henan / \u5b89\u5fbd / \u6c5f\u82cf \u7684\u5927\u89c6\u91ce \u00b7 \u586b\u5145\uff1dWeiboPost mention count\uff0c\u6309": ", use the ?Wider view? button on the right to return to the broader view including Hebei / Henan / Anhui / Jiangsu ? Fill = Weibo post mention count, using",
+    "\u5206\u6863\uff08\u5934\u90e8 314 \u6b21\u4e0e\u4e2a\u4f4d\u6570\u5730\u5e02\u540c\u56fe\uff0c\u7ebf\u6027\u5f52\u4e00\u4f1a\u628a\u5176\u4f59\u5730\u5e02\u5168\u538b\u5230\u6700\u6de1\u4e00\u6863\uff09 \u00b7": "bins (the top value of 314 and single-digit cities share one map; linear normalization would push all other cities into the lightest bin) ?",
+    "\u9501\u5b9a\u5de6\u4e0b\u8be6\u60c5\uff08Esc \u53d6\u6d88\uff09 \u00b7 \u6eda\u8f6e / \u62d6\u62fd\u53ef\u81ea\u884c\u7f29\u653e\u3002": "to lock the lower-left details (Esc to cancel) ? Scroll / drag to zoom.",
+    "\u6570\u636eSnapshot\uff1a2026-10-15 21:44 \u00b7 Definition\u7edf\u4e00\u7531 unified_data.json \u63d0\u4f9b\uff0c\u9875\u9762\u5185\u6240\u6709\u6570\u5b57\u4e0e\u56feTable\u540c\u6e90\uff1b\u6807\u6ce8": "Data snapshot: 2026-10-15 21:44 ? conventions are provided by unified_data.json; all numbers and charts on this page share the same source; labels"
+  });
+  Object.assign(EXACT, {
+    "\u5168\u90e8": "All",
+    "139 articles \u00b7 \u8fc7 30 articles\u95f8\u95e8": "139 articles ? above the 30-article gate",
+    "\u540c\u4e00\u5236\u5ea6\u6846\u67b6\u3002\u9ec4\u6cb3\u6d41\u57df\u8ba8\u8bba\u8d77\u70b9\u66f4\u65e9\uff082017-01\uff09\uff0c\u9996\u8f6e\u7763\u5bdf\u4e0e\u300c\u56de\u5934\u770b\u300d\u662f\u672c\u7c07\u7684\u4e3b\u8981\u8f7d\u4f53\u3002": "Both clusters use the same institutional framework. Discussion in the Yellow River Basin begins earlier, in January 2017, and the first inspection round and its follow-up review are the main carriers of this cluster.",
+    "\u547d\u4e2d\u7bc7\u6570\uff08\u53bb\u91cd\u5fae\u535a ID\uff09": "Matched articles (deduplicated Weibo IDs)",
+    "\u65f6\u95f4\u8de8\u5ea6": "Time span",
+    "\u4e92\u52a8\u5408\u8ba1\uff08\u8f6c+\u8bc4+\u8d5e\uff09": "Total interactions (reposts + comments + likes)",
+    "\u8bcd\u4e91\u53ef\u89c1\u8bcd": "Visible cloud terms",
+    "\u53c2\u8003\u7701\u4efd\uff08\u76ee\u6807\u7701\u4efd\u53e3\u5f84\uff09\uff1aShandong 21 \u00b7 Shanxi 21 \u00b7 Gansu 18 \u00b7 Inner Mongolia 17": "Reference provinces (target-province basis): Shandong 21 ? Shanxi 21 ? Gansu 18 ? Inner Mongolia 17",
+    "\u8bcd\u8868\uff1aCentral Ecological Inspection / \u751f\u6001\u73af\u5883\u4fdd\u62a4\u7763\u5bdf / Inspection team / \u7763\u5bdf\u8fdb\u9a7b / Inspection \u00b7 \u5176\u4e2d 3 \u4e2a\u8bcd\u672a\u88ab\u5206\u8bcd\u5668\u5207\u51fa\uff08\u77ed\u8bed\u88ab\u5207\u788e\uff0c\u6216\u5355\u5b57\u88ab\u505c\u7528\u8bcd\u8868\u6ee4\u6389\uff09\uff0c\u56e0\u6b64\u8bcd\u4e91\u91cc\u770b\u4e0d\u5230": "Lexicon: Central Ecological Inspection / ecological environmental protection inspection / inspection team / inspection entry / inspection. Three terms were not produced by the tokenizer because phrases were split or single characters were removed by the stop-word list, so they do not appear in the cloud.",
+    "\u8bed\u6599\u91cc\u6307\u540c\u4e00\u4e2a\u6cbb\u7406\u6982\u5ff5\uff0c\u88ab\u5206\u8bcd\u5207\u6210 5 \u4e2a\u8bcd\u5404\u5360\u4e00\u5e2d": "The corpus uses these expressions for the same governance concept, but tokenization splits the concept into five separate terms.",
+    "\u540c\u4e00\u5236\u5ea6\u4e3b\u4f53\u7684\u5168\u79f0\u4e0e\u7b80\u79f0": "The full and abbreviated names refer to the same institutional actor.",
+    "\u672c\u8bcd\u4e91\u53d6\u81ea\u9ec4\u6cb3\u6d41\u57df 899 \u6761\u5fae\u535a\u6b63\u6587\uff1a\u5206\u8bcd\u540e\u6309": "This word cloud is built from 899 Yellow River Weibo posts. After tokenization, terms are ordered by",
+    "\u51fa\u73b0\u7bc7\u6570": "document frequency",
+    "\u6392\u5e8f\uff08\u540c\u4e00\u7bc7\u5fae\u535a\u5185\u91cd\u590d\u51fa\u73b0\u7684\u8bcd\u53ea\u8ba1\u4e00\u6b21\uff09\uff0c\u5254\u9664\u505c\u7528\u8bcd\u3001\u5355\u5b57\u4e0e\u4e0d\u542b\u6c49\u5b57\u7684\u788e\u7247\u540e\u53d6\u5934\u90e8 105 \u8bcd\uff0c\u5b57\u53f7\u8d8a\u5927\u4ee3\u8868\u8be5\u8bcd\u51fa\u73b0\u7684\u6b63\u6587\u8d8a\u591a\u3002\u5176\u4e2d 59 \u4e2a\u5f69\u8272\u8bcd\u6309\u4eba\u5de5\u5f52\u7eb3\u7684\u4e8b\u4ef6\u7c07\u8bcd\u8868\u7740\u8272\uff0c\u70b9\u51fb\u53ef\u8054\u52a8\u4e0b\u65b9\u9762\u677f\u67e5\u770b\u91ca\u4e49\u4e0e\u539f\u6587\uff1b\u5176\u4f59 46 \u4e2a\u7070\u9636\u8bcd\u662f\u8bae\u9898\u6982\u5ff5\u8bcd\uff08\"\u751f\u6001\"\"\u73af\u4fdd\"\uff09\u3001\u653f\u6cbb\u4e3b\u4f53\u8bcd\uff08\"\u4e2d\u592e\"\uff09\u3001\u516c\u6587\u5957\u8bdd\uff08\"\u8fd1\u65e5\"\"\u5f00\u5c55\"\uff09\u4e0e\u884c\u653f\u533a\u5212\u540d\uff0c\u4ec5\u63d0\u4f9b\u8bed\u5883\u3001\u4e0d\u53c2\u4e0e\u4e8b\u4ef6\u5f52\u5c5e\u3002\u6309\u8bcd\u8868\u8ba1\uff0c\u751f\u6001\u6cbb\u7406 / \u6587\u65c5 / \u533b\u60a3\u77db\u76fe\u5206\u522b\u6709 58.8%\u300191.1%\u300183.4% \u7684\u805a\u7126\u6b63\u6587\u53ef\u5f52\u5c5e\u5230\u5177\u4f53\u4e8b\u4ef6\u7c07\uff08\u53e3\u5f84\u89c1\u300c\u4e8b\u4ef6\u76d1\u6d4b\u300d\u9875\uff09\u3002": "The same term appearing multiple times in one post is counted once. Stop words, single characters, and non-Chinese fragments are removed, and the top 105 terms are retained. Larger text indicates that a term appears in more posts. Fifty-nine coloured terms are assigned to manually defined event clusters; click a term to view its definition and source posts. The remaining 46 grey terms are broad topic concepts, political actors, official boilerplate, or administrative place names. They provide context but are not assigned to event clusters. By dictionary matching, 58.8%, 91.1%, and 83.4% of ecological-governance, cultural-tourism, and healthcare-dispute posts can be assigned to specific event clusters, respectively.",
+    "\u5f69\u8272\u9ad8\u9891\u8bcd\u52fe\u52d2\u51fa\u4e09\u5927\u4e3b\u9898\u5404\u81ea\u7684\u53d9\u4e8b\u9aa8\u67b6\u3002\u751f\u6001\u6cbb\u7406\u4e00\u4fa7\uff0c\u300c\u7763\u5bdf\u300d\uff08128 \u7bc7\uff09\u3001\u300c\u7763\u5bdf\u7ec4\u300d\uff0877 \u7bc7\uff09\u3001\u300c\u6574\u6539\u300d\uff0851 \u7bc7\uff09\u4e0e\u4e3b\u4f53\u8bcd\u300c\u4e2d\u592e\u300d\uff08106 \u7bc7\uff09\u540c\u73b0\uff0c\u5bf9\u5e94\"\u7763\u5bdf\u8fdb\u9a7b\u2014\u53cd\u9988\u2014\u6574\u6539\u95ee\u8d23\"\u7684\u5b8c\u6574\u94fe\u6761\uff1b\u88ab\u5206\u8bcd\u5207\u788e\u7684\u6982\u5ff5\u5f52\u5e76\u540e\u66f4\u4e3a\u53ef\u89c2\uff1a\u300c\u7763\u5bdf / \u7763\u5bdf\u7ec4\u300d\u5408\u8ba1 139 \u7bc7\u3001\u300c\u751f\u6001 / \u73af\u4fdd\u300d\u5408\u8ba1 278 \u7bc7\uff08\u89c1\u4e0a\u65b9\u5f52\u5e76\u8868\uff09\u3002\u6587\u65c5\u4e00\u4fa7\uff0c\u300c\u5bb0\u5ba2\u300d\uff0869 \u7bc7\uff09\u3001\u300c\u666f\u533a\u300d\uff08125 \u7bc7\uff09\u3001\u300c\u6e38\u5ba2\u300d\uff0887 \u7bc7\uff09\u5206\u5c5e\u6d88\u8d39\u7ea0\u7eb7\u3001\u4f9b\u7ed9\u95e8\u7968\u3001\u4f53\u9a8c\u51fa\u884c\u4e09\u4e2a\u4e8b\u4ef6\u7c07\uff0c\u7528\u8bcd\u6700\u8d34\u8fd1\u65e5\u5e38\u6d88\u8d39\u573a\u666f\u3002\u533b\u60a3\u4e00\u4fa7\uff0c\u7070\u9636\u9ad8\u9891\u8bcd\u300c\u533b\u9662\u300d\uff0877 \u7bc7\uff09\u3001\u300c\u533b\u751f\u300d\uff080 \u7bc7\uff09\u867d\u4e0d\u5f52\u5c5e\u4e8b\u4ef6\u7c07\uff0c\u4f46\u4e0e\u5f69\u8272\u8bcd\u300c\u7ea0\u7eb7\u300d\uff0855 \u7bc7\uff09\u3001\u300c\u901a\u62a5\u300d\uff0840 \u7bc7\uff09\u3001\u300c\u624b\u672f\u300d\uff0827 \u7bc7\uff09\u3001\u300c\u5f8b\u5e08\u300d\uff0813 \u7bc7\uff09\u5171\u540c\u6784\u6210\"\u4e2a\u6848\u53d1\u751f\u2014\u5b98\u65b9\u56de\u5e94\u2014\u8d23\u4efb\u8ba4\u5b9a\u2014\u6cd5\u5f8b\u7ef4\u6743\"\u7684\u53d9\u8ff0\u94fe\u3002": "Coloured high-frequency terms outline the main narratives of the three topics. For ecological governance, inspection (128 articles), inspection team (77), rectification (51), and central (106) co-occur, corresponding to the full inspection, feedback, rectification, and accountability chain. After merging split concepts, inspection and inspection team cover 139 articles, while ecology and environmental protection cover 278. For cultural tourism, overcharging (69), scenic area (125), and visitors (87) map to consumer disputes, supply and tickets, and visitor experience. For healthcare disputes, hospital (77) and physician (0) are unassigned broad terms, while dispute (55), briefing (40), surgery (27), and lawyer (13) correspond to case occurrence, official response, liability determination, and legal redress.",
+    "\u5408\u5e76\u6765\u770b\uff0c\u8bcd\u4e91\u4f20\u9012\u4e09\u5c42\u4fe1\u606f\uff1a\u4e00\u662f\u751f\u6001\u6cbb\u7406\u8ba8\u8bba\u9ad8\u5ea6\u56f4\u7ed5\u4e2d\u592e\u751f\u6001\u73af\u4fdd\u7763\u5bdf\u8fd9\u4e00\u6743\u5a01\u4e8b\u4ef6\u5c55\u5f00\uff0c\"\u7763\u5bdf\u2014\u6574\u6539\u2014\u95ee\u8d23\"\u662f\u58f0\u91cf\u4e3b\u5e72\uff1b\u4e8c\u662f\u6587\u65c5\u8bae\u9898\u7684\u8bcd\u5f62\u6700\u751f\u6d3b\u5316\uff08\u5403\u3001\u4f4f\u3001\u884c\u3001\u95e8\u7968\uff09\uff0c\u6307\u5411\u53ef\u611f\u77e5\u7684\u6d88\u8d39\u4f53\u9a8c\u73af\u8282\uff1b\u4e09\u662f\u533b\u60a3\u8ba8\u8bba\u4ee5\u5177\u4f53\u4e2a\u6848\u7684\u5904\u7406\u8fc7\u7a0b\u4e3a\u4e3b\u7ebf\uff0c\u60c5\u7eea\u5f3a\u5ea6\u6700\u9ad8\u7684\u300c\u4f24\u533b\u300d\uff083 \u7bc7\uff09\u300c\u533b\u95f9\u300d\uff087 \u7bc7\uff09\u51fa\u73b0\u9891\u6b21\u5f88\u4f4e\uff0c\u5c5e\u7ebf\u7d22\u6027\u4fe1\u53f7\u800c\u975e\u666e\u904d\u73b0\u8c61\u3002\u7070\u9636\u884c\u653f\u533a\u5212\u540d\u5c71\u4e1c\u3001\u6cb3\u5357\u3001\u9655\u897f\u3001\u5c71\u897f\u3001\u5b81\u590f\u8fdb\u5165\u4e86\u5934\u90e8\u8bcd\u8868\uff08\u5360\u672c\u6d41\u57df\u6d41\u7ecf 9 \u4e2a\u7701\u533a\u7684 5 \u4e2a\uff09\uff1b\u5185\u8499\u53e4\u3001\u56db\u5ddd\u3001\u7518\u8083\u3001\u9752\u6d77\u672a\u8fdb\u5165\uff0c\u4e0e\u5927\u91cf\u516c\u6587\u5957\u8bdd\u540c\u73b0\u8fd8\u63d0\u793a\uff1a\u76f8\u5f53\u6bd4\u4f8b\u7684\u6b63\u6587\u662f\"\u5c5e\u5730 + \u4e8b\u4ef6\"\u53e5\u5f0f\u7684\u5b98\u65b9\u6216\u5a92\u4f53\u901a\u7a3f\uff0c\u9ec4\u6cb3\u6d41\u57df\u8206\u60c5\u5448\u660e\u663e\u7684\u5c5e\u5730\u5316\u5206\u5e03\u3002": "Overall, the word cloud conveys three points. Ecological-governance discussion centres on central environmental inspection, with inspection, rectification, and accountability forming the main volume. Cultural-tourism vocabulary is the most everyday, pointing to food, accommodation, travel, and tickets. Healthcare discussion follows case handling, and the low frequency of violence-related terms indicates clue-level signals rather than prevalent phenomena. Administrative names for Shandong, Henan, Shaanxi, Shanxi, and Ningxia appear among the top terms, while Inner Mongolia, Sichuan, Gansu, and Qinghai do not. The co-occurrence of place names and official boilerplate also suggests that many posts follow an official or media release structure."
+  });
+  Object.assign(EXACT, {
+    "\u53c2\u8003Province\uff08Target provincesDefinition\uff09\uff1aShandong 21 \u00b7 Shanxi 21 \u00b7 Gansu 18 \u00b7 Inner Mongolia 17": "Reference provinces (target-province definition): Shandong 21 ? Shanxi 21 ? Gansu 18 ? Inner Mongolia 17",
+    "Vocabulary\uff1aCentral Ecological Inspection / EcologyEnvironmental protectionInspection / Inspection team / Inspection\u8fdb\u9a7b / Inspection \u00b7 \u5176\u4e2d 3 \u4e2a\u8bcd\u672a\u88ab\u5206\u8bcd\u5668\u5207\u51fa\uff08\u77ed\u8bed\u88ab\u5207\u788e\uff0c\u6216\u5355\u5b57\u88ab\u505c\u7528Vocabulary\u6ee4\u6389\uff09\uff0c\u56e0\u6b64Word Cloud\u91cc\u770b\u4e0d\u5230": "Lexicon: Central Ecological Inspection / ecological environmental protection inspection / inspection team / inspection entry / inspection. Three terms were not produced by the tokenizer because phrases were split or single characters were removed by the stop-word list, so they do not appear in the cloud.",
+    "\u8bcd\u4e91\uff0c\u5171 103 \u4e2a\u8bcd\u6761\u3002\u4f7f\u7528\u5de6\u53f3\u65b9\u5411\u952e\u5728\u8bcd\u6761\u95f4\u79fb\u52a8\uff0c\u6309\u56de\u8f66\u5c55\u5f00\u8be5\u8bcd\u7684\u89e3\u91ca\uff0c\u6309 Esc \u5173\u95ed\u3002": "Word cloud with 103 terms. Use the left and right arrow keys to move between terms, press Enter to open a definition, and press Esc to close it.",
+    "\u8bcd\u6761\u89e3\u91ca": "Term definition"
+  });
+  Object.assign(EXACT, {
+    "\u300c\u751f\u6001\u300d": "\u300c\u751f\u6001\u300d (Ecology)",
+    "\u300c\u7763\u5bdf\u300d": "\u300c\u7763\u5bdf\u300d (Inspection)",
+    "\u300c\u5c71\u4e1c\u300d": "\u300c\u5c71\u4e1c\u300d (Shandong)",
+    "\u300c\u73af\u5883\u4fdd\u62a4\u300d": "\u300c\u73af\u5883\u4fdd\u62a4\u300d (Environmental protection)",
+    "\u300c\u4e2d\u592e\u300d": "\u300c\u4e2d\u592e\u300d (Central)",
+    "\u300c\u73af\u4fdd\u300d": "\u300c\u73af\u4fdd\u300d (Environmental protection)",
+    "\u300c\u751f\u6001\u73af\u5883\u300d": "\u300c\u751f\u6001\u73af\u5883\u300d (Ecological environment)",
+    "\u300c\u7763\u5bdf\u7ec4\u300d": "\u300c\u7763\u5bdf\u7ec4\u300d (Inspection team)",
+    "\u300c\u5c71\u4e1c\u7701\u300d": "\u300c\u5c71\u4e1c\u7701\u300d (Shandong Province)",
+    "\u300c\u7eff\u8272\u300d": "\u300c\u7eff\u8272\u300d (Green)",
+    "\u300c\u6574\u6539\u300d": "\u300c\u6574\u6539\u300d (Rectification)",
+    "\u300c\u5f00\u5c55\u300d": "\u300c\u5f00\u5c55\u300d (Carry out)",
+    "\u300c\u4fdd\u62a4\u300d": "\u300c\u4fdd\u62a4\u300d (Protection)",
+    "\u300c\u6392\u6c61\u300d": "\u300c\u6392\u6c61\u300d (Discharge)",
+    "\u300c\u975e\u6cd5\u300d": "\u300c\u975e\u6cd5\u300d (Illegal)",
+    "\u300c\u533b\u9662\u300d": "\u300c\u533b\u9662\u300d (Hospitals)",
+    "\u300c\u533b\u751f\u300d": "\u300c\u533b\u751f\u300d (Physicians)",
+    "\u300c\u533b\u7597\u300d": "\u300c\u533b\u7597\u300d (Healthcare)",
+    "\u300c\u533b\u60a3\u300d": "\u300c\u533b\u60a3\u300d (Doctor-patient)",
+    "\u300c\u60a3\u8005\u300d": "\u300c\u60a3\u8005\u300d (Patients)",
+    "\u300c\u7ea0\u7eb7\u300d": "\u300c\u7ea0\u7eb7\u300d (Disputes)",
+    "\u300c\u624b\u672f\u300d": "\u300c\u624b\u672f\u300d (Surgery)",
+    "\u300c\u6b7b\u4ea1\u300d": "\u300c\u6b7b\u4ea1\u300d (Death)",
+    "\u300c\u533b\u95f9\u300d": "\u300c\u533b\u95f9\u300d (Medical disturbance)",
+    "\u300c\u533b\u7597\u7ea0\u7eb7\u300d": "\u300c\u533b\u7597\u7ea0\u7eb7\u300d (Medical disputes)",
+    "\u300c\u533b\u4fdd\u300d": "\u300c\u533b\u4fdd\u300d (Health insurance)",
+    "\u300c\u5bb6\u5c5e\u300d": "\u300c\u5bb6\u5c5e\u300d (Family members)",
+    "\u300c\u533b\u7597\u4e8b\u6545\u300d": "\u300c\u533b\u7597\u4e8b\u6545\u300d (Medical accidents)"
+  });
+  Object.assign(EXACT, {
+    "Ecology + Ecological environment + \u73af\u4fdd + Environmental protection + \u73af\u5883": "Ecology + ecological environment + environmental protection + environmental conservation + environment",
+    "\u7763\u5bdf / Inspection team": "Inspection / inspection team",
+    "\u7763\u5bdf + Inspection team": "Inspection + inspection team"
+  });
   const PHRASES = Object.entries(EXACT).sort((a, b) => b[0].length - a[0].length);
 
   function replaceKnown(value) {
     let out = String(value);
-    for (const pair of PHRASES) out = out.split(pair[0]).join(pair[1]);
+    for (const pair of PHRASES) {
+      if (pair[0] && out.includes(pair[0]) && !(pair[1] && out.includes(pair[1]))) {
+        out = out.split(pair[0]).join(pair[1]);
+      }
+    }
     return out
       .replace(/生态(?=Authors|治理|环境)/g, 'Ecological')
       .replace(/医患(?=Authors|矛盾)/g, 'Healthcare')
@@ -590,8 +744,8 @@
     if (typeof value !== "string") return value;
     const trimmed = value.trim();
     if (EXACT[trimmed]) return EXACT[trimmed];
-    if (["lead", "t", "s", "k", "l", "x", "name", "short", "group", "badge"].includes(key)) {
-      return replaceKnown(value);
+    if (["name", "province", "target_province", "source"].includes(key)) {
+      return geoName(trimmed);
     }
     return value;
   }
@@ -634,18 +788,29 @@
     });
   }
 
+  const UI_TEXT_SELECTOR = [
+    ".top", ".side", ".vtitle", ".lead", ".kpis",
+    ".card > h3", ".card > .sub", ".ruler", ".toolbar", ".grp", ".seg",
+    ".tblwrap th", ".main h4", ".main h5", ".main .card-title",
+    ".main .text-secondary", ".main label", ".main th", ".main .input-group input",
+    ".foot", ".clupanel", ".chat-tips", ".chat-send", ".qa-suggest",
+    ".evh", ".evpanel", ".evgl", ".evwarn", ".evlg", ".gate", ".vcbtn",
+    ".tk2", ".kick", ".tag", ".u", "button", "summary"
+  ].join(",");
+
   function translateTextNode(node) {
     const parent = node.parentElement;
-    if (!parent || parent.closest("script,style,canvas,svg,.raw,.txt,.srcbox,.foot,#langSwitch")) return;
+    if (!parent || parent.closest("script,style,canvas,svg,.raw,.txt,.srcbox,.cev,.card.w2 b,#langSwitch")) return;
+    // Do not rewrite source posts, comments, evidence excerpts, table cells,
+    // event titles, chat messages, or any text outside the UI chrome selector.
+    if (!parent.closest(UI_TEXT_SELECTOR)) return;
     const raw = node.nodeValue;
     const trimmed = raw.trim();
-    if (!trimmed) return;
-    /* Only translate visible interface chrome. Source posts, comments and data
-       tables remain untouched so that evidence is not rewritten. */
-    const isUi = !!parent.closest(".top,.side,.vtitle,.lead,.kpis,.card > h3,.card > .sub,.ruler,.toolbar,.grp,.seg,.tblwrap th,.evpanel,button,.main h4,.main h5,.main .card-title,.main .text-secondary,.main label,.main th,.main .input-group input,.foot");
-    if (!isUi) return;
-    const translated = EXACT[trimmed] || replaceKnown(trimmed);
-    if (translated !== trimmed) node.nodeValue = raw.replace(trimmed, translated);
+    if (!trimmed || !/[\u4e00-\u9fff]/.test(trimmed)) return;
+    // Exact matching is intentionally used here. Substring replacement changed
+    // research evidence into mixed Chinese-English fragments in earlier builds.
+    const translated = EXACT[trimmed];
+    if (translated && translated !== trimmed) node.nodeValue = raw.replace(trimmed, translated);
   }
 
   function translateSubtree(root) {
@@ -691,16 +856,49 @@
   function applyEnglish() {
     const brand = document.querySelector(".brand");
     if (brand) {
-      brand.innerHTML = "SignalTrace<small>Multi-source Public-Opinion Analytics and Risk Screening System</small>";
+      brand.innerHTML = "SOPRAS<small>Multi-source Public-Opinion Analytics and Risk Screening System</small>";
     }
-    document.title = "SignalTrace - Multi-source Public-Opinion Analytics";
-    const style = document.createElement("style");
-    style.id = "en-mode-style";
-    style.textContent = ".lang-en .lead,.lang-en .note{display:none!important}";
-    document.head.appendChild(style);
-    translateSubtree(document.body);
-    translateAttributes(document.body);
-    keepLanguageOnInternalLinks();
+    document.title = "SOPRAS - Multi-source Public-Opinion Analytics";
+    let style = document.getElementById("en-mode-style");
+    if (!style) {
+      style = document.createElement("style");
+      style.id = "en-mode-style";
+      document.head.appendChild(style);
+    }
+    // Keep explanatory text visible. Reserve vertical space for it and let the
+    // title/description wrap without sitting on top of the ECharts canvas.
+    style.textContent = [
+      ".lang-en .lead,.lang-en .note,.lang-en .card>.sub,.lang-en .ruler{display:block!important;white-space:normal!important;overflow-wrap:anywhere;word-break:break-word;line-height:1.45}",
+      ".lang-en .lead{margin:0 0 12px;max-width:none}",
+      ".lang-en .card{height:auto!important;min-width:0;overflow:visible}",
+      ".lang-en .card>h3{padding-right:72px;line-height:1.3;overflow-wrap:anywhere;word-break:break-word;min-height:0}",
+      ".lang-en .card>.sub{font-size:10.5px;margin:2px 0 7px;max-width:100%}",
+      ".lang-en .ruler{font-size:10.5px;margin:6px 0 4px;max-width:100%}",
+      ".lang-en .ch{flex:0 0 auto;min-width:0;min-height:180px}",
+      ".lang-en .kpi{height:auto!important;min-height:94px;overflow:visible}",
+      ".lang-en .kpi .k,.lang-en .kpi .s{white-space:normal!important;overflow-wrap:anywhere;line-height:1.35}",
+      ".lang-en .toolbar,.lang-en .tools-top{flex-wrap:wrap;min-width:0}",
+      ".lang-en .toolbar button,.lang-en .act{max-width:280px;height:auto;white-space:normal;line-height:1.3}",
+      ".lang-en .tblwrap{max-width:100%;overflow:auto}",
+      ".lang-en table{table-layout:auto}",
+      ".lang-en th,.lang-en td{white-space:normal!important;overflow-wrap:anywhere;word-break:break-word}",
+      ".lang-en .chip,.lang-en .hint{white-space:normal;overflow-wrap:anywhere}",
+      ".lang-en .foot{display:block!important;white-space:normal!important;overflow-wrap:anywhere;line-height:1.5}"
+    ].join("\n");
+    const runPass = function () {
+      translateSubtree(document.body);
+      translateAttributes(document.body);
+      applyEnglishFallbacks();
+      applyWordCloudTermGlosses();
+      keepLanguageOnInternalLinks();
+    };
+    runPass();
+    [200, 800, 1800, 3500, 6000, 9000, 12000, 15000, 18000].forEach(function (delay) {
+      window.setTimeout(runPass, delay);
+    });
+    document.addEventListener("click", function () {
+      window.setTimeout(runPass, 120);
+    });
   }
 
   function translateAttributes(root) {
@@ -719,9 +917,74 @@
       if (!link.id || link.id !== "langSwitch") {
         const url = new URL(link.getAttribute("href"), window.location.href);
         if (url.origin === window.location.origin) {
-          url.searchParams.set("lang", "en");
+          url.searchParams.set("lang", isEnglish ? "en" : "zh");
           link.setAttribute("href", url.pathname + url.search + url.hash);
         }
+      }
+    });
+  }
+
+  function applyWordCloudTermGlosses() {
+    const termMap = {
+      "\u73af\u5883\u4fdd\u62a4": "Environmental protection",
+      "\u751f\u6001\u73af\u5883": "Ecological environment",
+      "\u533b\u7597\u7ea0\u7eb7": "Medical disputes",
+      "\u533b\u7597\u4e8b\u6545": "Medical accidents",
+      "\u7763\u5bdf\u7ec4": "Inspection team",
+      "\u5c71\u4e1c\u7701": "Shandong Province",
+      "\u751f\u6001": "Ecology",
+      "\u7763\u5bdf": "Inspection",
+      "\u5c71\u4e1c": "Shandong",
+      "\u4e2d\u592e": "Central",
+      "\u73af\u4fdd": "Environmental protection",
+      "\u7eff\u8272": "Green",
+      "\u6574\u6539": "Rectification",
+      "\u5f00\u5c55": "Carry out",
+      "\u4fdd\u62a4": "Protection",
+      "\u6392\u6c61": "Discharge",
+      "\u975e\u6cd5": "Illegal",
+      "\u533b\u9662": "Hospitals",
+      "\u533b\u751f": "Physicians",
+      "\u533b\u7597": "Healthcare",
+      "\u533b\u60a3": "Doctor-patient",
+      "\u60a3\u8005": "Patients",
+      "\u7ea0\u7eb7": "Disputes",
+      "\u624b\u672f": "Surgery",
+      "\u6b7b\u4ea1": "Death",
+      "\u533b\u95f9": "Medical disturbance",
+      "\u533b\u4fdd": "Health insurance",
+      "\u5bb6\u5c5e": "Family members"
+    };
+    const keys = Object.keys(termMap).sort(function (a, b) { return b.length - a.length; });
+    document.querySelectorAll(".card.w2 b").forEach(function (el) {
+      if (el.dataset.enGloss === "1") return;
+      const raw = el.textContent || "";
+      const key = keys.find(function (k) { return raw.indexOf(k) !== -1; });
+      if (key) {
+        el.textContent = termMap[key] + " (" + key + ")";
+        el.dataset.enGloss = "1";
+      }
+    });
+  }
+
+  function applyEnglishFallbacks() {
+    const specific = [
+      [".bzmap .sub", "Shows only provinces through which the river flows (including shared-source provinces). Fill represents target-province volume; the color levels are defined by equal-frequency bins."],
+      [".bzmap .ruler", "Maximum 458 records and minimum 49 records (denominator: 899 Yellow River Weibo records). Color bins are calculated from Yellow River values and use a nonlinear stretch."],
+      [".sdcity .sub", "Shows how often each Shandong city name appears in Weibo post text. The database is province-level, so this is not a city-level collection result."],
+      [".sdcity .ruler", "Switch between the province and neighboring-province views. Scroll or drag to zoom; hover or click to inspect values."],
+      [".cprov", "Reference provinces (target-province definition): Shandong 21 ? Shanxi 21 ? Gansu 18 ? Inner Mongolia 17"],
+      [".cnote", "Lexicon: Central Ecological Inspection / ecological environmental protection inspection / inspection team / inspection entry / inspection. Stop words and fragmented single characters can prevent some phrases from appearing in the cloud."],
+      [".foot", "Data snapshot: 2026-10-15 21:44 ? Conventions are provided by unified_data.json; all numbers and charts on this page share the same source. Real = measured from databases/files; Demo = interface prototype."]
+    ];
+    specific.forEach(function (item) {
+      document.querySelectorAll(item[0]).forEach(function (el) {
+        el.textContent = item[1];
+      });
+    });
+    document.querySelectorAll(".sub,.ruler").forEach(function (el) {
+      if (/[\u4e00-\u9fff]/.test(el.textContent || "")) {
+        el.textContent = "See the methodology view for source conventions and limitations.";
       }
     });
   }
@@ -740,6 +1003,11 @@
     if (!isEnglish) return;
     applyEnglish();
     observer.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener("resize", function () {
+      document.querySelectorAll(".ch").forEach(function (el) {
+        if (window.echarts && echarts.getInstanceByDom(el)) echarts.getInstanceByDom(el).resize();
+      });
+    });
   });
 })();
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """黄河流域舆情独立系统入口。
 
-本入口只提供服务端渲染的黄河流域 18 个视图，不加载长江流域、
+本入口只提供服务端渲染的黄河流域 17 个视图，不加载长江流域、
 用户中心、旧教学模块和其它蓝图的业务代码。
 """
 import os
@@ -34,6 +34,12 @@ def create_app():
 
     @app.route("/page/dashboard")
     def dashboard():
+        if request.args.get("lang") not in ("en", "zh"):
+            query = request.args.to_dict(flat=True)
+            query["lang"] = "en"
+            from urllib.parse import urlencode
+            return redirect("/page/dashboard?" + urlencode(query))
+
         from service.dashboard import get_html
 
         force = request.args.get("force") == "1"
@@ -74,12 +80,6 @@ def create_app():
     def favicon():
         return ("", 204)
 
-    @app.route("/page/chat", methods=["POST"])
-    def chat():
-        # 复用原系统聊天业务逻辑，仅按需加载，避免影响仪表盘冷启动。
-        from view.page.page import ai_chat
-
-        return ai_chat()
 
     @app.route("/page/api/data/refresh/status")
     def data_refresh_status():

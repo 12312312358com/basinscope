@@ -1,6 +1,6 @@
-# SignalTrace Snapshot Facts
+# SOPRAS Snapshot Facts
 
-This document summarizes verified snapshot-level facts used by the SignalTrace
+This document summarizes verified snapshot-level facts used by the SOPRAS
 dashboard and reported in the accompanying manuscript. It is a curated
 knowledge document, not a substitute for the source records.
 

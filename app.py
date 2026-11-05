@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Compatibility entry point for the SignalTrace application in ``src/``."""
+"""Compatibility entry point for the SOPRAS application in ``src/``."""
 import os
 
 from src.app import app

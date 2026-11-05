@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.5 - 2026-11-05
+
+- Aligned the public product name with the manuscript as SOPRAS.
+- Removed the public question-answering view and disabled `/page/chat`.
+- Updated the dashboard to 17 views and corrected bilingual interface assets.
+- Added the current English interface translation resource to the release.
+- Aligned repository metadata, citation information, and reviewer documentation with v0.1.5.
+
 ## 0.1.4 - 2026-10-21
 
 - Rebranded the software and user-facing documentation as SignalTrace.
