@@ -69,7 +69,7 @@ jobs:
             exit 1
           fi
 
-          dashboard_code=$(curl -sS --max-time 600 -o /tmp/dashboard.html -w "%{http_code}" http://127.0.0.1:5011/page/dashboard)
+          dashboard_code=$(curl -sS -L --max-time 600 -o /tmp/dashboard.html -w "%{http_code}" http://127.0.0.1:5011/page/dashboard)
           dashboard_bytes=$(wc -c < /tmp/dashboard.html)
           echo "dashboard HTTP $dashboard_code, bytes=$dashboard_bytes"
           if [ "$dashboard_code" != "200" ]; then
@@ -122,7 +122,7 @@ jobs:
         shell: bash
         run: |
           curl -fsS http://127.0.0.1:5001/healthz
-          curl -fsS --max-time 600 http://127.0.0.1:5001/page/dashboard -o /tmp/dashboard.html
+          curl -fsS -L --max-time 600 http://127.0.0.1:5001/page/dashboard -o /tmp/dashboard.html
           test "$(wc -c < /tmp/dashboard.html)" -gt 50000
           grep -q "黄河流域" /tmp/dashboard.html
       - name: Verify containerized reviewer demo
