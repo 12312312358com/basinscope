@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0 - 2026-11-08
+
+- Promoted the verified reviewer release to `v1.0`.
+- Fixed reviewer smoke checks so dashboard validation follows the default English-language redirect.
+- Confirmed both native MySQL and Docker Compose reviewer paths through GitHub Actions.
+
 ## 0.1.4 - 2026-11-05
 
 - Aligned the public product name with the manuscript as SOPRAS.

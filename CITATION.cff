@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this software, please cite the repository and the associated SoftwareX article."
 title: "SOPRAS: A modular, source-linked system for multi-source public opinion analysis and risk screening"
 type: software
-version: 0.1.4
-date-released: 2026-11-05
+version: 1.0
+date-released: 2026-11-08
 license: MIT
 repository-code: "https://github.com/12312312358com/basinscope"
 url: "https://github.com/12312312358com/basinscope"
