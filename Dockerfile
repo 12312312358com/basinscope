@@ -11,4 +11,4 @@ RUN pip install --no-cache-dir -r requirements-review.txt
 COPY . .
 
 EXPOSE 5001
-CMD ["python", "app.py"]
+CMD ["sh", "-c", "python scripts/init_demo_db.py && python app.py"]

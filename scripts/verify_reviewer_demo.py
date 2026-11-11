@@ -85,6 +85,24 @@ EXPECTED_YELLOW_TOPICS = {
     "t_douyin_comment": {TOPIC_TOURISM: 6, TOPIC_ECO: 6},
 }
 
+EXPECTED_REVIEW_DB_COUNTS = {
+    "t_user": 1,
+    "t_article": 2430,
+    "t_comment": 140,
+    "t_article_safe": 2430,
+    "t_comment_safe": 140,
+    "t_basin_article": 2430,
+    "t_basin_comment": 140,
+    "t_xhs_article": 3358,
+    "t_xhs_comment": 669,
+    "t_zhihu_article": 950,
+    "t_zhihu_comment": 740,
+    "t_douyin_article": 18,
+    "t_douyin_comment": 18,
+}
+
+EXPECTED_REVIEW_YELLOW_COUNTS = {"t_basin_article": 1097, "t_basin_comment": 59}
+
 REQUIRED_REVIEW_DEPENDENCIES = {
     "Flask",
     "Werkzeug",
@@ -157,6 +175,8 @@ def check_required_files(root: Path) -> list[str]:
         "sql/demo_seed.sql",
         "docs/REVIEWER_GUIDE.md",
         "scripts/init_demo_db.py",
+        "scripts/build_rich_review_demo.py",
+        "reviewer_snapshot/dashboard.html",
         "tests/test_smoke.py",
     ]
     missing = [name for name in required if not (root / name).is_file()]
@@ -277,14 +297,14 @@ def db_counts(env_file: str | None, repo_root: Path) -> dict[str, Any]:
                 fail("database is missing required tables: " + ", ".join(missing))
 
             counts: dict[str, int] = {}
-            for table, expected in EXPECTED_TOTAL_COUNTS.items():
+            for table, expected in EXPECTED_REVIEW_DB_COUNTS.items():
                 cur.execute(f"SELECT COUNT(*) FROM `{table}`")
                 actual = int(cur.fetchone()[0])
                 counts[table] = actual
                 if actual != expected:
                     fail(f"database count mismatch for {table}: expected {expected}, got {actual}")
 
-            for table, expected in EXPECTED_YELLOW_COUNTS.items():
+            for table, expected in EXPECTED_REVIEW_YELLOW_COUNTS.items():
                 cur.execute(
                     f"SELECT COUNT(*) FROM `{table}` WHERE `{BASIN}`=%s",
                     (YELLOW,),
@@ -298,7 +318,7 @@ def db_counts(env_file: str | None, repo_root: Path) -> dict[str, Any]:
         return {
             "database": connection_args["database"],
             "counts": counts,
-            "yellow_counts": EXPECTED_YELLOW_COUNTS,
+            "yellow_counts": EXPECTED_REVIEW_YELLOW_COUNTS,
         }
     finally:
         conn.close()
@@ -323,10 +343,10 @@ def http_checks(base_url: str) -> dict[str, Any]:
     ready_status, ready = url_json(base + "/readyz")
     if ready_status != 200 or not ready or ready.get("database") != "ok":
         fail(f"readyz failed: HTTP {ready_status}, payload={ready}")
-    if int(ready.get("article_count", -1)) != 120:
-        fail(f"readyz article_count expected 120, got {ready.get('article_count')}")
-    if int(ready.get("comment_count", -1)) != 120:
-        fail(f"readyz comment_count expected 120, got {ready.get('comment_count')}")
+    if int(ready.get("article_count", -1)) != 1097:
+        fail(f"readyz article_count expected 1097, got {ready.get('article_count')}")
+    if int(ready.get("comment_count", -1)) != 59:
+        fail(f"readyz comment_count expected 59, got {ready.get('comment_count')}")
 
     with urllib.request.urlopen(base + "/page/dashboard", timeout=600) as response:
         status = int(response.status)

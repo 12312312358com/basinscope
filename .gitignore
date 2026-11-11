@@ -68,3 +68,7 @@ screenshots/
 user_profiles.json
 evaluation/qa_results.csv
 evaluation/qa_results.jsonl
+# Local runtime logs and generated reviewer frames
+*_app_stdout.log
+*_app_stderr.log
+src/video_features/frames/*

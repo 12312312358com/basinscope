@@ -1123,14 +1123,18 @@ def basin_video_view(basin):
     asr_ok = agg.get('asr_ok') or 0
     asr_txt = ('其中 <b>%d 条</b>已取得<b>语音转写</b>（口播文案，来自 L3/ASR）'
                % asr_ok) if asr_ok else '语音转写（L3/ASR）待启用'
+    is_demo = (((VD or {}).get('meta') or {}).get('source') == 'synthetic_reviewer_demo')
+    demo_lead = ("Synthetic reviewer demo: 12 short-video records are used to verify the visual "
+                 "analytics view. The charts, cards, and interactions are populated only to test "
+                 "the interface; they are not model inferences from the research corpus.")
     return dict(
         id=p + '-video', group='内容与评论', name=full + '短视频智能分析',
         badge='AI', badgeCls='new',
-        lead=(f"对本流域 <b>{N(n)} 条</b>短视频做「画面 → 主题 → 结论」智能分析："
+        lead=(demo_lead if is_demo else (f"对本流域 <b>{N(n)} 条</b>短视频做「画面 → 主题 → 结论」智能分析："
               f"画面读数由视觉模型识别关键帧拼图（含<b>画面文字</b>），"
               f"再融合互动结构与评论诉求，输出<b>按推荐度排序的结论与建议</b>"
               f"（{N(with_rec)} 条已生成推荐结论）；{asr_txt}。"
-              f"样本为 L2 关键帧层抽样且<b>仅覆盖抖音</b>，结论仅供辅助参考。"),
+              f"样本为 L2 关键帧层抽样且<b>仅覆盖抖音</b>，结论仅供辅助参考。")),
         cards=[
             C(p + 'v1', '画面主色调分布', 'L2 关键帧统计', 'pie',
               agg.get('hue') or [], {'donut': True}, w=1),
@@ -1604,7 +1608,9 @@ def basin_views(basin):
             cards=[
                 C(p + 'g1', '作者 IP 属地分布', '颜色越深声量越高 · 悬停查看省份值与占比', 'map',
                   None, {'prov': geoD, 'total': d['geoKnown'], 'big': True,
-                         'labelFs': 11, 'pal': 'heat'},
+                         'labelFs': 11, 'pal': 'heat',
+                         'paletteColors': ['#bf444c', '#cc6360', '#d88273',
+                                           '#e7b98d', '#f6efa6']},
                   w=2, h=470, tools='pal', ruler=True, cls='mapstage'),
                 C(p + 'g2', '属地省份 Top 12', '作者 IP 属地口径（t_basin_article.发布地区）', 'hbar',
                   d['geoProv'][:12], w=1),

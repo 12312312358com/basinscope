@@ -58,7 +58,7 @@ The data-generation pipeline is dependency-aware and uses stale-while-revalidate
 
 ## Reviewer quick start
 
-The repository includes a schema-only database and synthetic demo data for reviewers. The demo has no platform records, private identifiers, API keys, or model weights.
+The repository includes a schema-only database and a deterministic, rich synthetic demo profile for reviewers. It contains no platform records, private identifiers, API keys, or model weights. The profile expands the committed templates to approximately 2,430 articles and 140 comments with realistic province, topic, time, account, and engagement variation; the reviewer dashboard is served from a pre-generated snapshot for fast startup.
 
 With Docker:
 

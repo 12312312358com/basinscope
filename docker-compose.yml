@@ -2,7 +2,7 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_DATABASE: db_weibo_basin
+      MYSQL_DATABASE: db_weibo_basin_review
       MYSQL_USER: basinscope
       MYSQL_PASSWORD: basinscope_demo_password
       MYSQL_ROOT_PASSWORD: root_demo_password
@@ -29,7 +29,7 @@ services:
       DB_PORT: 3306
       DB_USER: basinscope
       DB_PASSWORD: basinscope_demo_password
-      DB_NAME: db_weibo_basin
+      DB_NAME: db_weibo_basin_review
     ports:
       - "5001:5001"
     depends_on:

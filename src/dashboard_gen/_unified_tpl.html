@@ -989,6 +989,7 @@ R.bar = function(box, s){
     return chartHorizontal;
   }
   var rr = (o.r == null ? 4 : o.r);
+  var rot = o.rot || 0, fs = o.fs || 10.5;
   var xa = Object.assign({type:'category', data:x}, AX(rot, fs));
   if(isEnglish){
     xa.axisLabel = Object.assign({}, xa.axisLabel, {
@@ -1458,9 +1459,15 @@ R.map = function(box, s){
      整图"一大片紫 + 几个亮点"。改分级后各省占满 8 档，相邻省也更容易区分。
      断点值写进图例与卡片色标，数值—颜色关系可逐档核对。 */
   var vals = M.PROV.map(function(p){ return +P[p] || 0; });
-  var EQ = eqClassify(vals, pal.length);
   var NODATA_C = 'rgba(120,132,158,.55)';   /* 0 条＝无数据，用冷灰蓝与"低值档"区分 */
-  function clsColor(v){ return v > 0 ? pal[(EQ.CLS[v] != null ? EQ.CLS[v] : 0)] : NODATA_C; }
+  var CUSTOM_PAL = (o.pal === 'heat' && Array.isArray(o.paletteColors) && o.paletteColors.length)
+    ? o.paletteColors : null;
+  var COLORS = CUSTOM_PAL || pal;
+  var EQ = eqClassify(vals, COLORS.length);
+  function clsColor(v){
+    if(!v) return NODATA_C;
+    return COLORS[(EQ.CLS[v] != null ? EQ.CLS[v] : 0)];
+  }
   function basinOf(p){
     if(SH[p]) return '重叠';
     if(YZ[p]) return '长江';
@@ -1475,7 +1482,7 @@ R.map = function(box, s){
   });
   var pieces = EQ.BRK.map(function(b, ci){
     if(!b) return null;
-    return {min: b.lo, max: b.hi, color: pal[ci]};
+    return {min: b.lo, max: b.hi, color: COLORS[ci]};
   }).filter(Boolean);
   var c = initChart(box);
   c.setOption(base({
@@ -1502,8 +1509,10 @@ R.map = function(box, s){
       layoutCenter: ['50%','51%'],
       layoutSize: '132%',   /* 实测：墨迹高度 = min(容器宽,高)，等比不拉伸 */
       label:{show:true, color:'rgba(248,252,255,.98)', fontSize:o.labelFs||11,
+        formatter:function(p){ return (window.BASINSCOPE_I18N && BASINSCOPE_I18N.geo)
+          ? BASINSCOPE_I18N.geo(p.name) : p.name; },
         textBorderColor:'rgba(4,9,18,.9)', textBorderWidth:2.4},
-      itemStyle:{borderColor:'rgba(226,240,255,.88)', borderWidth:1.2, areaColor:pal[0]},
+      itemStyle:{borderColor:'rgba(226,240,255,.88)', borderWidth:1.2, areaColor:COLORS[0]},
       emphasis:{ label:{color:'#fff', fontWeight:'bold'},
         itemStyle:{borderColor:'#fff', borderWidth:1.8, shadowBlur:18, shadowColor:'rgba(255,214,94,.95)'} },
       data:data}]
@@ -1770,6 +1779,7 @@ R.basinmap = function(box, s){
       '　·　最高 ' + raw(mx) + ' 条 / 最低 ' + raw(mn) + ' 条（分母 = 本流域微博 ' + raw(TOT) + ' 条）' +
       '　·　' + (o.note || '') +
       '　·　<b>滚轮 / 双指可缩放</b>';
+
   }
   return c;
 };
@@ -3511,8 +3521,9 @@ function _lerpC(a, b, t){
    交互：点击卡片 → <dialog> 详情（真视频惰性播放走 /playback/video_proxy）
    注意：纯 DOM 渲染器需在卡片上用 noexp:true，否则会挂一个没用的导出按钮。 */
 R.vcard = function(box, s){
+  var EN = !!window.BASINSCOPE_EN_MODE;
   var d = s.d || {}, items = d.items || [];
-  if(!items.length){ box.innerHTML = '<div class="note">暂无分析结果</div>'; return null; }
+  if(!items.length){ box.innerHTML = '<div class="note">'+(EN?'No analysis results':'暂无分析结果')+'</div>'; return null; }
   function es(x){
     return String(x==null? '' : x).replace(/[&<>"]/g, function(m){
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]; });
@@ -3608,14 +3619,14 @@ R.vcard = function(box, s){
     if(it.topic) meta.push(it.topic);
     if(it.shot && it.shot['主色调']) meta.push(it.shot['主色调']);
     if(it.shot && it.shot['画幅']) meta.push(it.shot['画幅']);
-    if(it.asr && it.asr.状态 === 'ok' && it.asr.字数) meta.push('有口播');
+    if(it.asr && it.asr.状态 === 'ok' && it.asr.字数) meta.push(EN?'Transcript available':'有口播');
     var rec = (it.top && it.top.recommend!=null) ? it.top.recommend : null;
     c.innerHTML =
       '<img loading="lazy" src="'+SHEET_BASE+es(it.cid)+SHEET_EXT+'" alt="" '+
         'data-cid="'+es(it.cid)+'" data-k="0" onerror="window.vcFallback(this)">'+
       '<div class="vcb"><div class="vct">'+es(it.title || '（无标题）')+'</div>'+
       '<div class="vcm">'+meta.map(function(m){ return '<i>'+es(m)+'</i>'; }).join('')+'</div>'+
-      (rec!=null ? '<div class="vcr">推荐度 '+rec.toFixed(3)+'</div>' : '')+
+      (rec!=null ? '<div class="vcr">'+(EN?'Recommendation ':'推荐度 ')+rec.toFixed(3)+'</div>' : '')+
       (it.conflict ? '<div class="vce">指标与描述不一致，建议复核</div>' : '')+
       '</div>';
     c.addEventListener('click', function(){ openDetail(it); });

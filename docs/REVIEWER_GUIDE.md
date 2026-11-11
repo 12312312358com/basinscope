@@ -68,26 +68,30 @@ python app.py
 python scripts/verify_reviewer_demo.py --repo-root . --db --env-file .env.reviewer --url http://127.0.0.1:5001
 ```
 
-## Expected fixture counts
+## Expected reviewer data counts
 
-The synthetic seed contains:
+`init_demo_db.py` starts from the compact SQL templates and generates a deterministic rich synthetic profile:
 
 | Table | Total rows | Yellow River rows |
 |---|---:|---:|
-| `t_basin_article` | 210 | 120 |
-| `t_basin_comment` | 210 | 120 |
-| `t_xhs_article` | 70 | 50 |
-| `t_xhs_comment` | 190 | 100 |
-| `t_zhihu_article` | 70 | 50 |
-| `t_zhihu_comment` | 190 | 100 |
-| `t_douyin_article` | 18 | 12 |
-| `t_douyin_comment` | 18 | 12 |
+| `t_article` | 2,430 | ? |
+| `t_comment` | 140 | ? |
+| `t_basin_article` | 2,430 | 1,097 |
+| `t_basin_comment` | 140 | 59 |
+| `t_xhs_article` | 3,358 | ? |
+| `t_xhs_comment` | 669 | ? |
+| `t_zhihu_article` | 950 | ? |
+| `t_zhihu_comment` | 740 | ? |
+| `t_douyin_article` | 18 | ? |
+| `t_douyin_comment` | 18 | ? |
 
 For `/readyz`, the expected counts are:
 
 ```json
-{"article_count": 120, "comment_count": 120, "database": "ok"}
+{"article_count": 1097, "comment_count": 59, "database": "ok"}
 ```
+
+The Flask reviewer mode serves `reviewer_snapshot/dashboard.html`, a pre-generated synthetic dashboard with a visible `Synthetic reviewer demo` banner. This avoids waiting for a full analysis build during startup. The snapshot contains synthetic records only and does not reproduce the manuscript's research estimates.
 
 ## Expected HTTP results
 

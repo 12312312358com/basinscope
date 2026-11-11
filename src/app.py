@@ -40,9 +40,14 @@ def create_app():
             from urllib.parse import urlencode
             return redirect("/page/dashboard?" + urlencode(query))
 
+        force = request.args.get("force") == "1"
+        db_name = (os.getenv("DB_NAME") or "").lower()
+        review_snapshot = _REPO_ROOT / "reviewer_snapshot" / "dashboard.html"
+        if "_review" in db_name and review_snapshot.is_file() and not force:
+            return review_snapshot.read_text(encoding="utf-8")
+
         from service.dashboard import get_html
 
-        force = request.args.get("force") == "1"
         html, err = get_html(force=force)
         if html is None:
             return (

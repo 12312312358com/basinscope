@@ -76,6 +76,19 @@ def _num(v):
         return 0
 
 
+def _reviewer_demo_result():
+    """Use synthetic Douyin rows only in an isolated reviewer database."""
+    db_name = (os.getenv("DB_NAME") or "").lower()
+    if "_review" not in db_name:
+        return None
+    try:
+        from build_reviewer_video_demo import build as build_demo
+        return build_demo()
+    except Exception as exc:
+        print(f"[topic_data] reviewer video demo unavailable: {exc}")
+        return None
+
+
 def _empty_result():
     """Write a valid empty product when optional video insights are unavailable."""
     topics = {b: {'n': 0, 'cards': [], 'agg': {}} for b in BASINS}
@@ -103,7 +116,8 @@ def _empty_result():
 
 def build():
     if not os.path.exists(INSIGHT):
-        return _empty_result()
+        demo = _reviewer_demo_result()
+        return demo if demo is not None else _empty_result()
     ins = json.load(io.open(INSIGHT, encoding='utf-8'))
     l2 = _l2_index()
     l3 = _l3_index()

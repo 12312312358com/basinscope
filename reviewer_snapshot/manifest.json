@@ -1,0 +1,27 @@
+{
+  "profile": "rich-synthetic-reviewer-demo",
+  "generated_at": "2026-11-12 01:31:10",
+  "source": "SQL template expansion via scripts/build_rich_review_demo.py",
+  "database_counts": {
+    "t_user": 1,
+    "t_article": 2430,
+    "t_comment": 140,
+    "t_article_safe": 2430,
+    "t_comment_safe": 140,
+    "t_basin_article": 2430,
+    "t_basin_comment": 140,
+    "t_xhs_article": 3358,
+    "t_xhs_comment": 669,
+    "t_zhihu_article": 950,
+    "t_zhihu_comment": 740,
+    "t_douyin_article": 18,
+    "t_douyin_comment": 18
+  },
+  "yellow_river_counts": {
+    "articles": 1097,
+    "comments": 59
+  },
+  "dashboard_bytes": 2446351,
+  "dashboard_sha256": "32d495ce3c3a5cb0acdf56ff776cc62be907f919937da310ab5abfa075991f08",
+  "contains_real_platform_records": false
+}

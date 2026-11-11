@@ -42,6 +42,93 @@
     "事件传播强度": "Event-Province Propagation Intensity",
     "风险分级预警": "Risk Screening",
     "情感模型校准": "Sentiment Model Calibration",
+    "跨平台高赞内容 Top 10（微博 / 小红书 / 知乎 · 医患矛盾）": "Top 10 Cross-Platform Posts (Weibo / Xiaohongshu / Zhihu - Healthcare Disputes)",
+    "环保督察 × 内蒙古": "Environmental Inspection x Inner Mongolia",
+    "作者 IP 属地完整榜（Top 20 / 共 8 个省级行政区）": "Complete Author-IP Location Ranking (Top 20 of 8 provincial regions)",
+    "全部已过": "All passed",
+    "合成": "Synthetic",
+    "生态环境保护督察": "Ecological and Environmental Inspection",
+    "督察进驻": "Inspection entry",
+    "黄河流域口径与方法": "Yellow River Methodology and Data Conventions",
+    "黄河流域高影响力内容": "Yellow River High-Impact Content",
+    "黄河流域评论洞察": "Yellow River Comment Insights",
+    "黄河流域评论观点聚类": "Yellow River Opinion Clustering",
+    "黄河流域发布渠道与话语主体": "Yellow River Speaker Classification",
+    "黄河流域互动结构与扩散效率": "Yellow River Interaction and Diffusion",
+    "黄河流域关键传播节点": "Yellow River Key Propagation Nodes",
+    "黄河流域传播趋势与节奏": "Yellow River Temporal Trends",
+    "黄河流域事件传播强度": "Yellow River Event-Province Propagation Intensity",
+    "全样本": "Full sample",
+    "按作者去重": "Unique authors",
+    "高互动微博 Top 15": "Top 15 High-Engagement Weibo Posts",
+    "三议题互动量对照": "Interaction Comparison Across Three Topics",
+    "互动量集中度：Top10 内容 vs 全流域": "Interaction Concentration: Top 10 Content vs Full Basin",
+    "高互动 Top15 的议题与省份构成": "Topic and Province Composition of the Top 15",
+    "高扩散内容 Top 8（转发驱动，与点赞榜不同源）": "Top 8 Highly Diffused Posts (Repost-driven)",
+    "跨平台高赞内容 Top 10（微博 / 小红书 / 知乎 · 生态治理）": "Top 10 Cross-Platform Posts (Weibo / Xiaohongshu / Zhihu - Ecological Governance)",
+    "评论时间解析": "Parsed comment time",
+    "部分未过": "Partially failed",
+    "30 条为单类线": "30 records per-topic threshold",
+    "用户（脱敏）": "User (de-identified)",
+    "占本流域评论": "Share of basin comments",
+    "占合并": "Share of merged comments",
+    "跨平台评论样本量（合并 1549 条）": "Cross-Platform Comment Sample (1,549 merged)",
+    "评论样本量 · 按议题（三大主题 × 三平台 · 微博 59 条 → 跨平台交集 949 条）": "Comment Sample by Topic (three topics x three platforms)",
+    "微博+小红书+知乎": "Weibo + Xiaohongshu + Zhihu",
+    "平台构成（含该平台总量占比）": "Platform Composition (share of platform total)",
+    "簇1": "Cluster 1",
+    "簇2": "Cluster 2",
+    "簇3": "Cluster 3",
+    "簇4": "Cluster 4",
+    "簇5": "Cluster 5",
+    "不承载主体信息": "No speaker information",
+    "规则未命中": "No matching rule",
+    "话语主体构成（可判定样本内）": "Speaker Composition (classifiable sample)",
+    "两流域话语主体并排对照（条数）": "Speaker Comparison Across Basins (counts)",
+    "两流域话语主体结构占比（%）": "Speaker Structure Across Basins (%)",
+    "归类明细 Top 12（原值 → 归类依据）": "Classification Detail Top 12 (raw value -> rule)",
+    "分类（原始值）": "Category (raw value)",
+    "归类": "Classification",
+    "命中的 token": "Matched token",
+    "未归类样例 Top 8（规则没命中，不猜）": "Top 8 Unclassified Examples",
+    "终端标识样例 Top 8（不是话语主体）": "Top 8 Device-Label Examples (not speakers)",
+    "讨论强度": "Discussion intensity",
+    "单篇互动量：本流域 vs 对照流域": "Per-Post Interaction: Yellow River vs Reference Basin",
+    "分议题互动明细（可逐格复核）": "Interaction Detail by Topic",
+    "单篇赞": "Likes per post",
+    "单篇转": "Reposts per post",
+    "扩散比 · 转发 ÷ 点赞：这一项和上面那张表量的不是同一件事": "Diffusion Ratio (reposts / likes)",
+    "扩散比 · 转发 / 点赞（按事件类型）": "Diffusion Ratio by Event Type",
+    "高扩散内容 Top 8（按转发绝对值）": "Top 8 Highly Diffused Posts by Reposts",
+    "条数≤3 但均赞≥1000": "Posts <=3 with average likes >=1,000",
+    "跨平台头部合计": "Cross-platform leader total",
+    "议题 × 平台 声量矩阵": "Topic x Platform Volume Matrix",
+    "爆发力榜 Top 12（按单条最高赞）": "Top 12 Burst-Potential Ranking",
+    "平台头部形态对照": "Platform Leader Profile Comparison",
+    "均赞": "Average likes",
+    "节点档案：爆发型 vs 常态型": "Node Profiles: Burst vs Regular",
+    "作者（脱敏）": "Author (de-identified)",
+    "单条最高赞": "Maximum likes per post",
+    "议题数": "Topic count",
+    "连续铺满 180 格": "180-cell continuous matrix",
+    "断月已标注": "Missing months marked",
+    "月度声量 · 四线对照": "Monthly Volume - Four-Series Comparison",
+    "年 × 月 声量矩阵": "Year x Month Volume Matrix",
+    "近 24 个月放大": "Last 24 Months (Zoomed)",
+    "年度声量（全量口径）": "Annual Volume (Full Sample)",
+    "三议题月度峰值月": "Monthly Peaks Across Three Topics",
+    "20 类": "20 categories",
+    "与议题一一对应，可当反查索引": "One-to-one topic mapping for reverse lookup",
+    "格内条数 11~37 条（配额均衡）": "Cell counts 11-37 (quota-balanced)",
+    "全流域最高的一条": "Highest single post in the basin",
+    "不进入矩阵（无法归省）": "Excluded from matrix (unassignable province)",
+    "本流域转发": "Yellow River reposts",
+    "这一页为什么不用\"条数\"编码": "Why This Page Does Not Encode by Record Count",
+    "对应议题": "Mapped topic",
+    "格内条数": "Cell count",
+    "行内单条最高": "Row maximum per post",
+    "行中位（去极值）": "Row median (winsorized)",
+
     "真实": "Data",
     "真实 · 三源": "Data - Three sources",
     "AI": "AI",
@@ -773,7 +860,12 @@
     return trText(value, key);
   }
 
-  if (isEnglish && window.U) window.U = exactWalk(window.U);
+  if (isEnglish && window.U) {
+    const ipMeta = window.U.ip && window.U.ip.meta
+      ? JSON.parse(JSON.stringify(window.U.ip.meta)) : null;
+    window.U = exactWalk(window.U);
+    if (ipMeta) window.U.ip.meta = ipMeta;
+  }
 
   if (isEnglish && Array.isArray(window.VIEWS)) {
     window.VIEWS = window.VIEWS.map(view => {
@@ -810,7 +902,37 @@
     // Exact matching is intentionally used here. Substring replacement changed
     // research evidence into mixed Chinese-English fragments in earlier builds.
     const translated = EXACT[trimmed];
-    if (translated && translated !== trimmed) node.nodeValue = raw.replace(trimmed, translated);
+    if (translated && translated !== trimmed) { node.nodeValue = raw.replace(trimmed, translated); return; }
+    // Dynamic UI values keep the English mode consistent without rewriting source evidence.
+    const dynamic = [
+      [/^\u8d5e\s*([\d,]+)$/, 'Likes $1'],
+      [/^\u8bc4\s*([\d,]+)$/, 'Comments $1'],
+      [/^\u8f6c\s*([\d,]+)$/, 'Reposts $1'],
+      [/^\u5206\u4eab\s*([\d,]+)$/, 'Shares $1'],
+      [/^\u8bc4\u8bba\s*([\d.]+)$/, 'Comments $1'],
+      [/^\u5bf9\u7167\s*([\d.]+)$/, 'Reference $1'],
+      [/^\u751f\u6001\u6cbb\u7406\s+(\d+)\s*\/\s*\u6587\u65c5\s+(\d+)\s*\/\s*\u533b\u60a3\u77db\u76fe\s+(\d+)$/, 'Ecological Governance $1 / Cultural Tourism $2 / Healthcare Disputes $3'],
+      [/^\u751f\u6001\s+(\d+)\s*\u7bc7\s*\/\s*\u6587\u65c5\s+(\d+)\s*\u7bc7\s*\/\s*\u533b\u60a3\s+(\d+)\s*\u7bc7$/, 'Ecological Governance $1 / Cultural Tourism $2 / Healthcare Disputes $3'],
+      [/^([\d.]+)%\uff08\u53ef\u5224\u5b9a\u6837\u672c\u5185\uff09$/, '$1% (classifiable sample)'],
+      [/^([\d.]+)%\s*\u53ea\u53d1\s*1\s*\u6761$/, '$1% posted only once'],
+      [/^\u8fde\u7eed\u94fa\u6ee1\s*(\d+)\s*\u683c$/, '$1-cell continuous matrix'],
+      [/^([\d,]+)\s*\u6761\s*\u00b7\s*([\d.]+)%$/, '$1 records ? $2%'],
+      [/^(\d+)\s*\u7c7b$/, '$1 categories'],
+      [/^\u683c\u5185\u6761\u6570\s*([\d~]+)\s*\u6761\uff08\u914d\u989d\u5747\u8861\uff09$/, 'Cell counts $1 (quota-balanced)'],
+      [/^([\d.]+)\s*\u8f6c\/\u6761\uff08\u53bb\u6781\u503c\u5747\u503c\uff09$/, '$1 reposts/post (winsorized mean)'],
+      [/^([\d.]+)\s*\u5206$/, '$1 points'],
+      [/^\u5bf9\u7167\u6d41\u57df\s*([\d.]+)%$/, 'Reference basin $1%'],
+      [/^(\d+)\s*\u4e2a\u4e8b\u4ef6\s*\u00b7\s*\u7d2f\u8ba1\s*(\d+)\s*\u6761\s*\u00b7\s*\u8d1f\u9762\s*([\d.]+)%~([\d.]+)%$/, '$1 events ? $2 records ? Negative $3%-$4%'],
+      [/^(.*)\uff08(\d+)\s*\u6761\uff09$/, '$1 ($2 records)'],
+      [/^\u8de8\u5e73\u53f0\u8bc4\u8bba\u6837\u672c\u91cf\uff08\u5408\u5e76\s*([\d,]+)\s*\u6761\uff09$/, 'Cross-platform comment sample ($1 merged)'],
+      [/^\u8bc4\u8bba\u6837\u672c\u91cf\s*\u00b7\s*\u6309\u8bae\u9898.*$/, 'Comment sample by topic (three topics x three platforms)']
+    ];
+    for (const item of dynamic) {
+      if (item[0].test(trimmed)) {
+        node.nodeValue = raw.replace(trimmed, trimmed.replace(item[0], item[1]));
+        return;
+      }
+    }
   }
 
   function translateSubtree(root) {
@@ -967,10 +1089,21 @@
     });
   }
 
+  function fixEventTopicComparisonNote() {
+    const target = "Warning: topics cannot be ranked as a whole by negative intensity. No topic pairs overlap completely; only event-level comparison is valid, so statements that one topic is more negative than another are not supported in this snapshot.";
+    document.querySelectorAll(".tk2").forEach(function (el) {
+      const text = el.textContent || "";
+      if (text.indexOf("Topics cannot be ranked as a whole by negative intensity") !== -1
+          || text.indexOf("negative intensity") !== -1) {
+        if (text !== target) el.textContent = target;
+      }
+    });
+  }
+
   function applyEnglishFallbacks() {
     const specific = [
       [".bzmap .sub", "Shows only provinces through which the river flows (including shared-source provinces). Fill represents target-province volume; the color levels are defined by equal-frequency bins."],
-      [".bzmap .ruler", "Maximum 458 records and minimum 49 records (denominator: 899 Yellow River Weibo records). Color bins are calculated from Yellow River values and use a nonlinear stretch."],
+      [".bzmap .ruler", "Fill represents target-province volume. Colour bins are computed from the current Yellow River sample using equal-frequency bins and a nonlinear stretch."],
       [".sdcity .sub", "Shows how often each Shandong city name appears in Weibo post text. The database is province-level, so this is not a city-level collection result."],
       [".sdcity .ruler", "Switch between the province and neighboring-province views. Scroll or drag to zoom; hover or click to inspect values."],
       [".cprov", "Reference provinces (target-province definition): Shandong 21 ? Shanxi 21 ? Gansu 18 ? Inner Mongolia 17"],
@@ -982,11 +1115,17 @@
         el.textContent = item[1];
       });
     });
-    document.querySelectorAll(".sub,.ruler").forEach(function (el) {
+    document.querySelectorAll(".sub,.ruler,.note,.figsub,.fignote").forEach(function (el) {
       if (/[\u4e00-\u9fff]/.test(el.textContent || "")) {
         el.textContent = "See the methodology view for source conventions and limitations.";
       }
     });
+    document.querySelectorAll(".evwarn").forEach(function (el) {
+      if (/[\u4e00-\u9fff]/.test(el.textContent || "")) {
+        el.textContent = "Warning: temporal concentration may reflect collection timing; verify the source records before interpretation.";
+      }
+    });
+    fixEventTopicComparisonNote();
   }
 
   const observer = new MutationObserver(function (mutations) {
@@ -995,6 +1134,8 @@
         translateSubtree(node);
         translateAttributes(node);
       });
+      window.setTimeout(fixEventTopicComparisonNote, 0);
+      window.setTimeout(fixEventTopicComparisonNote, 300);
     });
   });
 

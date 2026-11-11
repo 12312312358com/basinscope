@@ -5,6 +5,10 @@
 - Promoted the verified reviewer release to `v1.0`.
 - Fixed reviewer smoke checks so dashboard validation follows the default English-language redirect.
 - Confirmed both native MySQL and Docker Compose reviewer paths through GitHub Actions.
+- Added a rich deterministic synthetic reviewer profile with 2,430 articles and 140 comments.
+- Added a pre-generated reviewer dashboard snapshot for fast startup without private platform records.
+- Completed reviewer Docker and native-MySQL setup paths.
+- Fixed map colour-bin rendering, delayed English translation cleanup, and optional short-video reviewer cards.
 
 ## 0.1.4 - 2026-11-05
 

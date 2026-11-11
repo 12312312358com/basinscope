@@ -4,13 +4,19 @@ from __future__ import annotations
 
 import argparse
 import os
+import sys
 from pathlib import Path
 
 import pymysql
 from dotenv import load_dotenv
+from build_rich_review_demo import build as build_rich_review_demo
 
 
 ROOT = Path(__file__).resolve().parents[1]
+_DASHBOARD_GEN = ROOT / "src" / "dashboard_gen"
+if str(_DASHBOARD_GEN) not in sys.path:
+    sys.path.insert(0, str(_DASHBOARD_GEN))
+from build_reviewer_video_demo import build as build_reviewer_video_demo
 
 
 def statements(path: Path):
@@ -47,9 +53,14 @@ def main() -> int:
     try:
         with admin.cursor() as cur:
             cur.execute(
-                f"CREATE DATABASE IF NOT EXISTS `{database}` "
-                "CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci"
+                "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME=%s",
+                (database,),
             )
+            if cur.fetchone() is None:
+                cur.execute(
+                    f"CREATE DATABASE `{database}` "
+                    "CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci"
+                )
     finally:
         admin.close()
 
@@ -60,6 +71,9 @@ def main() -> int:
                 cur.execute(sql)
             for sql in statements(Path(args.seed)):
                 cur.execute(sql)
+            build_rich_review_demo(conn)
+            os.environ["DB_NAME"] = database
+            build_reviewer_video_demo()
             cur.execute("SELECT COUNT(*) FROM t_basin_article")
             article_count = cur.fetchone()[0]
             cur.execute("SELECT COUNT(*) FROM t_basin_comment")
