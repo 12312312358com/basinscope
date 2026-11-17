@@ -8,7 +8,7 @@ Public GitHub repository: https://github.com/12312312358com/basinscope
 
 ## Scope
 
-This repository implements the Yellow River module only. The dashboard is restricted to the 17 `hh-*` views and their supporting acquisition, storage, analytical, and visualization components.
+This repository provides the Yellow River reference configuration. The dashboard is restricted to the 17 `hh-*` views and their supporting acquisition, storage, analytical, and visualization components. Platform connectors, topic and event dictionaries, and risk thresholds are configurable without modifying the core implementation; applying SOPRAS to another basin or domain requires supplying the corresponding data and configuration.
 
 ## Main features
 
