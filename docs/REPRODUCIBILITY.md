@@ -19,7 +19,7 @@
 
 ## Database
 
-Create the tables listed in `DATA_SETUP.md`, then import lawfully collected and
+Create the tables listed in `docs/DATA_SETUP.md`, then import lawfully collected and
 desensitized records. The repository does not redistribute raw platform records
 or database dumps.
 
@@ -27,7 +27,7 @@ or database dumps.
 
 Run the data-generation sequence documented in `README.md`, then start:
 
-```powershell
+```text
 python app.py
 ```
 
@@ -46,7 +46,7 @@ http://127.0.0.1:5001/page/dashboard
 ## Release verification
 
 - Use the annotated Git tag for the manuscript version.
-- Confirm that `README.md`, `LICENCE.txt`, and `CITATION.cff` exist at that tag.
+- Confirm that `README.md`, `LICENSE.txt`, and `CITATION.cff` exist at that tag.
 - Confirm that code, templates, requirements, and documentation are present.
-- Confirm that generated data, local models, logs, uploads, and credentials are absent.
+- Confirm that real/private generated data, local models, logs, uploads, and credentials are absent. The clearly labelled synthetic `reviewer_snapshot/dashboard.html` is intentional reviewer support material.
 - Record the tested Python and MySQL versions in the release notes.

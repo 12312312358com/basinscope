@@ -12,7 +12,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_DATABASE: db_weibo_basin
+          MYSQL_DATABASE: db_weibo_basin_review
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
@@ -31,10 +31,14 @@ jobs:
         run: pip install -r requirements-review.txt
       - name: Verify synthetic reviewer fixture
         run: python scripts/verify_reviewer_demo.py --repo-root . --json
-      - name: Load schema and synthetic data
-        run: |
-          mysql -h127.0.0.1 -uroot -proot db_weibo_basin < sql/schema.sql
-          mysql -h127.0.0.1 -uroot -proot db_weibo_basin < sql/demo_seed.sql
+      - name: Initialize rich synthetic reviewer database
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_USER: root
+          DB_PASSWORD: root
+          DB_NAME: db_weibo_basin_review
+        run: python scripts/init_demo_db.py
       - name: Start application
         env:
           SECRET_KEY: reviewer-ci-secret
@@ -44,7 +48,7 @@ jobs:
           DB_PORT: 3306
           DB_USER: root
           DB_PASSWORD: root
-          DB_NAME: db_weibo_basin
+          DB_NAME: db_weibo_basin_review
         run: |
           nohup python app.py > /tmp/basinscope.log 2>&1 &
           for i in $(seq 1 60); do
@@ -64,7 +68,7 @@ jobs:
           ready_code=$(curl -sS -o /tmp/ready.json -w "%{http_code}" http://127.0.0.1:5011/readyz)
           echo "readyz HTTP $ready_code: $(cat /tmp/ready.json)"
           if [ "$ready_code" != "200" ]; then
-            db_snapshot=$(mysql -h127.0.0.1 -uroot -proot -N -e "USE db_weibo_basin; SHOW TABLES; SELECT COUNT(*) FROM t_basin_article; SELECT COUNT(*) FROM t_basin_comment;" | tr '\n' ',')
+            db_snapshot=$(mysql -h127.0.0.1 -uroot -proot -N -e "USE db_weibo_basin_review; SHOW TABLES; SELECT COUNT(*) FROM t_basin_article; SELECT COUNT(*) FROM t_basin_comment;" | tr '\n' ',')
             echo "::error title=readyz HTTP $ready_code::$(cat /tmp/ready.json) db=$db_snapshot"
             exit 1
           fi
@@ -87,7 +91,7 @@ jobs:
           DB_PORT: 3306
           DB_USER: root
           DB_PASSWORD: root
-          DB_NAME: db_weibo_basin
+          DB_NAME: db_weibo_basin_review
         run: |
           python scripts/verify_reviewer_demo.py \
             --repo-root . \

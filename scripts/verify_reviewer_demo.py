@@ -167,6 +167,9 @@ def discover_repo_root(explicit: str | None) -> Path:
 
 def check_required_files(root: Path) -> list[str]:
     required = [
+        "README.md",
+        "LICENSE.txt",
+        "CITATION.cff",
         "Dockerfile",
         "docker-compose.yml",
         ".env.reviewer.example",

@@ -4,9 +4,10 @@
 
 - [ ] Repository is public and hosted on GitHub.
 - [ ] The manuscript version uses an annotated tag such as `v1.0`.
-- [ ] `README.md`, `LICENCE.txt`, and `CITATION.cff` exist at that tag.
+- [ ] `README.md`, `LICENSE.txt`, and `CITATION.cff` exist at that tag.
 - [ ] Python code, templates, requirements, and setup documentation are included.
-- [ ] Raw platform records, database dumps, model weights, logs, credentials, and generated artifacts are absent.
+- [ ] Raw platform records, private database dumps, model weights, logs, credentials, and real-data generated artifacts are absent.
+- [ ] The synthetic `reviewer_snapshot/dashboard.html` is present and clearly labelled as reviewer support material.
 
 ## SoftwareX metadata
 

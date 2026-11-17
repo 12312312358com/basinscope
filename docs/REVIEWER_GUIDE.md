@@ -36,7 +36,9 @@ http://127.0.0.1:5001/page/dashboard
 2. Copy `.env.reviewer.example` to `.env.reviewer`.
 3. Set `DB_PASSWORD` in `.env.reviewer`.
    `app.py` automatically loads `.env.reviewer` when `.env` is absent. If both files exist, `.env` takes precedence.
-4. Install the review dependencies:
+4. Install the review dependencies.
+
+Windows PowerShell:
 
 ```powershell
 python -m venv .venv-review
@@ -44,27 +46,35 @@ python -m venv .venv-review
 pip install -r requirements-review.txt
 ```
 
+Linux:
+
+```bash
+python3 -m venv .venv-review
+source .venv-review/bin/activate
+pip install -r requirements-review.txt
+```
+
 5. Initialize the synthetic database:
 
-```powershell
+```text
 python scripts/init_demo_db.py
 ```
 
 6. Validate the fixture without starting the application:
 
-```powershell
+```text
 python scripts/verify_reviewer_demo.py --repo-root . --json
 ```
 
 7. Start the application:
 
-```powershell
+```text
 python app.py
 ```
 
 8. In another terminal, validate the database and HTTP endpoints:
 
-```powershell
+```text
 python scripts/verify_reviewer_demo.py --repo-root . --db --env-file .env.reviewer --url http://127.0.0.1:5001
 ```
 
@@ -113,7 +123,7 @@ Check `DB_USER` and `DB_PASSWORD` in `.env.reviewer`. Do not use the production 
 
 ### Dashboard generation fails
 
-Run the application from the repository root and verify that `dashboard_gen/_unified_tpl.html` exists. The first dashboard request may take several minutes.
+Run the application from the repository root and verify that `dashboard_gen/_unified_tpl.html` exists. Reviewer mode serves the committed synthetic snapshot immediately. A fresh non-reviewer dashboard build may take several minutes.
 
 ### Port already in use
 

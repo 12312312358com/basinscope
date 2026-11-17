@@ -4,6 +4,8 @@ SOPRAS is a standalone Flask application for public-opinion analysis of ecologic
 
 The software integrates topic-targeted acquisition, desensitized multi-source storage, Chinese-language text analytics, event monitoring, rule-based risk screening, cross-platform comment clustering, interactive visualization, and short-video analysis.
 
+Public GitHub repository: https://github.com/12312312358com/basinscope
+
 ## Scope
 
 This repository implements the Yellow River module only. The dashboard is restricted to the 17 `hh-*` views and their supporting acquisition, storage, analytical, and visualization components.
@@ -74,7 +76,9 @@ http://127.0.0.1:5001/readyz
 http://127.0.0.1:5001/page/dashboard
 ```
 
-Without Docker, follow [docs/REVIEWER_GUIDE.md](docs/REVIEWER_GUIDE.md):
+Without Docker, follow [docs/REVIEWER_GUIDE.md](docs/REVIEWER_GUIDE.md).
+
+Windows PowerShell:
 
 ```powershell
 Copy-Item .env.reviewer.example .env.reviewer
@@ -87,10 +91,24 @@ python scripts/doctor.py
 python app.py
 ```
 
+Linux:
+
+```bash
+cp .env.reviewer.example .env.reviewer
+# Set DB_PASSWORD and other local values in .env.reviewer.
+python3 -m venv .venv-review
+source .venv-review/bin/activate
+pip install -r requirements-review.txt
+python scripts/init_demo_db.py
+python scripts/doctor.py
+python app.py
+```
+
 
 The application automatically loads `.env.reviewer` when no `.env` file is present.
 
 `/healthz` checks that Flask is running. `/readyz` also checks the database, required tables, and demo data.
+
 ## Requirements
 
 - Windows 10/11 or Linux.
@@ -101,11 +119,21 @@ The application automatically loads `.env.reviewer` when no `.env` file is prese
 - ffmpeg or the bundled `imageio-ffmpeg` package for audio processing.
 - Optional OpenAI-compatible credentials for language and vision services.
 
-Install dependencies:
+Install dependencies.
+
+Windows PowerShell:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+Linux:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -260,7 +288,7 @@ If you use this software, cite the repository and the associated SoftwareX manus
 
 ## License
 
-MIT License. See `LICENCE.txt`.
+MIT License. See `LICENSE.txt`.
 
 ## Contact
 
