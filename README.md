@@ -293,11 +293,13 @@ Open:
 http://127.0.0.1:5001/page/dashboard
 ```
 
-In another activated terminal, run:
+Optional verification: in another activated terminal, run:
 
 ```text
 python scripts/verify_reviewer_demo.py --repo-root . --db --env-file .env.reviewer --url http://127.0.0.1:5001
 ```
+
+This command is not required to start the system. It only checks the running database and HTTP endpoints. If the dashboard opens and `/readyz` reports the expected values, the system is already working.
 
 The expected `/readyz` values are the same as in Option A.
 
