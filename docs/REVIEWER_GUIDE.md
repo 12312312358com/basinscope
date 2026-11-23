@@ -207,7 +207,27 @@ Linux:
 cp .env.reviewer.example .env.reviewer
 ```
 
-Open `.env.reviewer` and set the connection values for the local MySQL installation:
+The file must be created in the repository root, in the same directory as `README.md` and `app.py`, not in `src/` or `scripts/`.
+
+### Step 2a. Open the file in an editor
+
+Windows PowerShell:
+
+```powershell
+notepad .env.reviewer
+```
+
+Linux:
+
+```bash
+nano .env.reviewer
+```
+
+If `notepad` is unavailable, open the repository folder in VS Code or any plain-text editor and select `.env.reviewer` directly.
+
+### Step 2b. Enter the local MySQL connection values
+
+Replace the example values with the values for your own MySQL installation:
 
 ```text
 DB_HOST=localhost
@@ -217,7 +237,54 @@ DB_PASSWORD=your-mysql-password
 DB_NAME=db_weibo_basin_review
 ```
 
-`DB_NAME` must end in `_review`. The default value enables the committed synthetic reviewer snapshot. If a `.env` file also exists in the repository root, it takes precedence over `.env.reviewer`, so remove or rename `.env` when using the reviewer configuration.
+Field meanings:
+
+- `DB_HOST=localhost`: MySQL is running on the same computer.
+- `DB_PORT=3306`: the default MySQL port; keep it unless MySQL was configured to use another port.
+- `DB_USER=root`: the MySQL user name; another account with the required privileges can also be used.
+- `DB_PASSWORD=your-mysql-password`: replace this placeholder with the real MySQL password.
+- `DB_NAME=db_weibo_basin_review`: the reviewer database name. Keep a name ending in `_review`.
+
+For example, if the MySQL password is `abc123456`, the file should contain:
+
+```text
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=abc123456
+DB_NAME=db_weibo_basin_review
+```
+
+Rules for editing:
+
+- Change only the text after `=`.
+- Do not keep the literal `your-mysql-password` placeholder.
+- Do not add spaces around `=`.
+- If the password contains spaces or `#`, wrap it in quotes, for example `DB_PASSWORD="abc#123456"`.
+- If the account has no password, use `DB_PASSWORD=` with nothing after the equals sign.
+- Do not rename the variables.
+
+Save the file and close the editor.
+
+If a `.env` file also exists in the repository root, it takes precedence over `.env.reviewer`. Remove or rename `.env` when using the reviewer configuration.
+
+### Step 2c. Confirm the values without exposing the password
+
+In the editor, confirm that the file is saved as exactly `.env.reviewer` and is located in the repository root. You can list the file without printing its contents:
+
+Windows PowerShell:
+
+```powershell
+Get-Item .env.reviewer
+```
+
+Linux:
+
+```bash
+ls -l .env.reviewer
+```
+
+After this step, continue with dependency installation and database initialization.
 
 ### Step 3. Install the reviewer dependencies
 
