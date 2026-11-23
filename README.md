@@ -177,7 +177,7 @@ cp .env.reviewer.example .env.reviewer
 nano .env.reviewer
 ```
 
-The file must be in the repository root, beside `README.md` and `app.py`. Enter the local MySQL settings:
+Place .env.reviewer in the same folder as README.md and app.py. Then enter the local MySQL settings:
 
 ```text
 DB_HOST=localhost
