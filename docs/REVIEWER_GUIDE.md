@@ -245,7 +245,7 @@ Field meanings:
 - `DB_PASSWORD=your-mysql-password`: replace this placeholder with the real MySQL password.
 - `DB_NAME=db_weibo_basin_review`: the reviewer database name. Keep a name ending in `_review`.
 
-For example, if the MySQL password is `abc123456`, the file should contain:
+For example, suppose your MySQL password is `abc123456`. Change only the `DB_PASSWORD` value; the resulting connection block should be:
 
 ```text
 DB_HOST=localhost
