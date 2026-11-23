@@ -60,23 +60,42 @@ The data-generation pipeline is dependency-aware and uses stale-while-revalidate
 
 ## Reviewer quick start
 
-All reviewer commands below must be run from the repository root. The repository includes a schema-only database and a deterministic, rich synthetic demo profile for reviewers.
+All commands in this section are run from the repository root.
 
-Clone the manuscript version:
+### 1. Clone the manuscript version
 
 ```text
 git clone --branch v1.0 --depth 1 https://github.com/12312312358com/basinscope.git
 cd basinscope
 ```
-The repository contains no platform records, private identifiers, API keys, or model weights. The profile expands the committed templates to approximately 2,430 articles and 140 comments with realistic province, topic, time, account, and engagement variation; the reviewer dashboard is served from a pre-generated snapshot for fast startup.
 
-With Docker:
+### 2. Choose one path
 
-```powershell
-docker compose up --build
+#### If Docker is installed (recommended)
+
+You do not need to install MySQL or edit `.env.reviewer` for this path.
+
+1. Start Docker Desktop or the Docker service.
+2. Confirm that Docker is available:
+
+```text
+docker --version
+docker compose version
 ```
 
-Open:
+3. Build and start the reviewer system:
+
+```text
+docker compose up --build -d
+```
+
+4. Check that both containers are running:
+
+```text
+docker compose ps
+```
+
+5. Open in a browser:
 
 ```text
 http://127.0.0.1:5001/healthz
@@ -84,38 +103,34 @@ http://127.0.0.1:5001/readyz
 http://127.0.0.1:5001/page/dashboard
 ```
 
-Without Docker, follow [docs/REVIEWER_GUIDE.md](docs/REVIEWER_GUIDE.md).
+The expected `/readyz` result is:
 
-Windows PowerShell:
-
-```powershell
-Copy-Item .env.reviewer.example .env.reviewer
-# Set DB_PASSWORD and other local values in .env.reviewer.
-python -m venv .venv-review
-.\.venv-review\Scripts\Activate.ps1
-pip install -r requirements-review.txt
-python scripts/init_demo_db.py
-python scripts/doctor.py
-python app.py
+```json
+{
+  "article_count": 1097,
+  "comment_count": 59,
+  "database": "ok",
+  "scope": "yellow-river",
+  "status": "ok",
+  "tables": 13
+}
 ```
 
-Linux:
+6. Stop and clean up the reviewer containers:
 
-```bash
-cp .env.reviewer.example .env.reviewer
-# Set DB_PASSWORD and other local values in .env.reviewer.
-python3 -m venv .venv-review
-source .venv-review/bin/activate
-pip install -r requirements-review.txt
-python scripts/init_demo_db.py
-python scripts/doctor.py
-python app.py
+```text
+docker compose down -v
 ```
 
+For more Docker details and troubleshooting, see [Reviewer Guide Option A](docs/REVIEWER_GUIDE.md#option-a-docker-recommended).
 
-The application automatically loads `.env.reviewer` when no `.env` file is present.
+#### If Docker is not installed
 
-Keep `DB_NAME` ending in `_review` so Flask serves the committed synthetic reviewer snapshot. `/healthz` checks that Flask is running. `/readyz` also checks the database, required tables, and demo data.
+Do not use the Docker commands above. Follow the local Python and MySQL steps in [Reviewer Guide Option B](docs/REVIEWER_GUIDE.md#option-b-local-mysql).
+
+Option B requires Python 3.10+, MySQL 8.0, and editing `.env.reviewer` with your local MySQL password.
+
+The reviewer data are synthetic and contain no private platform records. The dashboard is served from a pre-generated synthetic snapshot and does not reproduce the manuscript's research estimates.
 
 ## Requirements
 
