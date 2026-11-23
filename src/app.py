@@ -17,7 +17,7 @@ if str(_SRC_DIR) not in sys.path:
     sys.path.insert(0, str(_SRC_DIR))
 
 # Local maintainers normally use .env. Reviewers may use the isolated
-# .env.reviewer file described in docs/REVIEWER_GUIDE.md.
+# .env.reviewer file described in the reviewer quick start in README.md.
 _env_path = _REPO_ROOT / ".env"
 if not _env_path.exists():
     _env_path = _REPO_ROOT / ".env.reviewer"

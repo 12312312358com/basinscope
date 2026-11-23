@@ -60,42 +60,51 @@ The data-generation pipeline is dependency-aware and uses stale-while-revalidate
 
 ## Reviewer quick start
 
-All commands in this section are run from the repository root.
+All commands below must be run from the repository root.
 
-### 1. Clone the manuscript version
+### Clone the manuscript version
 
 ```text
 git clone --branch v1.0 --depth 1 https://github.com/12312312358com/basinscope.git
 cd basinscope
 ```
 
-### 2. Choose one path
+The `v1.0` tag corresponds to the submitted manuscript.
 
-#### If Docker is installed (recommended)
+## Option A: Docker (recommended)
 
-You do not need to install MySQL or edit `.env.reviewer` for this path.
+Use this option if Docker Desktop or Docker Engine is installed. No separate Python or MySQL installation is required.
 
-1. Start Docker Desktop or the Docker service.
-2. Confirm that Docker is available:
+### Step 1. Check Docker
+
+Start Docker Desktop or the Docker service, then run:
 
 ```text
 docker --version
 docker compose version
 ```
 
-3. Build and start the reviewer system:
+Both commands must return a version number.
+
+### Step 2. Build and start the system
 
 ```text
 docker compose up --build -d
 ```
 
-4. Check that both containers are running:
+The first build may take several minutes while Docker downloads the required images.
+
+Check the container status:
 
 ```text
 docker compose ps
 ```
 
-5. Open in a browser:
+The `db` and `app` containers should be running.
+
+### Step 3. Verify the system
+
+Open in a browser:
 
 ```text
 http://127.0.0.1:5001/healthz
@@ -116,21 +125,172 @@ The expected `/readyz` result is:
 }
 ```
 
-6. Stop and clean up the reviewer containers:
+The dashboard should display the `Synthetic reviewer demo` banner and all 17 views.
+
+### Step 4. If the containers do not start
+
+Inspect the logs:
+
+```text
+docker compose logs --tail=200
+docker compose logs --tail=200 app
+```
+
+Common checks:
+
+- Docker Desktop or the Docker service must be running.
+- Port `5001` must not be occupied by another application.
+- Wait until the database health check has completed.
+
+### Step 5. Stop and clean up
 
 ```text
 docker compose down -v
 ```
 
-For more Docker details and troubleshooting, see [Reviewer Guide Option A](docs/REVIEWER_GUIDE.md#option-a-docker-recommended).
+## Option B: Local MySQL
 
-#### If Docker is not installed
+Use this option only if Docker is unavailable. It requires Python 3.10+ and MySQL 8.0+.
 
-Do not use the Docker commands above. Follow the local Python and MySQL steps in [Reviewer Guide Option B](docs/REVIEWER_GUIDE.md#option-b-local-mysql).
+### Step 1. Check Python and Git
 
-Option B requires Python 3.10+, MySQL 8.0, and editing `.env.reviewer` with your local MySQL password.
+```text
+python --version
+git --version
+```
 
-The reviewer data are synthetic and contain no private platform records. The dashboard is served from a pre-generated synthetic snapshot and does not reproduce the manuscript's research estimates.
+On Linux, use `python3 --version` if `python` is unavailable.
+
+### Step 2. Create and edit the reviewer environment file
+
+Windows PowerShell:
+
+```powershell
+Copy-Item .env.reviewer.example .env.reviewer
+notepad .env.reviewer
+```
+
+Linux:
+
+```bash
+cp .env.reviewer.example .env.reviewer
+nano .env.reviewer
+```
+
+The file must be in the repository root, beside `README.md` and `app.py`. Enter the local MySQL settings:
+
+```text
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your-mysql-password
+DB_NAME=db_weibo_basin_review
+```
+
+Replace `your-mysql-password` with the actual password for the local MySQL account. Do not keep that placeholder. Do not add spaces around the equals signs.
+
+Example: suppose the MySQL password is abc123456. The file should then contain:
+
+```text
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=abc123456
+DB_NAME=db_weibo_basin_review
+```
+
+If the password contains spaces or `#`, wrap it in quotes. If the account has no password, use `DB_PASSWORD=` with nothing after it.
+
+Keep `DB_NAME` ending in `_review`. If a `.env` file also exists, it takes precedence over `.env.reviewer`.
+
+### Step 3. Install the reviewer dependencies
+
+Windows PowerShell:
+
+```powershell
+python -m venv .venv-review
+.\.venv-review\Scripts\Activate.ps1
+pip install -r requirements-review.txt
+```
+
+Linux:
+
+```bash
+python3 -m venv .venv-review
+source .venv-review/bin/activate
+pip install -r requirements-review.txt
+```
+
+### Step 4. Initialize the reviewer database
+
+```text
+python scripts/init_demo_db.py
+```
+
+If the configured MySQL account cannot create databases, create it first as an administrator:
+
+```text
+mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS db_weibo_basin_review CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;"
+```
+
+A successful initialization ends with output similar to:
+
+```text
+Review database ready: db_weibo_basin_review
+t_basin_article=2430, t_basin_comment=140
+```
+
+### Step 5. Run preflight checks
+
+```text
+python scripts/doctor.py
+python scripts/verify_reviewer_demo.py --repo-root . --json
+```
+
+Both commands must exit successfully.
+
+### Step 6. Start the application
+
+Keep the terminal open and run:
+
+```text
+python app.py
+```
+
+Open:
+
+```text
+http://127.0.0.1:5001/page/dashboard
+```
+
+In another activated terminal, run:
+
+```text
+python scripts/verify_reviewer_demo.py --repo-root . --db --env-file .env.reviewer --url http://127.0.0.1:5001
+```
+
+The expected `/readyz` values are the same as in Option A.
+
+### Step 7. Stop or restart
+
+Stop the application with `Ctrl+C`. To start it again, reactivate the environment and run:
+
+```text
+python app.py
+```
+
+### Common local MySQL problems
+
+- `mysql` not found: install the MySQL client/server and add its `bin` directory to `PATH`.
+- `Access denied`: check `DB_USER` and `DB_PASSWORD` in `.env.reviewer`.
+- Unknown database: run the administrator database-creation command from Step 4.
+- Port in use: change `PORT` in `.env.reviewer` and update the verification URL.
+- Dashboard generation fails: confirm that `src/dashboard_gen/_unified_tpl.html` exists.
+- Wrong database used: remove or rename `.env` when using `.env.reviewer`.
+
+## Reviewer data note
+
+The public reviewer profile is synthetic. It contains no private platform records and does not reproduce the manuscript's research estimates. Its purpose is to verify installation, database setup, dashboard rendering, and the 17 analysis views.
 
 ## Requirements
 

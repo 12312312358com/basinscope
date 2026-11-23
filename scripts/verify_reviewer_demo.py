@@ -176,7 +176,6 @@ def check_required_files(root: Path) -> list[str]:
         "requirements-review.txt",
         "sql/schema.sql",
         "sql/demo_seed.sql",
-        "docs/REVIEWER_GUIDE.md",
         "scripts/init_demo_db.py",
         "scripts/build_rich_review_demo.py",
         "reviewer_snapshot/dashboard.html",
