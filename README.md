@@ -327,7 +327,13 @@ pip install -r requirements-dev.txt
 python -m playwright install
 ```
 
-## Configuration
+## Full application configuration (not reviewer demo)
+
+This section applies to a normal local/full installation that uses `.env`. It does not apply to Option A or Option B of the reviewer quick start:
+
+- Option A uses Docker and requires no `.env` file.
+- Option B uses `.env.reviewer` for the synthetic reviewer database.
+- This section uses `.env` for the full application, including database and optional API credentials.
 
 Copy the example environment file.
 
