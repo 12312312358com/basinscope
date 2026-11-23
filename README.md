@@ -163,21 +163,37 @@ On Linux, use `python3 --version` if `python` is unavailable.
 
 ### Step 2. Create and edit the reviewer environment file
 
+1. Make sure the terminal is in the repository root. This is the folder containing README.md and app.py.
+
+2. Create `.env.reviewer` from the example file.
+
 Windows PowerShell:
 
 ```powershell
 Copy-Item .env.reviewer.example .env.reviewer
-notepad .env.reviewer
 ```
 
 Linux:
 
 ```bash
 cp .env.reviewer.example .env.reviewer
+```
+
+3. Open the new file in a plain-text editor.
+
+Windows PowerShell:
+
+```powershell
+notepad .env.reviewer
+```
+
+Linux:
+
+```bash
 nano .env.reviewer
 ```
 
-Place .env.reviewer in the same folder as README.md and app.py. Then enter the local MySQL settings:
+4. Change only the values after the equals signs:
 
 ```text
 DB_HOST=localhost
@@ -187,7 +203,7 @@ DB_PASSWORD=your-mysql-password
 DB_NAME=db_weibo_basin_review
 ```
 
-Replace `your-mysql-password` with the actual password for the local MySQL account. Do not keep that placeholder. Do not add spaces around the equals signs.
+Set `DB_PASSWORD` to the real password for the local MySQL account. Do not keep the placeholder `your-mysql-password`. Do not add spaces around the equals signs.
 
 Example: suppose the MySQL password is abc123456. The file should then contain:
 
@@ -200,6 +216,8 @@ DB_NAME=db_weibo_basin_review
 ```
 
 If the password contains spaces or `#`, wrap it in quotes. If the account has no password, use `DB_PASSWORD=` with nothing after it.
+
+5. Save the file and close the editor. Confirm that the file is named exactly `.env.reviewer` and is located directly in the repository root, beside README.md and app.py.
 
 Keep `DB_NAME` ending in `_review`. If a `.env` file also exists, it takes precedence over `.env.reviewer`.
 
