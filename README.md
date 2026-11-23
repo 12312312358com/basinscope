@@ -217,7 +217,19 @@ DB_NAME=db_weibo_basin_review
 
 If the password contains spaces or `#`, wrap it in quotes. If the account has no password, use `DB_PASSWORD=` with nothing after it.
 
-5. Save the file and close the editor. Confirm that the file is named exactly `.env.reviewer` and is located directly in the repository root, beside README.md and app.py.
+5. Save the file and close the editor. Confirm that `.env.reviewer` is in the repository root.
+
+Windows PowerShell:
+
+```powershell
+Get-Item .env.reviewer
+```
+
+Linux:
+
+```bash
+ls -l .env.reviewer
+```
 
 Keep `DB_NAME` ending in `_review`. If a `.env` file also exists, it takes precedence over `.env.reviewer`.
 
