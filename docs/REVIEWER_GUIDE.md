@@ -32,15 +32,58 @@ The synthetic demo does not reproduce the manuscript's research estimates. Those
 - Docker Desktop or Docker Engine with Compose for the container path
 - Approximately 2 GB of free disk space for dependencies and generated files
 
-## Option A: Docker
+## Option A: Docker (recommended)
 
-From the repository root:
+This option does not require a separate Python or MySQL installation.
+
+### Prerequisites
+
+- Git
+- Docker Desktop on Windows, or Docker Engine with the Compose plugin on Linux
+- Docker must be running before the commands below are executed
+
+Verify the installation:
 
 ```text
-docker compose up --build
+git --version
+docker --version
+docker compose version
 ```
 
-Wait until the database and application are ready, then open:
+All three commands must return a version number.
+
+### Step 1. Clone the manuscript version
+
+Open PowerShell, Terminal, or a Linux shell and run:
+
+```text
+git clone --branch v1.0 --depth 1 https://github.com/12312312358com/basinscope.git
+cd basinscope
+```
+
+The `v1.0` tag corresponds to the version submitted with the manuscript.
+
+### Step 2. Build and start the containers
+
+From the `basinscope` directory:
+
+```text
+docker compose up --build -d
+```
+
+The first build may take several minutes because Docker downloads the Python and MySQL images and installs dependencies.
+
+Check the container status:
+
+```text
+docker compose ps
+```
+
+The `db` and `app` containers should be shown as running. If the application container is still starting, wait one or two minutes and run the command again.
+
+### Step 3. Check that the system is ready
+
+Open these addresses in a browser:
 
 ```text
 http://127.0.0.1:5001/healthz
@@ -48,10 +91,79 @@ http://127.0.0.1:5001/readyz
 http://127.0.0.1:5001/page/dashboard
 ```
 
-After testing, stop and remove the containers and reviewer database volume:
+The expected `/readyz` response contains:
+
+```json
+{
+  "article_count": 1097,
+  "comment_count": 59,
+  "database": "ok",
+  "scope": "yellow-river",
+  "status": "ok",
+  "tables": 13
+}
+```
+
+You can also check the endpoints from the terminal.
+
+Windows PowerShell:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:5001/healthz
+Invoke-RestMethod http://127.0.0.1:5001/readyz
+```
+
+Linux:
+
+```bash
+curl http://127.0.0.1:5001/healthz
+curl http://127.0.0.1:5001/readyz
+```
+
+### Step 4. Open the reviewer dashboard
+
+Open the following address and select any of the 17 views from the left sidebar:
+
+```text
+http://127.0.0.1:5001/page/dashboard
+```
+
+The page should display a banner beginning with `Synthetic reviewer demo`. This indicates that the public synthetic reviewer data are loaded correctly. The demo is for startup and interface verification and does not reproduce the manuscript's research statistics.
+
+### Step 5. If something fails
+
+Inspect the logs:
+
+```text
+docker compose logs --tail=200
+```
+
+Inspect only the application logs:
+
+```text
+docker compose logs --tail=200 app
+```
+
+Common problems:
+
+- `docker` is not recognized: Docker is not installed, or the terminal was opened before Docker installation completed. Reopen the terminal.
+- Docker daemon is not running: start Docker Desktop or the Docker service.
+- Port 5001 is already in use: stop the process using that port, or change the port mapping in `docker-compose.yml`.
+- The first build is slow: wait several minutes and check `docker compose ps` again.
+- The page remains unavailable: run `docker compose logs --tail=200 app` and report the error shown there.
+
+### Step 6. Stop the reviewer system
+
+When testing is complete, stop and remove the containers and reviewer database volume:
 
 ```text
 docker compose down -v
+```
+
+To start the same reviewer system again later:
+
+```text
+docker compose up -d
 ```
 
 ## Option B: Local MySQL
