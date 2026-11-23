@@ -168,11 +168,32 @@ docker compose up -d
 
 ## Option B: Local MySQL
 
-### 1. Prepare MySQL
+This option requires a local Python and MySQL installation. If Docker is available, Option A is simpler.
 
-Start MySQL 8.0 and make sure a database account is available. The default example uses `root`.
+### Prerequisites
 
-Copy the reviewer environment template.
+- Python 3.10 or later
+- MySQL 8.0 or later, installed and running
+- A MySQL account with permission to create tables in the reviewer database
+- Git
+
+Check that Python and Git are available:
+
+```text
+python --version
+git --version
+```
+
+On Linux, use `python3 --version` if `python` is not available.
+
+### Step 1. Clone the manuscript version
+
+```text
+git clone --branch v1.0 --depth 1 https://github.com/12312312358com/basinscope.git
+cd basinscope
+```
+
+### Step 2. Create the reviewer environment file
 
 Windows PowerShell:
 
@@ -186,19 +207,19 @@ Linux:
 cp .env.reviewer.example .env.reviewer
 ```
 
-Edit `.env.reviewer` and set at least:
+Open `.env.reviewer` and set the connection values for the local MySQL installation:
 
 ```text
-DB_HOST
-DB_PORT
-DB_USER
-DB_PASSWORD
-DB_NAME
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your-mysql-password
+DB_NAME=db_weibo_basin_review
 ```
 
-Keep `DB_NAME` ending in `_review`. The default value `db_weibo_basin_review` enables the committed reviewer dashboard snapshot. If a `.env` file also exists, it takes precedence over `.env.reviewer`.
+`DB_NAME` must end in `_review`. The default value enables the committed synthetic reviewer snapshot. If a `.env` file also exists in the repository root, it takes precedence over `.env.reviewer`, so remove or rename `.env` when using the reviewer configuration.
 
-### 2. Install dependencies
+### Step 3. Install the reviewer dependencies
 
 Windows PowerShell:
 
@@ -216,44 +237,109 @@ source .venv-review/bin/activate
 pip install -r requirements-review.txt
 ```
 
-### 3. Initialize the synthetic database
+After activation, the `python` command should refer to the virtual environment interpreter.
+
+### Step 4. Initialize the synthetic database
+
+From the repository root:
 
 ```text
 python scripts/init_demo_db.py
 ```
 
-The initializer creates the database when the configured MySQL account has `CREATE` privilege. If it does not, create the database first as a MySQL administrator:
+The initializer creates the database if the configured account has `CREATE` privilege. If the account cannot create databases, create it first as a MySQL administrator:
 
 ```text
 mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS db_weibo_basin_review CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;"
 ```
 
-### 4. Run preflight checks
+The initialization creates the required tables and loads the synthetic reviewer records. A successful run ends with output similar to:
+
+```text
+Review database ready: db_weibo_basin_review
+t_basin_article=2430, t_basin_comment=140
+```
+
+### Step 5. Run preflight checks
 
 ```text
 python scripts/doctor.py
 python scripts/verify_reviewer_demo.py --repo-root . --json
 ```
 
-Both commands must exit successfully.
+Both commands must exit successfully. The doctor output should include:
 
-### 5. Start the application
+```text
+database=ok articles=2430 comments=140
+REVIEW CHECK PASSED
+```
+
+The verifier output should end with:
+
+```json
+{"status": "passed"}
+```
+
+### Step 6. Start the application
+
+Keep this terminal open and run:
 
 ```text
 python app.py
 ```
 
-Open:
+The application should report that it is serving on port `5001`. If the port is already occupied, set a different `PORT` in `.env.reviewer`.
+
+### Step 7. Verify the running system
+
+Open in a browser:
 
 ```text
+http://127.0.0.1:5001/healthz
+http://127.0.0.1:5001/readyz
 http://127.0.0.1:5001/page/dashboard
 ```
 
-In another terminal, run the full database and HTTP validation:
+Expected `/readyz` response:
+
+```json
+{
+  "article_count": 1097,
+  "comment_count": 59,
+  "database": "ok",
+  "scope": "yellow-river",
+  "status": "ok",
+  "tables": 13
+}
+```
+
+From another terminal in the activated environment, run:
 
 ```text
 python scripts/verify_reviewer_demo.py --repo-root . --db --env-file .env.reviewer --url http://127.0.0.1:5001
 ```
+
+This checks the local database and the three HTTP endpoints. The dashboard should display the `Synthetic reviewer demo` banner and allow access to all 17 views.
+
+### Step 8. Stop or restart
+
+Stop the application with `Ctrl+C` in the application terminal.
+
+To start it again, activate the environment and run:
+
+```text
+python app.py
+```
+
+### Common problems
+
+- `mysql` command not found: install the MySQL client/server and add its `bin` directory to `PATH`.
+- `Access denied`: verify `DB_USER` and `DB_PASSWORD` in `.env.reviewer`.
+- `Unknown database`: create `db_weibo_basin_review` with the administrator command in Step 4.
+- Port already in use: change `PORT` in `.env.reviewer` and use the new port in the verification URL.
+- Dashboard generation fails: run from the repository root and confirm `src/dashboard_gen/_unified_tpl.html` exists.
+- The wrong database is used: verify that `.env` is absent, or that `.env` points to the intended reviewer database.
+- Optional OCR/ASR/model features do not start: these require separate model files or API credentials and do not block the synthetic reviewer dashboard.
 
 ## Expected reviewer data counts
 
