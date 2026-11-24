@@ -1,6 +1,6 @@
 # SOPRAS
 
-SOPRAS is a standalone Flask application for public-opinion analysis of ecological governance, cultural tourism, and healthcare disputes in the Yellow River Basin.
+SOPRAS is an open-source, configurable Flask software system for multi-source public-opinion analysis and risk screening. Its Yellow River Basin reference configuration demonstrates the workflow using ecological governance, cultural tourism, and healthcare disputes.
 
 The software integrates topic-targeted acquisition, desensitized multi-source storage, Chinese-language text analytics, event monitoring, rule-based risk screening, cross-platform comment clustering, interactive visualization, and short-video analysis.
 
