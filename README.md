@@ -160,7 +160,7 @@ Linux:
 ls -l .env.reviewer
 ```
 
-Keep `DB_NAME` ending in `_review`. If a `.env` file also exists, it takes precedence over `.env.reviewer`.
+Keep `DB_NAME` ending in `_review`. For this reviewer setup, do not create a `.env` file; if it exists, it overrides `.env.reviewer`.
 
 ### Step 3. Install the reviewer dependencies
 
