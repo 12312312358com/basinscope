@@ -235,26 +235,36 @@ Keep `DB_NAME` ending in `_review`. If a `.env` file also exists, it takes prece
 
 ### Step 3. Install the reviewer dependencies
 
+The commands below call the virtual environment's Python directly. This avoids Windows PowerShell execution-policy errors caused by `Activate.ps1`.
+
 Windows PowerShell:
 
 ```powershell
 python -m venv .venv-review
-.\.venv-review\Scripts\Activate.ps1
-pip install -r requirements-review.txt
+.\.venv-review\Scripts\python.exe -m pip install -r requirements-review.txt
 ```
 
 Linux:
 
 ```bash
 python3 -m venv .venv-review
-source .venv-review/bin/activate
-pip install -r requirements-review.txt
+.venv-review/bin/python -m pip install -r requirements-review.txt
 ```
+
+Do not use a bare `pip` or `python` command after this step. Use the virtual environment commands shown below.
 
 ### Step 4. Initialize the reviewer database
 
-```text
-python scripts/init_demo_db.py
+Windows PowerShell:
+
+```powershell
+.\.venv-review\Scripts\python.exe scripts/init_demo_db.py
+```
+
+Linux:
+
+```bash
+.venv-review/bin/python scripts/init_demo_db.py
 ```
 
 If the configured MySQL account cannot create databases, create it first as an administrator:
@@ -272,9 +282,18 @@ t_basin_article=2430, t_basin_comment=140
 
 ### Step 5. Run preflight checks
 
-```text
-python scripts/doctor.py
-python scripts/verify_reviewer_demo.py --repo-root . --json
+Windows PowerShell:
+
+```powershell
+.\.venv-review\Scripts\python.exe scripts/doctor.py
+.\.venv-review\Scripts\python.exe scripts/verify_reviewer_demo.py --repo-root . --json
+```
+
+Linux:
+
+```bash
+.venv-review/bin/python scripts/doctor.py
+.venv-review/bin/python scripts/verify_reviewer_demo.py --repo-root . --json
 ```
 
 Both commands must exit successfully.
@@ -283,8 +302,16 @@ Both commands must exit successfully.
 
 Keep the terminal open and run:
 
-```text
-python app.py
+Windows PowerShell:
+
+```powershell
+.\.venv-review\Scripts\python.exe app.py
+```
+
+Linux:
+
+```bash
+.venv-review/bin/python app.py
 ```
 
 Open:
@@ -293,10 +320,18 @@ Open:
 http://127.0.0.1:5001/page/dashboard
 ```
 
-Optional verification: in another activated terminal, run:
+Optional verification: in another terminal, run:
 
-```text
-python scripts/verify_reviewer_demo.py --repo-root . --db --env-file .env.reviewer --url http://127.0.0.1:5001
+Windows PowerShell:
+
+```powershell
+.\.venv-review\Scripts\python.exe scripts/verify_reviewer_demo.py --repo-root . --db --env-file .env.reviewer --url http://127.0.0.1:5001
+```
+
+Linux:
+
+```bash
+.venv-review/bin/python scripts/verify_reviewer_demo.py --repo-root . --db --env-file .env.reviewer --url http://127.0.0.1:5001
 ```
 
 This command is not required to start the system. It only checks the running database and HTTP endpoints. If the dashboard opens and `/readyz` reports the expected values, the system is already working.
@@ -305,10 +340,18 @@ The expected `/readyz` values are the same as in Option A.
 
 ### Step 7. Stop or restart
 
-Stop the application with `Ctrl+C`. To start it again, reactivate the environment and run:
+Stop the application with `Ctrl+C`. To start it again, use the same command from Step 6:
 
-```text
-python app.py
+Windows PowerShell:
+
+```powershell
+.\.venv-review\Scripts\python.exe app.py
+```
+
+Linux:
+
+```bash
+.venv-review/bin/python app.py
 ```
 
 ### Common local MySQL problems
@@ -340,23 +383,30 @@ Windows PowerShell:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
 Linux:
 
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+.venv/bin/python -m pip install -r requirements.txt
 ```
 
 For development and browser tests:
 
+Windows PowerShell:
+
 ```powershell
-pip install -r requirements-dev.txt
-python -m playwright install
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m playwright install
+```
+
+Linux:
+
+```bash
+.venv/bin/python -m pip install -r requirements-dev.txt
+.venv/bin/python -m playwright install
 ```
 
 ## Full application configuration (not reviewer demo)
@@ -433,10 +483,18 @@ Install or download the corresponding models according to their licenses and the
 
 ## Running the application
 
-Start the standalone Yellow River service:
+Start the standalone Yellow River service.
+
+Windows PowerShell:
 
 ```powershell
-python app.py
+.\.venv\Scripts\python.exe app.py
+```
+
+Linux:
+
+```bash
+.venv/bin/python app.py
 ```
 
 Default address:
