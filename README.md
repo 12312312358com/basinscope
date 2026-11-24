@@ -60,7 +60,7 @@ The data-generation pipeline is dependency-aware and uses stale-while-revalidate
 
 ## Reviewer quick start
 
-All commands below must be run from the repository root. Option B is recommended because it avoids Docker Desktop and WSL2 installation issues. Option A is optional and is tested by GitHub Actions when Docker is available.
+All commands below must be run from the repository root. Option A is recommended because it avoids Docker Desktop and WSL2 installation issues. Option B is optional and is tested by GitHub Actions when Docker is available.
 
 ### Clone the manuscript version
 
@@ -77,7 +77,7 @@ git describe --tags --exact-match
 
 The expected output is `v1.0`.
 
-## Option B: Local MySQL (recommended)
+## Option A: Local MySQL (recommended)
 
 Use this option first. It does not depend on Docker Desktop, WSL2, or the Docker Engine, and it requires only Python 3.10+ and MySQL 8.0+.
 
@@ -261,7 +261,7 @@ Linux:
 
 This command is not required to start the system. It only checks the running database and HTTP endpoints. If the dashboard opens and `/readyz` reports the expected values, the system is already working.
 
-The expected `/readyz` values are the same as in Option A.
+The expected `/readyz` values are the same as in Option B.
 
 ### Step 7. Stop or restart
 
@@ -289,7 +289,7 @@ Linux:
 - Wrong database used: remove or rename `.env` when using `.env.reviewer`.
 
 
-## Option A: Docker (optional)
+## Option B: Docker (optional)
 
 Use this option only when Docker Desktop or Docker Engine is already working. No separate Python or MySQL installation is required. The repository's GitHub Actions workflow builds and tests this same Docker stack, but a local Docker installation problem (for example, WSL2 or virtualization) must be resolved on the reviewer's computer first.
 
@@ -374,7 +374,7 @@ Common checks:
 docker compose down -v
 ```
 
-The Docker path is optional. If Docker cannot be made operational on the reviewer's computer, use Option B instead.
+The Docker path is optional. If Docker cannot be made operational on the reviewer's computer, use Option A instead.
 
 ## Reviewer data note
 
@@ -426,8 +426,8 @@ Linux:
 
 This section applies to a normal local/full installation that uses `.env`. It does not apply to Option A or Option B of the reviewer quick start:
 
-- Option A uses Docker and requires no `.env` file.
-- Option B uses `.env.reviewer` for the synthetic reviewer database.
+- Option A uses `.env.reviewer` for the synthetic reviewer database.
+- Option B uses Docker and requires no `.env` file.
 - This section uses `.env` for the full application, including database and optional API credentials.
 
 Copy the example environment file.
