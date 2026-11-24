@@ -60,7 +60,7 @@ The data-generation pipeline is dependency-aware and uses stale-while-revalidate
 
 ## Reviewer quick start
 
-All commands below must be run from the repository root.
+All commands below must be run from the repository root. Option B is recommended because it avoids Docker Desktop and WSL2 installation issues. Option A is optional and is tested by GitHub Actions when Docker is available.
 
 ### Clone the manuscript version
 
@@ -77,86 +77,9 @@ git describe --tags --exact-match
 
 The expected output is `v1.0`.
 
-## Option A: Docker (recommended)
+## Option B: Local MySQL (recommended)
 
-Use this option if Docker Desktop or Docker Engine is installed. No separate Python or MySQL installation is required.
-
-### Step 1. Check Docker
-
-Start Docker Desktop or the Docker service, then run:
-
-```text
-docker --version
-docker compose version
-```
-
-Both commands must return a version number.
-
-### Step 2. Build and start the system
-
-```text
-docker compose up --build -d
-```
-
-The first build may take several minutes while Docker downloads the required images.
-
-Check the container status:
-
-```text
-docker compose ps
-```
-
-The `db` and `app` containers should be running.
-
-### Step 3. Verify the system
-
-Open in a browser:
-
-```text
-http://127.0.0.1:5001/healthz
-http://127.0.0.1:5001/readyz
-http://127.0.0.1:5001/page/dashboard
-```
-
-The expected `/readyz` result is:
-
-```json
-{
-  "article_count": 1097,
-  "comment_count": 59,
-  "database": "ok",
-  "scope": "yellow-river",
-  "status": "ok",
-  "tables": 13
-}
-```
-
-The dashboard should display the `Synthetic reviewer demo` banner and all 17 views.
-
-### Step 4. If the containers do not start
-
-Inspect the logs:
-
-```text
-docker compose logs --tail=200
-docker compose logs --tail=200 app
-```
-
-Common checks:
-
-- Docker Desktop or the Docker service must be running.
-- Port `5001` must not be occupied by another application.
-- Wait until the database health check has completed.
-
-### Step 5. Stop and clean up
-
-```text
-docker compose down -v
-```
-
-## Option B: Local MySQL
-
-Use this option only if Docker is unavailable. It requires Python 3.10+ and MySQL 8.0+.
+Use this option first. It does not depend on Docker Desktop, WSL2, or the Docker Engine, and it requires only Python 3.10+ and MySQL 8.0+.
 
 ### Step 1. Check Python and Git
 
@@ -370,6 +293,94 @@ Linux:
 - Port in use: change `PORT` in `.env.reviewer` and update the verification URL.
 - Dashboard generation fails: confirm that `src/dashboard_gen/_unified_tpl.html` exists.
 - Wrong database used: remove or rename `.env` when using `.env.reviewer`.
+
+
+## Option A: Docker (optional)
+
+Use this option only when Docker Desktop or Docker Engine is already working. No separate Python or MySQL installation is required. The repository's GitHub Actions workflow builds and tests this same Docker stack, but a local Docker installation problem (for example, WSL2 or virtualization) must be resolved on the reviewer's computer first.
+
+### Step 1. Check Docker
+
+Start Docker Desktop or the Docker service, then run:
+
+```text
+docker --version
+docker compose version
+docker info
+```
+
+All three commands must succeed. `docker info` must show a `Server Version`; this confirms that the Docker Engine is running. A successful `docker --version` alone is not enough.
+
+If `docker info` returns `500 Internal Server Error`, `Cannot connect to the Docker daemon`, or a message containing `dockerDesktopLinuxEngine/_ping`, stop and fix Docker first. On Windows, start Docker Desktop and wait until it shows `Engine running`; Docker Desktop requires WSL2 and hardware virtualization to be enabled.
+
+### Step 2. Validate, build, and start the system
+
+```text
+docker compose config
+docker compose up --build -d
+```
+
+The first command validates `docker-compose.yml` without starting any container.
+
+The first build may take several minutes while Docker downloads the required images.
+
+Check the container status:
+
+```text
+docker compose ps
+```
+
+The `db` and `app` containers should be running. When the application is ready, `app` should be reported as `healthy`.
+
+### Step 3. Verify the system
+
+Open in a browser:
+
+```text
+http://127.0.0.1:5001/healthz
+http://127.0.0.1:5001/readyz
+http://127.0.0.1:5001/page/dashboard
+```
+
+The expected `/readyz` result is:
+
+```json
+{
+  "article_count": 1097,
+  "comment_count": 59,
+  "database": "ok",
+  "scope": "yellow-river",
+  "status": "ok",
+  "tables": 13
+}
+```
+
+The dashboard should display the `Synthetic reviewer demo` banner and all 17 views.
+
+### Step 4. If the containers do not start
+
+Inspect the logs:
+
+```text
+docker compose logs --tail=200
+docker compose logs --tail=200 app
+```
+
+Common checks:
+
+- `docker info` must succeed and show a `Server Version`.
+- On Windows, Docker Desktop must show `Engine running`; enable WSL2 and hardware virtualization if it does not.
+- Port `5001` must not be occupied by another application.
+- Wait until the database and application health checks have completed.
+- If the error contains `dockerDesktopLinuxEngine/_ping`, the Docker Engine is unavailable; `docker compose up` cannot start the project until that error is fixed.
+
+### Step 5. Stop and clean up
+
+```text
+docker compose down -v
+```
+
+The Docker path is optional. If Docker cannot be made operational on the reviewer's computer, use Option B instead.
 
 ## Reviewer data note
 

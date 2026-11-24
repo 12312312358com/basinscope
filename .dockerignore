@@ -1,5 +1,6 @@
 .git
 .venv
+.venv-review
 venv
 __pycache__
 *.pyc
