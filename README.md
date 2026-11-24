@@ -69,7 +69,13 @@ git clone --branch v1.0 --depth 1 https://github.com/12312312358com/basinscope.g
 cd basinscope
 ```
 
-The `v1.0` tag corresponds to the submitted manuscript.
+The `v1.0` tag corresponds to the submitted manuscript. Because this is an annotated tag, Git may print `is not a commit!` and report that the repository is in detached HEAD state. These messages are expected and do not indicate a failed clone. Confirm the checked-out version with:
+
+```text
+git describe --tags --exact-match
+```
+
+The expected output is `v1.0`.
 
 ## Option A: Docker (recommended)
 
@@ -199,11 +205,11 @@ nano .env.reviewer
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=root
-DB_PASSWORD=your-mysql-password
+DB_PASSWORD=replace-with-your-database-password
 DB_NAME=db_weibo_basin_review
 ```
 
-Set `DB_PASSWORD` to the real password for the local MySQL account. Do not keep the placeholder `your-mysql-password`. Do not add spaces around the equals signs.
+In the `DB_PASSWORD` line, replace `replace-with-your-database-password` with the real password for the local MySQL account. Do not leave the placeholder in the file, and do not add spaces around the equals sign.
 
 Example: suppose the MySQL password is abc123456. The file should then contain:
 
@@ -279,6 +285,8 @@ A successful initialization ends with output similar to:
 Review database ready: db_weibo_basin_review
 t_basin_article=2430, t_basin_comment=140
 ```
+
+These counts cover the full synthetic basin tables. The reviewer dashboard and `/readyz` check are restricted to the Yellow River scope, which contains 1,097 articles and 59 comments. This scope difference explains why the initialization count and the `/readyz` count are not identical.
 
 ### Step 5. Run preflight checks
 
