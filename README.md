@@ -42,6 +42,7 @@ The data-generation pipeline is dependency-aware and uses stale-while-revalidate
 - [Reproducibility](docs/REPRODUCIBILITY.md)
 - [SoftwareX metadata](docs/SOFTWARE_METADATA.md)
 - [SoftwareX release checklist](docs/SOFTWAREX_RELEASE_CHECKLIST.md)
+- [Full application setup](docs/FULL_SETUP.md)
 - [Changelog](CHANGELOG.md)
 
 ## Repository layout
@@ -422,48 +423,9 @@ Linux:
 .venv/bin/python -m playwright install
 ```
 
-## Full application configuration (not reviewer demo)
+## Full application setup
 
-This section applies to a normal local/full installation that uses `.env`. It does not apply to Option A or Option B of the reviewer quick start:
-
-- Option A uses `.env.reviewer` for the synthetic reviewer database.
-- Option B uses Docker and requires no `.env` file.
-- This section uses `.env` for the full application, including database and optional API credentials.
-
-Copy the example environment file.
-
-Windows PowerShell:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-Linux:
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env` and provide database credentials and optional API credentials. Never commit `.env`.
-
-Important variables:
-
-```text
-DB_HOST
-DB_PORT
-DB_USER
-DB_PASSWORD
-DB_NAME
-SECRET_KEY
-HOST
-PORT
-XINGHUO_BASE_URL
-XINGHUO_API_PASSWORD
-XINGHUO_MODEL
-VISION_BASE_URL
-VISION_API_KEY
-VISION_MODEL
-```
+For a full local deployment using lawfully collected data and optional API services, see [docs/FULL_SETUP.md](docs/FULL_SETUP.md). The reviewer quick start above does not require this configuration.
 
 ## Database
 
