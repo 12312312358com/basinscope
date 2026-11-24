@@ -156,8 +156,6 @@ Linux:
 ls -l .env.reviewer
 ```
 
-Keep `DB_NAME` ending in `_review`. For this reviewer setup, do not create a `.env` file; if it exists, it overrides `.env.reviewer`.
-
 ### Step 3. Install the reviewer dependencies
 
 The commands below call the virtual environment's Python directly. This avoids Windows PowerShell execution-policy errors caused by `Activate.ps1`.
