@@ -92,9 +92,7 @@ On Linux, use `python3 --version` if `python` is unavailable.
 
 ### Step 2. Create and edit the reviewer environment file
 
-1. Make sure the terminal is in the repository root. This is the folder containing README.md and app.py.
-
-2. Create `.env.reviewer` from the example file.
+1. Create `.env.reviewer` from the example file.
 
 Windows PowerShell:
 
@@ -108,7 +106,7 @@ Linux:
 cp .env.reviewer.example .env.reviewer
 ```
 
-3. Open the new file in a plain-text editor.
+2. Open the new file in a plain-text editor.
 
 Windows PowerShell:
 
@@ -122,7 +120,7 @@ Linux:
 nano .env.reviewer
 ```
 
-4. Change only the values after the equals signs:
+3. Change only the values after the equals signs:
 
 ```text
 DB_HOST=localhost
@@ -149,7 +147,7 @@ DB_NAME=db_weibo_basin_review
 
 If the password contains spaces or `#`, wrap it in quotes. If the account has no password, use `DB_PASSWORD=` with nothing after it.
 
-5. Save the file and close the editor. Confirm that `.env.reviewer` is in the repository root.
+4. Save the file and close the editor. Confirm that `.env.reviewer` is in the repository root.
 
 Windows PowerShell:
 
