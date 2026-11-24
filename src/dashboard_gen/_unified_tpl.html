@@ -606,8 +606,8 @@ var U = /*__DATA__*/{};
 var WCGLOSS = /*__GLOSSARY__*/{};
 var VIEWS = /*__VIEWS__*/[];
 </script>
-<script src="/static/js/basinscope-i18n.js?v=20261028-5"></script>
-<script src="/static/js/signaltrace-ui-en.js?v=20261028-5"></script>
+<script src="/static/js/basinscope-i18n.js?v=20261124-3"></script>
+<script src="/static/js/signaltrace-ui-en.js?v=20261124-3"></script>
 <script>
 /* ==================================================================
    渲染引擎：VIEWS 里只描述"要什么"，图表统一由 recipe 生成
@@ -1484,19 +1484,30 @@ R.map = function(box, s){
     if(!b) return null;
     return {min: b.lo, max: b.hi, color: COLORS[ci]};
   }).filter(Boolean);
+  var en = window.BASINSCOPE_EN_MODE !== false;
+  function mapLabel(value){
+    return (window.BASINSCOPE_I18N && window.BASINSCOPE_I18N.geo)
+      ? window.BASINSCOPE_I18N.geo(value) : value;
+  }
+  function basinLabel(value){
+    if(!en) return value;
+    var labels = {'\u91cd\u53e0':'Shared source','\u957f\u6c5f':'Yangtze','\u9ec4\u6cb3':'Yellow River','\u975e\u6d41\u57df':'Non-basin'};
+    return labels[value] || value;
+  }
   var c = initChart(box);
   c.setOption(base({
     tooltip:{backgroundColor:'rgba(255,253,248,.96)', borderColor:C.line, textStyle:{color:C.fg,fontSize:12},
       formatter:function(p){
-        if(p.value==null) return p.name+'：无数据';
-        if(o.basin) return '<b>'+p.name+'</b><br/>流域归属：'+basinOf(p.name)+
-                          '<br/>声量：'+raw(p.value)+'（'+pct(p.value, TOT)+'）';
-        return '<b>'+p.name+'</b><br/>声量：'+raw(p.value)+'（'+pct(p.value, TOT)+'）';
+        var pname = en ? mapLabel(p.name) : p.name;
+        if(p.value==null) return pname + (en ? ': no data' : ':\u65e0\u6570\u636e');
+        if(o.basin) return '<b>'+pname+'</b><br/>'+(en ? 'Basin: ' : '\u6d41\u57df\u5f52\u5c5e\uff1a')+basinLabel(basinOf(p.name))+
+                          '<br/>'+(en ? 'Volume: ' : '\u58f0\u91cf\uff1a')+raw(p.value)+' ('+pct(p.value, TOT)+')';
+        return '<b>'+pname+'</b><br/>'+(en ? 'Volume: ' : '\u58f0\u91cf\uff1a')+raw(p.value)+' ('+pct(p.value, TOT)+')';
       }},
     visualMap: o.basin ? undefined : {
       show:true, type:'piecewise', pieces:pieces, left:10, bottom:12,
       itemHeight:12, itemWidth:12, calculable:false,
-      text:['高','低'], showLabel:true,
+      text:(en ? ['High','Low'] : ['\u9ad8','\u4f4e']), showLabel:true,
       /* 图例画在近黑舞台内，原先用深棕 C.fg2 → 深底深字、断点数字完全看不见 */
       textStyle:{color:'rgba(233,240,252,.88)', fontSize:10}, borderColor:'transparent',
       outOfRange:{color:NODATA_C}
@@ -1509,8 +1520,7 @@ R.map = function(box, s){
       layoutCenter: ['50%','51%'],
       layoutSize: '132%',   /* 实测：墨迹高度 = min(容器宽,高)，等比不拉伸 */
       label:{show:true, color:'rgba(248,252,255,.98)', fontSize:o.labelFs||11,
-        formatter:function(p){ return (window.BASINSCOPE_I18N && BASINSCOPE_I18N.geo)
-          ? BASINSCOPE_I18N.geo(p.name) : p.name; },
+        formatter:function(p){ return en ? mapLabel(p.name) : p.name; },
         textBorderColor:'rgba(4,9,18,.9)', textBorderWidth:2.4},
       itemStyle:{borderColor:'rgba(226,240,255,.88)', borderWidth:1.2, areaColor:COLORS[0]},
       emphasis:{ label:{color:'#fff', fontWeight:'bold'},
@@ -1584,6 +1594,7 @@ R.map = function(box, s){
    ====================================================================== */
 R.basinmap = function(box, s){
   var o = s.o || {};
+  var en = window.BASINSCOPE_EN_MODE !== false;
   // 黄河专题在 build_unified_page 里的视图前缀是 'hh'，但几何数据键是 'yl'，故一并归一。
   var bk = (o.bk === 'yl' || o.bk === 'hh') ? 'yl' : 'yz';
   var FC = window.BZGEO || {};
@@ -1720,7 +1731,7 @@ R.basinmap = function(box, s){
          itemStyle:{color:RVC.core, borderColor:'#ffffff', borderWidth:1.8},
          label:{show:true, color:'#16324f', fontSize:11, distance:5,
            textBorderColor:'rgba(255,255,255,.96)', textBorderWidth:3,
-           formatter:function(p){ return window.BASINSCOPE_I18N ? window.BASINSCOPE_I18N.geo(p.data.name) : p.data.name; }},
+            formatter:function(p){ return (en && window.BASINSCOPE_I18N) ? window.BASINSCOPE_I18N.geo(p.data.name) : p.data.name; }},
          data:o.ends || []},
         /* 省名标签层：centroid 锚点，宽屏全标；深墨字 + 白描边 → 深浅底都清晰 */
         {type:'scatter', coordinateSystem:'geo', symbolSize:1, zlevel:6, silent:true,
@@ -1729,7 +1740,7 @@ R.basinmap = function(box, s){
             撑住可读性，描边太细会"糊"进底色。 */
          label:{show:true, color:'#16324f', fontSize:fs,
            textBorderColor:'rgba(255,255,255,.98)', textBorderWidth:3.2,
-           formatter:function(p){ return window.BASINSCOPE_I18N ? window.BASINSCOPE_I18N.geo(p.data.name) : p.data.name; }},
+            formatter:function(p){ return (en && window.BASINSCOPE_I18N) ? window.BASINSCOPE_I18N.geo(p.data.name) : p.data.name; }},
          /* v16：地图放大到满卡后，东部小省（安徽/江苏/浙江/上海）的 centroid 锚点会挤在
             一起 —— 一律允许 shiftY 纵向避让（宽屏也有大量纵向空间可借），只在窄屏
             （crowd）才额外允许丢标签。两者都关掉会让名字叠成一坨，反而不可读。 */

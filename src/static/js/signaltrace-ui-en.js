@@ -438,7 +438,8 @@
       "山东": "Shandong", "河南": "Henan", "湖北": "Hubei", "湖南": "Hunan", "广东": "Guangdong",
       "海南": "Hainan", "四川": "Sichuan", "贵州": "Guizhou", "云南": "Yunnan", "陕西": "Shaanxi",
       "甘肃": "Gansu", "青海": "Qinghai", "内蒙古": "Inner Mongolia", "广西": "Guangxi",
-      "西藏": "Tibet", "宁夏": "Ningxia", "新疆": "Xinjiang"
+      "西藏": "Tibet", "宁夏": "Ningxia", "新疆": "Xinjiang",
+      "台湾": "Taiwan", "香港": "Hong Kong", "澳门": "Macao"
     };
     document.querySelectorAll("td,th").forEach(function (cell) {
       const key = (cell.textContent || "").trim();
