@@ -377,9 +377,9 @@ docker compose down -v
 
 The Docker path is optional. If Docker cannot be made operational on the reviewer's computer, use Option A instead.
 
-## Reviewer data note
+## Data availability
 
-The public reviewer profile is synthetic. It contains no private platform records and does not reproduce the manuscript's research estimates. Its purpose is to verify installation, database setup, dashboard rendering, and the 17 analysis views.
+The repository provides the database schema and a synthetic reviewer dataset only. Raw platform records cannot be redistributed because of platform terms, privacy requirements, and data-use restrictions. The synthetic data are provided solely to verify installation, database setup, dashboard rendering, and the 17 analysis views; they do not reproduce the manuscript's empirical estimates.
 
 ## Requirements
 
