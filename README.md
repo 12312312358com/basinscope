@@ -120,7 +120,7 @@ Linux:
 nano .env.reviewer
 ```
 
-3. In most cases, change only `DB_PASSWORD`. Keep the other values unless your MySQL installation uses a different host, port, user, or database name:
+3. In most cases, only the database password needs to be changed. Keep the other values unless your MySQL installation uses a different host, port, user, or database name:
 
 ```text
 DB_HOST=localhost
