@@ -120,7 +120,7 @@ Linux:
 nano .env.reviewer
 ```
 
-3. Change only the values after the equals signs:
+3. In most cases, change only `DB_PASSWORD`. Keep the other values unless your MySQL installation uses a different host, port, user, or database name:
 
 ```text
 DB_HOST=localhost
@@ -130,11 +130,7 @@ DB_PASSWORD=replace-with-your-database-password
 DB_NAME=db_weibo_basin_review
 ```
 
-In the `DB_PASSWORD` line, replace the placeholder
-`replace-with-your-database-password` with the actual password for the local MySQL
-account.
-
-Example: suppose the MySQL password is abc123456. The file should then contain:
+For example, suppose the MySQL password is abc123456. The file should then contain:
 
 ```text
 DB_HOST=localhost
