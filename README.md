@@ -132,7 +132,10 @@ DB_PASSWORD=replace-with-your-database-password
 DB_NAME=db_weibo_basin_review
 ```
 
-In the `DB_PASSWORD` line, replace `replace-with-your-database-password` with the real password for the local MySQL account. Do not leave the placeholder in the file, and do not add spaces around the equals sign.
+In the `DB_PASSWORD` line, replace the placeholder
+`replace-with-your-database-password` with the actual password for the local MySQL
+account. Do not leave the placeholder in the file, and do not add spaces around
+the equals sign.
 
 Example: suppose the MySQL password is abc123456. The file should then contain:
 
