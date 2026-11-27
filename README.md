@@ -82,6 +82,8 @@ python -m venv .venv-review
 .\.venv-review\Scripts\python.exe -m pip install -r requirements-review.txt
 ```
 
+![Install reviewer dependencies](docs/images/quickstart-install-dependencies.png)
+
 ### 4. Initialize the reviewer database
 
 ```powershell
