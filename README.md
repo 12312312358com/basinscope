@@ -28,9 +28,9 @@ requirements*.txt     Dependency files
 ## Requirements
 
 - Windows 10/11 or Linux
-- [Python 3.10 or later](https://www.python.org/downloads/windows/)
-- [MySQL 8.0 or later](https://dev.mysql.com/downloads/installer/)
-- [Git for Windows](https://git-scm.com/download/win)
+- [Python 3.10 or later](https://www.python.org/downloads/)
+- [MySQL 8.0 or later](https://dev.mysql.com/downloads/)
+- [Git](https://git-scm.com/downloads)
 
 ## Quick Start (MySQL)
 
@@ -138,6 +138,21 @@ The expected `/readyz` response includes:
 The `/readyz` counts cover the Yellow River article and Weibo-comment tables used by the health check. The manuscript reports 899 focal-topic articles and 949 cross-platform comments; the cross-platform count is assembled from the platform-specific tables. The initialization output above covers the full synthetic reviewer database.
 
 If MySQL reports `Access denied`, check `DB_PASSWORD` in `.env.reviewer`. If port `5001` is already in use, change `PORT` in `.env.reviewer` and use the corresponding URL.
+
+## Linux Quick Start
+
+For Linux, run the equivalent commands from the repository root:
+
+```bash
+cp .env.reviewer.example .env.reviewer
+nano .env.reviewer
+python3 -m venv .venv-review
+.venv-review/bin/python -m pip install -r requirements-review.txt
+.venv-review/bin/python scripts/init_demo_db.py
+.venv-review/bin/python app.py
+```
+
+As in the Windows flow, change only `DB_PASSWORD` in `.env.reviewer`. Then open `http://127.0.0.1:5001` and verify `/healthz` and `/readyz`.
 
 ## Data Availability
 
