@@ -51,13 +51,19 @@ Create the reviewer environment file:
 Copy-Item .env.reviewer.example .env.reviewer
 ```
 
-Replace only the database password with one PowerShell command:
+Open `.env.reviewer` in Notepad and change only `DB_PASSWORD`:
 
 ```powershell
-(Get-Content .env.reviewer) -replace '^DB_PASSWORD=.*$', 'DB_PASSWORD=your-mysql-password' | Set-Content .env.reviewer -Encoding ASCII
+notepad .env.reviewer
 ```
 
-This changes only `DB_PASSWORD`; the host, port, user, and database name remain unchanged. Do not create a `.env` file for this reviewer setup.
+For example:
+
+```text
+DB_PASSWORD=your-mysql-password
+```
+
+Keep the other values unchanged, save the file, and close Notepad. Do not create a `.env` file for this reviewer setup.
 
 ### 3. Install dependencies
 
