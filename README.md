@@ -28,9 +28,9 @@ requirements*.txt     Dependency files
 ## Requirements
 
 - Windows 10 or 11
-- Python 3.10 or later
-- MySQL 8.0 or later
-- Git
+- [Python 3.10 or later](https://www.python.org/downloads/windows/)
+- [MySQL 8.0 or later](https://dev.mysql.com/downloads/installer/)
+- [Git for Windows](https://git-scm.com/download/win)
 
 ## Quick Start (MySQL)
 
