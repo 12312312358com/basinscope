@@ -521,10 +521,15 @@
   function localizeChartLabels() {
     if (!window.echarts) return;
     const labels = {
-      "\u8d1f\u9762\u5360\u6bd4 40": "Negative share 40",
-      "\u58f0\u91cf 25": "Volume 25",
-      "\u654f\u611f\u5ea6 20": "Sensitivity 20",
-      "\u6269\u6563 15": "Diffusion 15"
+      "负面占比 40": "Negative share 40",
+      "声量 25": "Volume 25",
+      "敏感度 20": "Sensitivity 20",
+      "扩散 15": "Diffusion 15"
+    };
+    const i18n = window.BASINSCOPE_I18N;
+    const translate = function (name) {
+      if (typeof name !== "string") return name;
+      return labels[name] || (i18n && i18n.geo ? i18n.geo(name) : name);
     };
     document.querySelectorAll(".ch").forEach(function (el) {
       const chart = echarts.getInstanceByDom(el);
@@ -532,17 +537,42 @@
       const option = chart.getOption();
       const series = option.series || [];
       const legends = option.legend || [];
-      const needsUpdate = series.some(function (item) { return labels[item.name]; }) ||
-        legends.some(function (item) { return (item.data || []).some(function (name) { return labels[name]; }); });
+      const xAxes = option.xAxis || [];
+      const yAxes = option.yAxis || [];
+      const axisNeedsUpdate = xAxes.concat(yAxes).some(function (axis) {
+        return (axis.data || []).some(function (name) { return translate(name) !== name; });
+      });
+      const seriesDataNeedsUpdate = series.some(function (item) {
+        return (item.data || []).some(function (datum) {
+          const name = typeof datum === "string" ? datum : (datum && datum.name);
+          return name && translate(name) !== name;
+        });
+      });
+      const needsUpdate = series.some(function (item) { return translate(item.name) !== item.name; }) ||
+        legends.some(function (item) { return (item.data || []).some(function (name) { return translate(name) !== name; }); }) ||
+        axisNeedsUpdate || seriesDataNeedsUpdate;
       if (!needsUpdate) return;
       chart.setOption({
         legend: legends.map(function (item) {
-          return {
-            data: (item.data || []).map(function (name) { return labels[name] || name; })
-          };
+          return { data: (item.data || []).map(translate) };
+        }),
+        xAxis: xAxes.map(function (axis) {
+          return { data: (axis.data || []).map(translate) };
+        }),
+        yAxis: yAxes.map(function (axis) {
+          return { data: (axis.data || []).map(translate) };
         }),
         series: series.map(function (item) {
-          return { name: labels[item.name] || item.name };
+          return {
+            name: translate(item.name),
+            data: (item.data || []).map(function (datum) {
+              if (typeof datum === "string") return translate(datum);
+              if (datum && typeof datum === "object" && typeof datum.name === "string") {
+                return Object.assign({}, datum, { name: translate(datum.name) });
+              }
+              return datum;
+            })
+          };
         })
       });
       chart.__signalTraceLabelsLocalized = true;
