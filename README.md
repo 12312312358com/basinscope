@@ -51,7 +51,7 @@ Create the reviewer environment file:
 Copy-Item .env.reviewer.example .env.reviewer
 ```
 
-Open `.env.reviewer` in Notepad and change only `DB_PASSWORD`:
+Change only `DB_PASSWORD` in `.env.reviewer`:
 
 ```powershell
 notepad .env.reviewer
