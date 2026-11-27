@@ -97,6 +97,8 @@ Review database ready: db_weibo_basin_review
 t_basin_article=2430, t_basin_comment=140
 ```
 
+![Initialize reviewer database](docs/images/quickstart-init-database.png)
+
 ### 5. Start the application
 
 ```powershell
