@@ -63,6 +63,8 @@ Change only `DB_PASSWORD` in `.env.reviewer`:
 notepad .env.reviewer
 ```
 
+![Create and edit the reviewer environment file](docs/images/quickstart-env-setup.png)
+
 For example:
 
 ```text
