@@ -14,6 +14,10 @@ Main features:
 - Event, province, interaction, and risk-screening views.
 - A synthetic reviewer dataset for reproducible interface testing.
 
+## Dashboard Preview
+
+![SOPRAS reviewer dashboard](docs/images/dashboard-overview.png)
+
 ## Repository Structure
 
 ```text
