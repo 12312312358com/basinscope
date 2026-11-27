@@ -14,10 +14,6 @@ Main features:
 - Event, province, interaction, and risk-screening views.
 - A synthetic reviewer dataset for reproducible interface testing.
 
-## Dashboard Preview
-
-![SOPRAS reviewer dashboard](docs/images/dashboard-overview.png)
-
 ## Repository Structure
 
 ```text
@@ -46,6 +42,10 @@ The `v1.0` tag corresponds to the submitted manuscript.
 git clone --branch v1.0 --depth 1 https://github.com/12312312358com/basinscope.git
 cd basinscope
 ```
+
+![Clone the v1.0 repository and enter the project directory](docs/images/quickstart-clone-cd.png)
+
+The `detached HEAD` message is expected when checking out the annotated `v1.0` tag.
 
 ### 2. Configure the reviewer database
 
