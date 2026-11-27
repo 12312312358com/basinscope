@@ -45,7 +45,7 @@ cd basinscope
 
 Example terminal session:
 
-![Clone the v1.0 repository and enter the project directory](docs/images/quickstart-clone-cd.png)
+![Clone the v1.0 repository and enter the project directory](docs/images/quickstart-clone-cd-clean.png)
 
 The `detached HEAD` message is expected when checking out the annotated `v1.0` tag.
 
