@@ -840,6 +840,33 @@
     "重点": "Key points",
     "黄河流域": "Yellow River Basin"
   });
+  Object.assign(EXACT, {
+    "中央生态环保督察·水污染": "Central ecological inspection - water pollution",
+    "手术风险": "Surgical risk",
+    "官方回应": "Official response",
+    "景区宰客": "Scenic-area overcharging",
+    "环保督察": "Environmental inspection",
+    "食品安全": "Food safety",
+    "公共服务": "Public services",
+    "医患沟通": "Doctor-patient communication",
+    "医疗事故": "Medical accidents",
+    "医疗纠纷": "Medical disputes",
+    "医院管理": "Hospital management",
+    "城市治理": "Urban governance",
+    "导游服务": "Tour guide services",
+    "应急管理": "Emergency management",
+    "文旅融合": "Cultural tourism integration",
+    "水污染": "Water pollution",
+    "法律维权": "Legal rights protection",
+    "游客体验": "Visitor experience",
+    "摄影达人": "Photography influencer",
+    "自媒体": "Self-media",
+    "创作者": "Creator",
+    "旅行博主": "Travel blogger",
+    "试评博主": "Review blogger",
+    "山东晚报": "Shandong Evening News",
+    "人民日报": "People's Daily"
+  });
   const PHRASES = Object.entries(EXACT).sort((a, b) => b[0].length - a[0].length);
 
   function replaceKnown(value) {

@@ -441,6 +441,33 @@
       "西藏": "Tibet", "宁夏": "Ningxia", "新疆": "Xinjiang",
       "台湾": "Taiwan", "香港": "Hong Kong", "澳门": "Macao"
     };
+    Object.assign(geo, {
+      "摄影达人": "Photography influencer",
+      "自媒体": "Self-media",
+      "创作者": "Creator",
+      "旅行博主": "Travel blogger",
+      "试评博主": "Review blogger",
+      "山东晚报": "Shandong Evening News",
+      "人民日报": "People's Daily",
+      "中央生态环保督察·水污染": "Central ecological inspection - water pollution",
+      "手术风险": "Surgical risk",
+      "官方回应": "Official response",
+      "景区宰客": "Scenic-area overcharging",
+      "环保督察": "Environmental inspection",
+      "食品安全": "Food safety",
+      "公共服务": "Public services",
+      "医患沟通": "Doctor-patient communication",
+      "医疗事故": "Medical accidents",
+      "医疗纠纷": "Medical disputes",
+      "医院管理": "Hospital management",
+      "城市治理": "Urban governance",
+      "导游服务": "Tour guide services",
+      "应急管理": "Emergency management",
+      "文旅融合": "Cultural tourism integration",
+      "水污染": "Water pollution",
+      "法律维权": "Legal rights protection",
+      "游客体验": "Visitor experience"
+    });
     document.querySelectorAll("td,th").forEach(function (cell) {
       const key = (cell.textContent || "").trim();
       if (geo[key]) cell.textContent = geo[key];
@@ -503,6 +530,10 @@
         const body=card.querySelector(":scope > div:not(.sub)");
         if(body) body.innerHTML='<div style="line-height:1.85"><b>Tables</b>: t_basin_article (899 records) and t_basin_comment (59 records).<br><b>Filter</b>: basin = Yellow River; topic ? {ecological governance, cultural tourism, healthcare disputes}.<br><b>Geography</b>: post text uses the target province assigned during collection; comments use the author-IP province.<br><b>De-identification</b>: display names, user IDs, and profile links are processed before storage.</div>';
       }
+      if(heading.includes("Why This Page Does Not Encode by Record Count")){
+        const body=card.querySelector(":scope > div:not(.sub)");
+        if(body) body.innerHTML='<div style="line-height:1.85"><p><b>Record counts are constrained by collection quotas.</b> The 19 event types by 8 provinces grid contains only 1-38 records per cell, and the counts are almost uniform. This does not show which province is hotter; it reflects quota-based collection. The matrix below therefore uses propagation strength rather than record count.</p><p><b>Why the winsorized mean?</b> A single outlier can distort the arithmetic mean: one post with 829 reposts raised a cell mean by two orders of magnitude (the raw mean for the Shaanxi medical-dispute cell was 1775.5; the winsorized mean was 9.7, a difference of 183 times). The median is also too conservative because medians in this matrix are nearly zero and weak signals would be erased.</p><p><b>How to read:</b> Horizontal comparisons show differences in the spread strength of the same event type across provinces; vertical comparisons show which event type is more easily pushed out within the same province. For cross-row comparisons, use the row median in the final column of the validation table, not absolute cell values. Hovering over a cell shows its raw mean, median, maximum, and count.</p><p><b>What not to read:</b> Cell values are not heat: counts are quota-driven and reposts are driven by outliers. Neither is an absolute volume. Background color and cell text come from the same source; the color scale is square-root stretched, so cross-row color comparison is not valid. The fallback row (food safety and social governance) is a reference only and is excluded from the three focal-topic proportions.</p></div>';
+      }
       if(heading.includes("Two Known Limitations")){
         const body=card.querySelector(":scope > div:not(.sub)");
         if(body) body.innerHTML='<div style="line-height:1.85"><p><b>Comment coverage</b>: the Weibo comment table has 59 records and no cultural-tourism comments; it supports distribution descriptions only, not trend extrapolation.</p><p><b>Model calibration</b>: SnowNLP is a general-purpose model and treats many domain terms as extremes (negative 33.0%; neutral 3.6%). Its positive-negative ratio is structural context, not a validated attitude measure.</p></div>';
@@ -529,7 +560,12 @@
     const i18n = window.BASINSCOPE_I18N;
     const translate = function (name) {
       if (typeof name !== "string") return name;
-      return labels[name] || (i18n && i18n.geo ? i18n.geo(name) : name);
+      if (labels[name]) return labels[name];
+      if (i18n && i18n.t) {
+        const exact = i18n.t(name, "");
+        if (exact !== name) return exact;
+      }
+      return i18n && i18n.geo ? i18n.geo(name) : name;
     };
     document.querySelectorAll(".ch").forEach(function (el) {
       const chart = echarts.getInstanceByDom(el);
