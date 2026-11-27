@@ -27,14 +27,14 @@ requirements*.txt     Dependency files
 
 ## Requirements
 
-- Windows 10 or 11
+- Windows 10/11 or Linux
 - [Python 3.10 or later](https://www.python.org/downloads/windows/)
 - [MySQL 8.0 or later](https://dev.mysql.com/downloads/installer/)
 - [Git for Windows](https://git-scm.com/download/win)
 
 ## Quick Start (MySQL)
 
-The `v1.0` tag corresponds to the submitted manuscript.
+The `v1.0` tag corresponds to the submitted manuscript. The commands below use Windows PowerShell; Linux users can use the equivalent Python and MySQL commands.
 
 ### 1. Clone the repository
 
@@ -134,6 +134,8 @@ The expected `/readyz` response includes:
   "tables": 13
 }
 ```
+
+The `/readyz` counts cover the Yellow River article and Weibo-comment tables used by the health check. The manuscript reports 899 focal-topic articles and 949 cross-platform comments; the cross-platform count is assembled from the platform-specific tables. The initialization output above covers the full synthetic reviewer database.
 
 If MySQL reports `Access denied`, check `DB_PASSWORD` in `.env.reviewer`. If port `5001` is already in use, change `PORT` in `.env.reviewer` and use the corresponding URL.
 
