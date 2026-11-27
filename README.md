@@ -105,6 +105,8 @@ t_basin_article=2430, t_basin_comment=140
 .\.venv-review\Scripts\python.exe app.py
 ```
 
+![Start the SOPRAS application](docs/images/quickstart-start-app.png)
+
 Open:
 
 ```text
