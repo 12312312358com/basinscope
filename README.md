@@ -152,7 +152,11 @@ python3 -m venv .venv-review
 .venv-review/bin/python app.py
 ```
 
-As in the Windows flow, change only `DB_PASSWORD` in `.env.reviewer`. Then open `http://127.0.0.1:5001` and verify `/healthz` and `/readyz`.
+After starting the application:
+
+- Change only the DB_PASSWORD value in .env.reviewer.
+- Open http://127.0.0.1:5001 in a browser.
+- Check http://127.0.0.1:5001/healthz and http://127.0.0.1:5001/readyz.
 
 ## Data Availability
 
