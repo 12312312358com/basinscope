@@ -27,6 +27,7 @@ requirements*.txt     Dependency files
 
 ## Requirements
 
+- Windows 10 or 11
 - Python 3.10 or later
 - MySQL 8.0 or later
 - Git
@@ -68,8 +69,6 @@ Keep the other values unless your MySQL installation uses a different host, port
 python -m venv .venv-review
 .\.venv-review\Scripts\python.exe -m pip install -r requirements-review.txt
 ```
-
-On Linux, use `python3 -m venv .venv-review` and `.venv-review/bin/python` in place of the Windows virtual-environment commands.
 
 ### 4. Initialize the reviewer database
 
