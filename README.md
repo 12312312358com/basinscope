@@ -43,6 +43,8 @@ git clone --branch v1.0 --depth 1 https://github.com/12312312358com/basinscope.g
 cd basinscope
 ```
 
+Example terminal session:
+
 ![Clone the v1.0 repository and enter the project directory](docs/images/quickstart-clone-cd.png)
 
 The `detached HEAD` message is expected when checking out the annotated `v1.0` tag.
