@@ -132,7 +132,6 @@ The repository provides the database schema and a synthetic reviewer dataset onl
 - [Data setup](docs/DATA_SETUP.md)
 - [Methods](docs/METHODS.md)
 - [Reproducibility](docs/REPRODUCIBILITY.md)
-- [Docker setup](docs/DOCKER.md)
 - [SoftwareX metadata](docs/SOFTWARE_METADATA.md)
 
 ## Citation

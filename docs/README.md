@@ -4,7 +4,6 @@
 - [Architecture](ARCHITECTURE.md): application layers, directory map, and data flow.
 - [Data setup](DATA_SETUP.md): required MySQL tables, fields, and data governance.
 - [Methods](METHODS.md): collection, event matching, sentiment analysis, clustering, risk screening, and short-video processing.
-- [Docker setup](DOCKER.md): optional containerized reviewer setup.
 - [Full application setup](FULL_SETUP.md): full local configuration with real data and optional API services.
 - [Reproducibility](REPRODUCIBILITY.md): environment setup, data preparation, generation order, and release verification.
 - [SoftwareX metadata](SOFTWARE_METADATA.md): C1-C8 metadata for the manuscript.
