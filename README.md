@@ -71,6 +71,8 @@ For example:
 DB_PASSWORD=your-mysql-password
 ```
 
+![DB_PASSWORD line in .env.reviewer](docs/images/env-reviewer-db-password.png)
+
 Keep the other values unchanged, save the file, and close Notepad. Do not create a `.env` file for this reviewer setup.
 
 ### 3. Install dependencies
