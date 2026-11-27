@@ -867,6 +867,10 @@
     "山东晚报": "Shandong Evening News",
     "人民日报": "People's Daily"
   });
+  Object.assign(EXACT, {
+    "内容更多": "More content",
+    "属地更多": "More author-IP"
+  });
   const PHRASES = Object.entries(EXACT).sort((a, b) => b[0].length - a[0].length);
 
   function replaceKnown(value) {
@@ -984,7 +988,11 @@
     if (Array.isArray(value)) return value.map(item => walk(item, key));
     if (value && typeof value === "object") {
       const out = {};
-      Object.keys(value).forEach(k => { out[k] = walk(value[k], k); });
+      Object.keys(value).forEach(k => {
+        const translatedKey = (key === "cmap" || key === "map") && EXACT[k.trim()]
+          ? EXACT[k.trim()] : k;
+        out[translatedKey] = walk(value[k], k);
+      });
       return out;
     }
     return trText(value, key);
