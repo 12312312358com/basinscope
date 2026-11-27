@@ -107,7 +107,7 @@ t_basin_article=2430, t_basin_comment=140
 
 ![Start the SOPRAS application](docs/images/quickstart-start-app.png)
 
-Open:
+Open the dashboard in your browser:
 
 ```text
 http://127.0.0.1:5001/page/dashboard
@@ -115,7 +115,7 @@ http://127.0.0.1:5001/page/dashboard
 
 ### 6. Verify the installation
 
-Open:
+Open the following health-check URLs in your browser:
 
 ```text
 http://127.0.0.1:5001/healthz
