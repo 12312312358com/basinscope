@@ -110,7 +110,7 @@ t_basin_article=2430, t_basin_comment=140
 Open the dashboard in your browser:
 
 ```text
-http://127.0.0.1:5001/page/dashboard
+http://127.0.0.1:5001
 ```
 
 ### 6. Verify the installation
