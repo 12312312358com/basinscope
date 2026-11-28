@@ -34,7 +34,7 @@ requirements*.txt     Dependency files
 
 ## Quick Start (MySQL)
 
-Please follow the screenshots exactly when copying each command.
+**In the terminal, copy each command exactly as shown in the screenshots.**
 
 ### 1. Clone the repository
 
