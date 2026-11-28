@@ -28,11 +28,9 @@ requirements*.txt     Dependency files
 ## Requirements
 
 - Windows 10/11 or Linux
-- Python 3.10 or later ([Python 3.12.10 Windows x64 installer](https://mirrors.aliyun.com/python-release/windows/python-3.12.10-amd64.exe))
-- [MySQL 8.0 or later](https://dev.mysql.com/downloads/)
-- [Git](https://git-scm.com/downloads)
-
-For step-by-step Windows installation guidance, see [Git](docs/INSTALL_GIT.md), [Python](docs/INSTALL_PYTHON.md), and [MySQL](docs/INSTALL_MYSQL.md).
+- Python 3.10 or later ([installation guide](docs/INSTALL_PYTHON.md))
+- MySQL 8.0 or later ([installation guide](docs/INSTALL_MYSQL.md))
+- Git ([installation guide](docs/INSTALL_GIT.md))
 
 ## Quick Start (MySQL)
 
