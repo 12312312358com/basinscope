@@ -6,7 +6,7 @@ Download the Python 3.12.10 Windows x64 installer:
 https://mirrors.aliyun.com/python-release/windows/python-3.12.10-amd64.exe
 ```
 
-Run the downloaded installer and follow the three screenshots below. Select **Add python.exe to PATH**, keep the installation options shown, and click **Install**.
+Run the downloaded installer and follow the three screenshots below.
 
 ![Python installer: select Add python.exe to PATH](images/install/python-01-installer.png)
 
