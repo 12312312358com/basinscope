@@ -81,8 +81,10 @@ Leave the other values unchanged, save the file, and close Notepad. For this rev
 
 ```powershell
 python -m venv .venv-review
-.\.venv-review\Scripts\python.exe -m pip install -r requirements-review.txt
+.\.venv-review\Scripts\python.exe -m pip install -r requirements-review.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
+
+The `-i` option uses the Tsinghua PyPI mirror. If the mirror is unavailable, remove the `-i` option and use the default PyPI source.
 
 ![Install reviewer dependencies](docs/images/quickstart-install-dependencies.png)
 
@@ -149,7 +151,7 @@ For Linux, run the equivalent commands from the repository root:
 cp .env.reviewer.example .env.reviewer
 nano .env.reviewer
 python3 -m venv .venv-review
-.venv-review/bin/python -m pip install -r requirements-review.txt
+.venv-review/bin/python -m pip install -r requirements-review.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 .venv-review/bin/python scripts/init_demo_db.py
 .venv-review/bin/python app.py
 ```
