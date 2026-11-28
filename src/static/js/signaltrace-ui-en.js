@@ -7,6 +7,13 @@
 
   const MAP = {
     "黄河流域舆情分析系统 · 生态治理 / 文旅 / 医患矛盾": "Ecological governance, cultural tourism, and healthcare disputes",
+    "图A　互动结构散点": "Figure A - Interaction Structure",
+    "图A　转赞比排序": "Figure A - Repost-to-Like Ratio Ranking",
+    "图B　议题构成 × 传播强度": "Figure B - Topic Composition × Propagation Intensity",
+    "图C　条目发布年份分布": "Figure C - Publication-Year Distribution",
+    "图D　平台构成与评赞比": "Figure D - Platform Composition and Comment-to-Like Ratio",
+    "条长＝该议题下所有条目的赞+评+转合计　·　右端括号内＝该议题的条目数": "Bar length = combined likes, comments, and reposts for the topic · Parentheses = number of records",
+    "这张图回答\"哪个议题在驱动本榜\"。两流域的答案完全不同（长江医患主导、黄河文旅主导），只看排行榜结构是看不出来的。": "This chart shows which topic drives the ranking. The two basins differ: healthcare disputes dominate the Yangtze sample, while cultural tourism dominates the Yellow River sample. The ranking structure alone does not reveal this difference.",
     "黄河流域舆情": "Yellow River Public Opinion",
     "17 项": "17 views",
     "数据源": "Data source",
@@ -561,13 +568,17 @@
     const translate = function (name) {
       if (typeof name !== "string") return name;
       if (labels[name]) return labels[name];
+      if (i18n && i18n.label) {
+        const mapped = i18n.label(name);
+        if (mapped !== name) return mapped;
+      }
       if (i18n && i18n.t) {
         const exact = i18n.t(name, "");
         if (exact !== name) return exact;
       }
       return i18n && i18n.geo ? i18n.geo(name) : name;
     };
-    document.querySelectorAll(".ch").forEach(function (el) {
+    document.querySelectorAll(".ch,.figrows,.figslot").forEach(function (el) {
       const chart = echarts.getInstanceByDom(el);
       if (!chart || chart.__signalTraceLabelsLocalized) return;
       const option = chart.getOption();
@@ -617,7 +628,7 @@
 
   function resizeCharts() {
     if (!window.echarts) return;
-    document.querySelectorAll(".ch").forEach(function (el) {
+    document.querySelectorAll(".ch,.figrows,.figslot").forEach(function (el) {
       const chart = echarts.getInstanceByDom(el);
       if (chart) chart.resize();
     });

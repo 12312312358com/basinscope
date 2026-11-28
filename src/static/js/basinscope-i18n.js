@@ -874,7 +874,12 @@
   const PHRASES = Object.entries(EXACT).sort((a, b) => b[0].length - a[0].length);
 
   function replaceKnown(value) {
-    let out = String(value);
+    let out = String(value).trim();
+    out = out
+      .replace(/^生态治理\s*[（(]\s*(\d+)\s*条\s*[）)]$/u, 'Ecology ($1)')
+      .replace(/^文旅\s*[（(]\s*(\d+)\s*条\s*[）)]$/u, 'Tourism ($1)')
+      .replace(/^医患矛盾\s*[（(]\s*(\d+)\s*条\s*[）)]$/u, 'Healthcare ($1)')
+      .replace(/^未分类\s*[（(]\s*(\d+)\s*条\s*[）)]$/u, 'Unclassified ($1)');
     for (const pair of PHRASES) {
       if (pair[0] && out.includes(pair[0]) && !(pair[1] && out.includes(pair[1]))) {
         out = out.split(pair[0]).join(pair[1]);
@@ -899,68 +904,75 @@
 
   function geoName(value) {
     if (value == null) return value;
-    var s = String(value);
+    var s = String(value).trim();
     var geo = {
-      "??": "Beijing",
-      "??": "Tianjin",
-      "??": "Shanghai",
-      "??": "Chongqing",
-      "??": "Hebei",
-      "??": "Shanxi",
-      "??": "Liaoning",
-      "??": "Jilin",
-      "???": "Heilongjiang",
-      "??": "Jiangsu",
-      "??": "Zhejiang",
-      "??": "Anhui",
-      "??": "Fujian",
-      "??": "Jiangxi",
-      "??": "Shandong",
-      "??": "Henan",
-      "??": "Hubei",
-      "??": "Hunan",
-      "??": "Guangdong",
-      "??": "Hainan",
-      "??": "Sichuan",
-      "??": "Guizhou",
-      "??": "Yunnan",
-      "??": "Shaanxi",
-      "??": "Gansu",
-      "??": "Qinghai",
-      "???": "Inner Mongolia",
-      "??": "Guangxi",
-      "??": "Tibet",
-      "??": "Ningxia",
-      "??": "Xinjiang",
-      "??": "Taiwan",
-      "??": "Hong Kong",
-      "??": "Macao",
-      "??": "Jinan",
-      "??": "Qingdao",
-      "??": "Zibo",
-      "??": "Zaozhuang",
-      "??": "Dongying",
-      "??": "Yantai",
-      "??": "Weifang",
-      "??": "Jining",
-      "??": "Tai?an",
-      "??": "Weihai",
-      "??": "Rizhao",
-      "??": "Linyi",
-      "??": "Dezhou",
-      "??": "Liaocheng",
-      "??": "Binzhou",
-      "??": "Heze",
-      "????????": "Yellow River source - Bayan Har",
-      "??????": "Estuary - Dongying",
-      "????": "Bayan Har"
+      "中国": "China",
+      "北京": "Beijing", "北京市": "Beijing",
+      "天津": "Tianjin", "天津市": "Tianjin",
+      "上海": "Shanghai", "上海市": "Shanghai",
+      "重庆": "Chongqing", "重庆市": "Chongqing",
+      "河北": "Hebei", "河北省": "Hebei",
+      "山西": "Shanxi", "山西省": "Shanxi",
+      "辽宁": "Liaoning", "辽宁省": "Liaoning",
+      "吉林": "Jilin", "吉林省": "Jilin",
+      "黑龙江": "Heilongjiang", "黑龙江省": "Heilongjiang",
+      "江苏": "Jiangsu", "江苏省": "Jiangsu",
+      "浙江": "Zhejiang", "浙江省": "Zhejiang",
+      "安徽": "Anhui", "安徽省": "Anhui",
+      "福建": "Fujian", "福建省": "Fujian",
+      "江西": "Jiangxi", "江西省": "Jiangxi",
+      "山东": "Shandong", "山东省": "Shandong",
+      "河南": "Henan", "河南省": "Henan",
+      "湖北": "Hubei", "湖北省": "Hubei",
+      "湖南": "Hunan", "湖南省": "Hunan",
+      "广东": "Guangdong", "广东省": "Guangdong",
+      "海南": "Hainan", "海南省": "Hainan",
+      "四川": "Sichuan", "四川省": "Sichuan",
+      "贵州": "Guizhou", "贵州省": "Guizhou",
+      "云南": "Yunnan", "云南省": "Yunnan",
+      "陕西": "Shaanxi", "陕西省": "Shaanxi",
+      "甘肃": "Gansu", "甘肃省": "Gansu",
+      "青海": "Qinghai", "青海省": "Qinghai",
+      "台湾": "Taiwan", "台湾省": "Taiwan",
+      "内蒙古": "Inner Mongolia", "内蒙古自治区": "Inner Mongolia",
+      "广西": "Guangxi", "广西壮族自治区": "Guangxi",
+      "西藏": "Tibet", "西藏自治区": "Tibet",
+      "宁夏": "Ningxia", "宁夏回族自治区": "Ningxia",
+      "新疆": "Xinjiang", "新疆维吾尔自治区": "Xinjiang",
+      "香港": "Hong Kong", "香港特别行政区": "Hong Kong",
+      "澳门": "Macao", "澳门特别行政区": "Macao",
+      "南海诸岛": "South China Sea Islands",
+      "钓鱼岛": "Diaoyu Islands",
+      "济南": "Jinan", "济南市": "Jinan",
+      "青岛": "Qingdao", "青岛市": "Qingdao",
+      "淄博": "Zibo", "淄博市": "Zibo",
+      "枣庄": "Zaozhuang", "枣庄市": "Zaozhuang",
+      "东营": "Dongying", "东营市": "Dongying",
+      "烟台": "Yantai", "烟台市": "Yantai",
+      "潍坊": "Weifang", "潍坊市": "Weifang",
+      "济宁": "Jining", "济宁市": "Jining",
+      "泰安": "Tai'an", "泰安市": "Tai'an",
+      "威海": "Weihai", "威海市": "Weihai",
+      "日照": "Rizhao", "日照市": "Rizhao",
+      "临沂": "Linyi", "临沂市": "Linyi",
+      "德州": "Dezhou", "德州市": "Dezhou",
+      "聊城": "Liaocheng", "聊城市": "Liaocheng",
+      "滨州": "Binzhou", "滨州市": "Binzhou",
+      "菏泽": "Heze", "菏泽市": "Heze",
+      "未识别": "Unidentified", "未知": "Unknown", "境外": "Overseas", "全国": "National"
     };
     if (s === "黄河源·巴颜喀拉" || s === "Yellow River源·巴颜喀拉") return "Yellow River source - Bayan Har";
     if (geo[s]) return geo[s];
-    if (/市$/.test(s) && geo[s.slice(0, -1)]) return geo[s.slice(0, -1)];
+    var normalized = s
+      .replace(/特别行政区$/u, "")
+      .replace(/维吾尔自治区$/u, "")
+      .replace(/壮族自治区$/u, "")
+      .replace(/回族自治区$/u, "")
+      .replace(/自治区$/u, "")
+      .replace(/[省市]$/u, "");
+    if (geo[normalized]) return geo[normalized];
     return s;
   }
-
   function trText(value, key) {
     if (typeof value !== "string") return value;
     const trimmed = value.trim();
@@ -971,7 +983,16 @@
     return value;
   }
 
-  window.BASINSCOPE_I18N = { t: trText, geo: geoName };
+  function labelText(value) {
+    if (typeof value !== "string") return value;
+    const trimmed = value.trim();
+    if (EXACT[trimmed]) return EXACT[trimmed];
+    const mappedGeo = geoName(trimmed);
+    if (mappedGeo !== trimmed) return mappedGeo;
+    return replaceKnown(trimmed);
+  }
+
+  window.BASINSCOPE_I18N = { t: trText, geo: geoName, label: labelText };
 
   function exactWalk(value) {
     if (Array.isArray(value)) return value.map(exactWalk);
