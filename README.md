@@ -32,6 +32,8 @@ requirements*.txt     Dependency files
 - [MySQL 8.0 or later](https://dev.mysql.com/downloads/)
 - [Git](https://git-scm.com/downloads)
 
+For step-by-step Windows MySQL installation guidance, see [docs/MYSQL_INSTALL.md](docs/MYSQL_INSTALL.md).
+
 ## Quick Start (MySQL)
 
 The `v1.0` tag corresponds to the submitted manuscript. The commands below use Windows PowerShell; Linux users can use the equivalent Python and MySQL commands.
