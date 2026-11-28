@@ -32,7 +32,7 @@ requirements*.txt     Dependency files
 - [MySQL 8.0 or later](https://dev.mysql.com/downloads/)
 - [Git](https://git-scm.com/downloads)
 
-For step-by-step Windows Git and MySQL installation guidance, see [docs/INSTALL_GUIDE.md](docs/INSTALL_GUIDE.md).
+For step-by-step Windows installation guidance, see [docs/INSTALL_GIT.md](docs/INSTALL_GIT.md) or [docs/INSTALL_MYSQL.md](docs/INSTALL_MYSQL.md).
 
 ## Quick Start (MySQL)
 
