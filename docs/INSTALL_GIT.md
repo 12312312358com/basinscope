@@ -1,6 +1,6 @@
 # Git Installation Guide (Windows)
 
-This guide covers the Git installation step needed for the SOPRAS reviewer quick start. For MySQL, see [INSTALL_MYSQL.md](INSTALL_MYSQL.md).
+This guide covers the Git installation step needed for the SOPRAS reviewer quick start. For Python, see [INSTALL_PYTHON.md](INSTALL_PYTHON.md). For MySQL, see [INSTALL_MYSQL.md](INSTALL_MYSQL.md).
 
 ## Download
 
@@ -31,7 +31,7 @@ A version string such as `git version 2.x` confirms that Git is installed.
 
 ## Continue
 
-After Git is installed, install MySQL as described in [INSTALL_MYSQL.md](INSTALL_MYSQL.md), then continue with the reviewer quick start in the main [README](../README.md#quick-start-mysql).
+After Git is installed, install Python as described in [INSTALL_PYTHON.md](INSTALL_PYTHON.md), then install MySQL as described in [INSTALL_MYSQL.md](INSTALL_MYSQL.md). Finally, continue with the reviewer quick start in the main [README](../README.md#quick-start-mysql).
 
 ## Screenshot Plan
 

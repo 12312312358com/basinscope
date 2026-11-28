@@ -28,11 +28,11 @@ requirements*.txt     Dependency files
 ## Requirements
 
 - Windows 10/11 or Linux
-- [Python 3.10 or later (Aliyun mirror)](https://mirrors.aliyun.com/python-release/windows/python-3.12.10-amd64.exe)
+- [Python 3.10 or later](docs/INSTALL_PYTHON.md) (Python 3.12.10 x64 installer)
 - [MySQL 8.0 or later](https://dev.mysql.com/downloads/)
 - [Git](https://git-scm.com/downloads)
 
-For step-by-step Windows installation guidance, see [docs/INSTALL_GIT.md](docs/INSTALL_GIT.md) or [docs/INSTALL_MYSQL.md](docs/INSTALL_MYSQL.md).
+For step-by-step Windows installation guidance, see [Git](docs/INSTALL_GIT.md), [Python](docs/INSTALL_PYTHON.md), and [MySQL](docs/INSTALL_MYSQL.md).
 
 ## Quick Start (MySQL)
 

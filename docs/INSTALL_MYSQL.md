@@ -1,6 +1,6 @@
 # MySQL Installation Guide (Windows)
 
-This guide covers the MySQL installation step needed for the SOPRAS reviewer quick start. For Git, see [INSTALL_GIT.md](INSTALL_GIT.md).
+This guide covers the MySQL installation step needed for the SOPRAS reviewer quick start. For Git, see [INSTALL_GIT.md](INSTALL_GIT.md). For Python, see [INSTALL_PYTHON.md](INSTALL_PYTHON.md).
 
 ## Download MySQL Installer
 
