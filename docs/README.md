@@ -2,9 +2,9 @@
 
 - [Reviewer quick start](../README.md#quick-start-mysql)
 - [Architecture](ARCHITECTURE.md): application layers, directory map, and data flow.
-- [Git installation](INSTALL_GIT.md): Windows Git installer walkthrough and screenshot plan.
-- [Python installation](INSTALL_PYTHON.md): Windows Python installer, PATH configuration, and verification.
-- [MySQL installation](INSTALL_MYSQL.md): Windows MySQL installer walkthrough, mirror download, and screenshot plan.
+- [Git installation](INSTALL_GIT.md): Windows Git installer download and installation steps.
+- [Python installation](INSTALL_PYTHON.md): Windows Python installation screenshots.
+- [MySQL installation](INSTALL_MYSQL.md): Windows MySQL installer walkthrough and screenshots.
 - [Data setup](DATA_SETUP.md): required MySQL tables, fields, and data governance.
 - [Methods](METHODS.md): collection, event matching, sentiment analysis, clustering, risk screening, and short-video processing.
 - [Full application setup](FULL_SETUP.md): full local configuration with real data and optional API services.
