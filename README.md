@@ -28,7 +28,7 @@ requirements*.txt     Dependency files
 ## Requirements
 
 - Windows 10/11 or Linux
-- [Python 3.10 or later](https://www.python.org/downloads/)
+- [Python 3.10 or later (Aliyun mirror)](https://mirrors.aliyun.com/python-release/)
 - [MySQL 8.0 or later](https://dev.mysql.com/downloads/)
 - [Git](https://git-scm.com/downloads)
 
