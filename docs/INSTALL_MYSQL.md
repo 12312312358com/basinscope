@@ -29,3 +29,17 @@ Download [MySQL Community Server](https://dev.mysql.com/downloads/mysql/) and fo
 ![Select the MySQL authentication method](images/install/mysql-13-authentication.png)
 
 ![Set the MySQL root password](images/install/mysql-14-accounts-roles.png)
+
+![Configure MySQL as a Windows service](images/install/mysql-15-windows-service.png)
+
+![Apply the MySQL server file permissions](images/install/mysql-16-file-permissions.png)
+
+![Apply the MySQL configuration](images/install/mysql-17-apply-configuration.png)
+
+![Complete MySQL product configuration](images/install/mysql-18-configuration-complete.png)
+
+![Finish the MySQL installation](images/install/mysql-19-installation-complete.png)
+
+![Open the MySQL command-line client](images/install/mysql-20-command-line-shortcut.png)
+
+![Verify the MySQL command-line connection](images/install/mysql-21-command-line-verified.png)
