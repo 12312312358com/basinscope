@@ -34,7 +34,7 @@ requirements*.txt     Dependency files
 
 ## Quick Start (MySQL)
 
-The `v1.0` tag corresponds to the submitted manuscript. Please follow the screenshots exactly when copying each command. The commands below use Windows PowerShell; Linux users can use the equivalent Python and MySQL commands.
+Please follow the screenshots exactly when copying each command.
 
 ### 1. Clone the repository
 
