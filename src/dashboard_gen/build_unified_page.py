@@ -1432,33 +1432,6 @@ def basin_views(basin):
                       for i, (w, n) in enumerate(rows[k:k + 5]))
             for k in range(0, len(rows), 5)) + '</div>')
 
-    # ---- 山东省 16 地市地图（只挂在黄河流域专题）----
-    #     为什么只给黄河：山东是黄河下游 / 入海口省份，也是本项目样本第一大省
-    #     （目标省份口径排第 1），所以它是黄河这条链路的空间落点；长江专题不放，
-    #     否则页面会出现一张与流域无关的图。
-    #     为什么紧跟流域图：上一张答「整条黄河流经哪些省」，这一张答「落到省内哪个市」，
-    #     两张并排才是一条完整的空间下钻链。
-    SDC = []
-    _sdm = JD.get('sd') or {}
-    if basin == '黄河' and SDNB_OK and _sdm:
-        SDC = [C(p + 'oSD', '山东省 · 16 地市提及分布（自动聚焦）',
-                 '页面加载 2 秒后自动聚焦到<b>山东省</b>，右侧「周边视野」可退回含河北 / 河南 / '
-                 '安徽 / 江苏 的大视野　·　填充＝微博正文提及次数，按<b>对数五分位</b>分档'
-                 '（头部 %d 次与个位数地市同图，线性归一会把其余地市全压到最淡一档）　·　'
-                 '<b>悬停</b>看数值、<b>点击</b>锁定左下详情（Esc 取消）　·　滚轮 / 拖拽可自行缩放。'
-                 '<br/>⚠ 口径＝微博<b>正文里出现该市名的次数</b>（关键词命中，来自全量 t_article；'
-                 '不是 IP 属地、也不是地市级采集结果）：库里只到省级粒度，'
-                 '不存在「某市舆情多少条」这种说法 —— 所以本图不给任何一座城市编声量，'
-                 '只数正文叫到它名字的次数。同一口径的首页缩略图见「地理区位 · 中国 → 山东 → 济南」。'
-                 % (max(_sdm.values()),),
-                 'sdcity',
-                 {'cities': dict(_sdm),
-                  'river': list(BD['home']['landing'].get('riverCities') or []),
-                  'adcode': SD_ADCODE,
-                  'provcp': SD_PROVCP,
-                  'total': sum(_sdm.values())},
-                 w=3, cls='mapstage sdcity', h=560, ruler=True)]
-
     return [
         dict(
             id=p + '-overview', group=g1, name=full + '总览', badge='真实', badgeCls='real',
@@ -1496,7 +1469,6 @@ def basin_views(basin):
                              {'name': '入海口·东营', 'value': [119.1, 37.8]}]),
                    'note': '各图仅绘该河流实际流经的省级行政区（含共源省）；色阶按本流域数值等频分级（非线性拉伸）'},
                   w=3, cls='mapstage bzmap', h=648, ruler=True)]
-                + SDC                                   # 黄河专题独有：山东地市下钻图
                 + [
                 C(p + 'o1', '议题构成', '三大主题（生态治理 / 文旅 / 医患矛盾）· 社会治理为兜底层', 'donut',
                   topicShow, {'donut': True}),
