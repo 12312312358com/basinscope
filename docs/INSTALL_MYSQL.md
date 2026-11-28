@@ -17,3 +17,15 @@ Download [MySQL Community Server](https://dev.mysql.com/downloads/mysql/) and fo
 ![Execute the requirements check](images/install/mysql-07-check-requirements.png)
 
 ![Continue after the requirements check](images/install/mysql-08-requirements-complete.png)
+
+![Execute the MySQL Server installation](images/install/mysql-09-installation.png)
+
+![Complete the MySQL Server installation](images/install/mysql-10-installation-complete.png)
+
+![Start MySQL product configuration](images/install/mysql-11-product-configuration.png)
+
+![Configure MySQL networking and port 3306](images/install/mysql-12-networking.png)
+
+![Select the MySQL authentication method](images/install/mysql-13-authentication.png)
+
+![Set the MySQL root password](images/install/mysql-14-accounts-roles.png)
